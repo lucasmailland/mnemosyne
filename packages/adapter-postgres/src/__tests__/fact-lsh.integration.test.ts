@@ -431,6 +431,54 @@ describe("DrizzleStorageAdapter — fact LSH pointer candidates", () => {
     expect(pointerRow?.worthFailure).toBe(0);
   });
 
+  it("gates on the raw evidence, not on the decayed alpha/beta", async () => {
+    // Ruling 1: decay relaxed a fact judged useful 20/2 to (1.3, 1.03). The
+    // mean stays above 0.5 but Wilson(1.3, 1.03) is far below 0.3, so the old
+    // predicate hid it forever. Wilson(2 + 20, 2 + 2) serves it; a fact judged
+    // useless 2/20 stays out.
+    const useful = await adapter.createFact({
+      workspaceId: WS,
+      scope: "global",
+      statement: "rawevidence useful candidate",
+      subject: "fts",
+      kind: "other",
+    });
+    const useless = await adapter.createFact({
+      workspaceId: WS,
+      scope: "global",
+      statement: "rawevidence useless candidate",
+      subject: "fts",
+      kind: "other",
+    });
+    await rawSql`
+      UPDATE mnemo_fact SET worth_alpha = 1.3, worth_beta = 1.03, worth_success = 20, worth_failure = 2
+      WHERE workspace_id = ${WS} AND id = ${useful.id}
+    `;
+    await rawSql`
+      UPDATE mnemo_fact SET worth_alpha = 1.03, worth_beta = 1.3, worth_success = 2, worth_failure = 20
+      WHERE workspace_id = ${WS} AND id = ${useless.id}
+    `;
+
+    const fts = await adapter.ftsCandidates({
+      workspaceId: WS,
+      terms: ["rawevidence", "candidate"],
+      limit: 10,
+      includeLowWorth: false,
+    });
+    const pointer = await adapter.pointerCandidates({
+      workspaceId: WS,
+      terms: ["rawevidence", "candidate"],
+      bands: [],
+      limit: 10,
+      includeLowWorth: false,
+    });
+
+    for (const ids of [fts.map((c) => c.factId), pointer.map((c) => c.factId)]) {
+      expect(ids).toContain(useful.id);
+      expect(ids).not.toContain(useless.id);
+    }
+  });
+
   it("atomically unions concurrent topic-key metadata and increments every revision", async () => {
     const fact = await adapter.createFact({
       workspaceId: WS,

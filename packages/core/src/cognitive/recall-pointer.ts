@@ -40,7 +40,7 @@ import { reinforceDeliveredHot } from "./recall-hot.js";
 import { lshBands } from "./lsh.js";
 import { isRecallableFact } from "./fact-lifecycle.js";
 import { matchesRecallFilter } from "./recall-filter.js";
-import { isUntestedWorth, passesWorthGate, wilsonLowerBound } from "./worth.js";
+import { isUntestedWorth, passesWorthGate, worthGateLowerBound } from "./worth.js";
 
 const SUFFICIENCY_MIN_HITS = 3;
 const SUFFICIENCY_MIN_SCORE = 0.7;
@@ -194,7 +194,7 @@ export async function tryPointerTier(
         const sensitivity = c.sensitivity;
         if (!sensitivityAllowed(sensitivity, auth)) return null;
         const sim = c.embedding ? cosine(embedding, c.embedding) : 0;
-        const worthLowerBound = wilsonLowerBound(c.worthAlpha ?? 2, c.worthBeta ?? 2);
+        const worthLowerBound = worthGateLowerBound(c);
         const isUntested = isUntestedWorth(c);
         if (
           !query.includeLowWorth &&

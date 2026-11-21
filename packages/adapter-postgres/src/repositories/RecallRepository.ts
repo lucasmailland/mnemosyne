@@ -1352,8 +1352,14 @@ export class RecallRepository {
           : and(eq(schema.factTable.status, "active"), isNull(schema.factTable.validTo))!
     );
     if (query.includeLowWorth === false) {
-      const alpha = schema.factTable.worthAlpha;
-      const beta = schema.factTable.worthBeta;
+      // Ruling 1 (follow-up of PR #258): the lower bound comes from the raw
+      // evidence, Wilson(2 + worth_success, 2 + worth_failure), not from the
+      // decayed worth_alpha/worth_beta. Decay relaxes those toward (1,1): the
+      // mean keeps its side of 0.5 but the bound erodes, which made every fact
+      // judged useful long ago unservable. The decayed mean (worth > 0.5) is
+      // still required. Mirrors worthGateLowerBound in core.
+      const alpha = sql`(2 + ${schema.factTable.worthSuccess})`;
+      const beta = sql`(2 + ${schema.factTable.worthFailure})`;
       const n = sql`(${alpha} + ${beta})`;
       const p = sql`(${alpha} / NULLIF(${n}, 0))`;
       const z2 = 1.96 ** 2;

@@ -65,7 +65,7 @@ import {
 import type { CoreContext } from "./context.js";
 import { appliesOrganicEffects } from "./recall-effects.js";
 import { composeInferences } from "./compositionality.js";
-import { isUntestedWorth, wilsonLowerBound, passesWorthGate } from "./worth.js";
+import { isUntestedWorth, passesWorthGate, worthGateLowerBound } from "./worth.js";
 import { recordCoRecall } from "./co-recall.js";
 import { hybridRecallWeights } from "../resilience/embedMigration.js";
 import { decideRecmem } from "./recmem.js";
@@ -159,7 +159,7 @@ export function viewFact(f: MnemoFact): PrimitiveView {
   return {
     worth: f.worth ?? 0.5,
     // Wilson-score lower bound using Beta(2,2) prior defaults (spec §6)
-    worthLowerBound: wilsonLowerBound(f.worthAlpha ?? 2, f.worthBeta ?? 2),
+    worthLowerBound: worthGateLowerBound(f),
     isUntested: isUntestedWorth(f),
     // SECURITY (§17/§5): use the fact's REAL stored sensitivity — never a
     // hardcoded "internal". Hardcoding leaked confidential/restricted facts to
@@ -1805,7 +1805,7 @@ export async function expandHyperedgeMembers(
         if (!matchesRecallFilter(f, filter)) continue;
         const sensitivity: Sensitivity = f.sensitivity ?? "internal";
         if (!sensitivityAllowed(sensitivity, auth)) continue;
-        const worthLowerBound = wilsonLowerBound(f.worthAlpha ?? 2, f.worthBeta ?? 2);
+        const worthLowerBound = worthGateLowerBound(f);
         const isUntested = isUntestedWorth(f);
         if (
           !options.includeLowWorth &&
@@ -2166,7 +2166,7 @@ async function lexicalRecall(
     // ts_rank DESC, so the rank itself is the relevance; worth is only the
     // bounded prior every other path applies (recall-relevance.ts).
     const worth = cand.worth ?? 0.5;
-    const worthLowerBound = wilsonLowerBound(cand.worthAlpha ?? 2, cand.worthBeta ?? 2);
+    const worthLowerBound = worthGateLowerBound(cand);
     const isUntested = isUntestedWorth(cand);
     if (
       !query.includeLowWorth &&

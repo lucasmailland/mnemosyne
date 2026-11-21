@@ -167,6 +167,28 @@ export function isUntestedWorth(w: {
   return (w.worthAlpha ?? 2) === 2 && (w.worthBeta ?? 2) === 2;
 }
 
+/**
+ * Wilson lower bound the serving gate uses (ruling 1, follow-up of PR #258):
+ * Wilson(2 + worth_success, 2 + worth_failure), the raw evidence on top of the
+ * Beta(2,2) prior. Not Wilson(worth_alpha, worth_beta): decay relaxes those
+ * toward (1,1), which keeps the mean on its side of 0.5 but erodes the bound,
+ * so a fact judged useful 20/2 long ago decayed to (1.3, 1.03) and became
+ * unservable. Forgetting stays in ranking (the decayed worth), not in the gate.
+ * The same predicate runs in RecallRepository's SQL. Callers without the
+ * counters fall back to alpha/beta.
+ */
+export function worthGateLowerBound(w: {
+  worthSuccess?: number;
+  worthFailure?: number;
+  worthAlpha?: number;
+  worthBeta?: number;
+}): number {
+  if (w.worthSuccess !== undefined || w.worthFailure !== undefined) {
+    return wilsonLowerBound(2 + (w.worthSuccess ?? 0), 2 + (w.worthFailure ?? 0));
+  }
+  return wilsonLowerBound(w.worthAlpha ?? 2, w.worthBeta ?? 2);
+}
+
 export function passesWorthGate(
   hit: {
     primitive: string;

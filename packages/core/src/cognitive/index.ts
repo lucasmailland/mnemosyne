@@ -64,6 +64,7 @@ import {
   updateWorth,
   wilsonLowerBound,
   wilsonUpperBound,
+  worthGateLowerBound,
 } from "./worth.js";
 import { forget } from "./forget.js";
 import { updateRelationStrength } from "./relations.js";
@@ -319,7 +320,7 @@ async function hydrateCachedHits(
       if (!fact || !isActiveOpenFact(fact)) return null;
       if (!matchesRecallFilter(fact, query.filter)) return null;
       if (!sensitivityAllowed(fact.sensitivity, auth)) return null;
-      const worthLowerBound = wilsonLowerBound(fact.worthAlpha ?? 2, fact.worthBeta ?? 2);
+      const worthLowerBound = worthGateLowerBound(fact);
       const isUntested = isUntestedWorth(fact);
       if (
         !query.includeLowWorth &&

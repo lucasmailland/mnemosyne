@@ -47,7 +47,7 @@ import {
   traceCounts,
 } from "./recall-cold.js";
 import { composeInferences } from "./compositionality.js";
-import { wilsonLowerBound, passesWorthGate } from "./worth.js";
+import { isUntestedWorth, passesWorthGate, worthGateLowerBound } from "./worth.js";
 import { scoreInjection, DEFAULT_INJECTION_THRESHOLD } from "../security/injection.js";
 import { matchesRecallFilter } from "./recall-filter.js";
 import { contentTerms } from "./topic-key.js";
@@ -225,7 +225,7 @@ async function recallHotCandidates(
       } => x !== null
     )
     .map(({ fact: f, activation }) => {
-      isUntestedById.set(f.id, (f.worthAlpha ?? 2) === 2 && (f.worthBeta ?? 2) === 2);
+      isUntestedById.set(f.id, isUntestedWorth(f));
       const injection = scoreInjection(
         f.statement,
         ctx.config?.injectionScoreThreshold ?? DEFAULT_INJECTION_THRESHOLD
@@ -249,7 +249,7 @@ async function recallHotCandidates(
           : [],
         relations: [],
         worth: f.worth ?? 0.5,
-        worthLowerBound: wilsonLowerBound(f.worthAlpha ?? 2, f.worthBeta ?? 2),
+        worthLowerBound: worthGateLowerBound(f),
         scope: f.scope,
         ...(f.scopeRef ? { scopeRef: f.scopeRef } : {}),
         ...(f.scopeOwner ? { scopeOwner: f.scopeOwner } : {}),
