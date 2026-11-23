@@ -103,7 +103,7 @@
   "devDependencies": {
     "@types/node": "^26.6.5",
     "@vitest/coverage-v8": "^4.1.12",
-    "drizzle-orm": "^0.45.2",
+    "drizzle-orm": "^0.45.4",
     "postgres": "^3.4.9",
     "testcontainers": "^12.2.1",
     "tinybench": "^6.0.2",
