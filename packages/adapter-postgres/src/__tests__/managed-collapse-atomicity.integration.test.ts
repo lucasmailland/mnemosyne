@@ -659,16 +659,46 @@ describe("managed collapse atomic output", () => {
       await raw.unsafe(`DROP TRIGGER delay_managed_write ON mnemosyne.mnemo_episode`);
     }
   });
-  it("commits repeated topics within one extraction without an endless unique-key retry", async () => {
+  it.each(["topic-0", " TOPIC-0 "])(
+    "P153 FM-TOPIC-01: keeps distinct facts sharing %j active",
+    async (topicKey) => {
+      const id = await readySession();
+      const plan = planFor(id);
+      if (plan.candidates[1]!.kind !== "fact") throw new Error("fixture");
+      plan.candidates[1]!.topicKey = topicKey;
+      plan.candidates[1]!.input.topicKey = topicKey;
+      await expect(commit(id, plan)).resolves.toMatchObject({ status: "collapsed" });
+      const active = await raw`SELECT statement,topic_key,revision_count FROM mnemosyne.mnemo_fact
+        WHERE workspace_id=${WS_A} AND session_id=${id} AND status='active' AND valid_to IS NULL
+        ORDER BY statement`;
+      expect(active).toEqual([
+        { statement: "Fact 0", topic_key: null, revision_count: 1 },
+        { statement: "Fact 1", topic_key: null, revision_count: 1 },
+        { statement: "Fact 2", topic_key: "topic-2", revision_count: 1 },
+      ]);
+    }
+  );
+  it("P153 FM-TOPIC-03: ambiguous extracted topics leave an existing fact active", async () => {
     const id = await readySession();
+    const prior = await adapter.createFact({
+      workspaceId: WS_A,
+      scope: "global",
+      statement: "Existing database knowledge",
+      subject: "project",
+      kind: "other",
+      topicKey: "topic-0",
+    });
     const plan = planFor(id);
     if (plan.candidates[1]!.kind !== "fact") throw new Error("fixture");
     plan.candidates[1]!.topicKey = "topic-0";
     plan.candidates[1]!.input.topicKey = "topic-0";
     await expect(commit(id, plan)).resolves.toMatchObject({ status: "collapsed" });
-    const active =
-      await raw`SELECT id FROM mnemosyne.mnemo_fact WHERE workspace_id=${WS_A} AND topic_key='topic-0' AND status='active'`;
-    expect(active).toHaveLength(1);
+    const [existing] = await raw`SELECT status,valid_to,topic_key FROM mnemosyne.mnemo_fact
+      WHERE workspace_id=${WS_A} AND id=${prior.id}`;
+    expect(existing).toMatchObject({ status: "active", valid_to: null, topic_key: "topic-0" });
+    const created = await raw`SELECT id FROM mnemosyne.mnemo_fact
+      WHERE workspace_id=${WS_A} AND session_id=${id} AND status='active' AND valid_to IS NULL`;
+    expect(created).toHaveLength(3);
   });
   it("preserves predecessor scope boundaries when replacing a topic", async () => {
     const id = await readySession();

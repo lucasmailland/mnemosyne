@@ -2,6 +2,7 @@
 import {
   SENSITIVITY_ORDER,
   managedCollapseOperationId,
+  factStatementHash,
   sha256Hex,
   parseActorRef,
   type AuthContext,
@@ -24,7 +25,9 @@ import {
   coerceOutcome,
   computePE,
   countPinnedTurns,
+  normalizeExtractedText,
   requirePinSatisfied,
+  resolveTopicKeyCollisions,
   type CollapsePolicy,
 } from "./collapse.js";
 import { parseJsonReply } from "../llm/parse-json-reply.js";
@@ -56,7 +59,7 @@ export interface PrepareManagedCollapseInput {
   }>;
 }
 
-type RawCandidate = Record<string, unknown> & { sourceMessageIds: string[] };
+type RawCandidate = Record<string, unknown> & { sourceMessageIds: string[]; topicKey?: string };
 interface ParsedSummary {
   goal?: string;
   outcome?: string;
@@ -71,6 +74,33 @@ interface ParsedSummary {
 
 /** Stable JSON for extraction values, including fractional confidence. Harness wire
  * canonicalJson deliberately permits only integer numbers and is unsuitable here. */
+/**
+ * P153: the first copy of an exact repetition is the one resolveTopicKeyCollisions
+ * keeps, so it must carry every copy's supporting messages. Dropping the others'
+ * sourceMessageIds would make a later retraction of one of them look like a
+ * single-source withdrawal, or miss the surviving primitive altogether.
+ */
+function unionRepeatSources(
+  items: RawCandidate[],
+  identityOf: (item: RawCandidate) => string
+): RawCandidate[] {
+  const firstByIdentity = new Map<string, number>();
+  const merged: RawCandidate[] = [];
+  for (const item of items) {
+    const identity = normalizeExtractedText(identityOf(item));
+    const at = firstByIdentity.get(identity);
+    if (at === undefined) {
+      firstByIdentity.set(identity, merged.length);
+      merged.push(item);
+      continue;
+    }
+    const first = merged[at]!;
+    const sources = [...new Set([...first.sourceMessageIds, ...item.sourceMessageIds])];
+    merged[at] = { ...first, sourceMessageIds: sources };
+  }
+  return merged;
+}
+
 function candidateJson(value: unknown): string {
   return JSON.stringify(value, (_key, item: unknown) => {
     if (item && typeof item === "object" && !Array.isArray(item)) {
@@ -307,6 +337,21 @@ export async function prepareManagedCollapse(
     summary = validateSummary(
       parseJsonReply<unknown>(output.content, "managed-collapse.summary"),
       new Set(identity.sourceMessageIds)
+    );
+    // P153: settle identity across the whole extraction before topic lookup or stable IDs.
+    const factIdentity = (fact: RawCandidate) =>
+      factStatementHash(
+        normalizeExtractedText(fact.content as string),
+        (fact.subject as string | undefined) ?? "general"
+      );
+    const decisionIdentity = (decision: RawCandidate) => `${decision.title}\n${decision.body}`;
+    summary.facts = resolveTopicKeyCollisions(
+      unionRepeatSources(summary.facts, factIdentity),
+      factIdentity
+    );
+    summary.decisions = resolveTopicKeyCollisions(
+      unionRepeatSources(summary.decisions, decisionIdentity),
+      decisionIdentity
     );
   } catch {
     return retry("invalid_extraction");

@@ -50,6 +50,38 @@ function ceiling(...values: Sensitivity[]): Sensitivity {
   return values.reduce((a, b) => (SENSITIVITY_ORDER[a] >= SENSITIVITY_ORDER[b] ? a : b));
 }
 
+/** P153: defend the commit boundary even for plans prepared without collision protection. */
+function disambiguateTopics(candidates: ManagedCollapseCandidate[]): ManagedCollapseCandidate[] {
+  const topicOf = (candidate: ManagedCollapseCandidate) => {
+    if (candidate.kind === "strategy") return undefined;
+    const key = candidate.topicKey ?? candidate.input.topicKey;
+    return key?.trim() ? `${candidate.kind}:${key.trim().toLowerCase()}` : undefined;
+  };
+  const claims = new Map<string, Set<string>>();
+  for (const candidate of candidates) {
+    const topic = topicOf(candidate);
+    if (!topic || candidate.kind === "strategy") continue;
+    const content =
+      candidate.kind === "fact"
+        ? candidate.input.statement
+        : `${candidate.input.title}\n${candidate.input.body}`;
+    const group = claims.get(topic) ?? new Set<string>();
+    group.add(content.normalize("NFKC").replace(/\s+/g, " ").trim().toLowerCase());
+    claims.set(topic, group);
+  }
+  return candidates.map((candidate) => {
+    const topic = topicOf(candidate);
+    if (!topic || (claims.get(topic)?.size ?? 0) < 2) return candidate;
+    // Clear both representations, including the advisory predecessor; never mutate the plan.
+    return {
+      ...candidate,
+      topicKey: undefined,
+      predecessorId: undefined,
+      input: { ...candidate.input, topicKey: undefined },
+    } as ManagedCollapseCandidate;
+  });
+}
+
 /** Every delegated repository receives this transaction, never the connection pool. */
 export class ManagedCollapseRepository implements ManagedCollapsePort {
   constructor(
@@ -361,7 +393,7 @@ export class ManagedCollapseRepository implements ManagedCollapsePort {
       sensitivity: Sensitivity;
       predecessor?: TopicPredecessor;
     }> = [];
-    for (const candidate of plan.candidates) {
+    for (const candidate of disambiguateTopics(plan.candidates)) {
       let sensitivity = ceiling(
         plan.sensitivity,
         candidate.sensitivity,

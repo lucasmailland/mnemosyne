@@ -199,6 +199,153 @@ describe("managed collapse preparation", () => {
       "TTL is 15 minutes": "other",
     });
   });
+  it("P153 FM-TOPIC-01: keeps distinct facts with an ambiguous topic independently of extraction order", async () => {
+    const facts = [
+      {
+        content: "Postgres reduces operational overhead",
+        topicKey: "db",
+        sourceMessageIds: ["m0"],
+      },
+      { content: "The team already manages Postgres", topicKey: " DB ", sourceMessageIds: ["m1"] },
+    ];
+    const prepare = async (items: typeof facts) => {
+      const { ctx, writes } = fixture({ ...empty, facts: items });
+      const plan = await run(ctx, {
+        existingTopics: [{ kind: "fact", id: "prior", topicKey: "db", sensitivity: "internal" }],
+      });
+      if (plan.status !== "prepared") throw new Error(plan.status);
+      expect(plan.candidates).toHaveLength(2);
+      for (const candidate of plan.candidates) {
+        expect(candidate.kind).toBe("fact");
+        expect(candidate.topicKey).toBeUndefined();
+        expect(candidate.input).not.toHaveProperty("topicKey", expect.any(String));
+        expect(candidate.predecessorId).toBeUndefined();
+      }
+      expect(writes).not.toHaveBeenCalled();
+      return plan.candidates.map((candidate) => candidate.id).sort();
+    };
+    expect(await prepare(facts)).toEqual(await prepare([...facts].reverse()));
+  });
+  it("P153 FM-TOPIC-02: deduplicates normalized repetitions before checking topic collisions", async () => {
+    const { ctx } = fixture({
+      ...empty,
+      facts: [
+        { content: "Use Postgres", topicKey: "db", sourceMessageIds: ["m0"] },
+        { content: " USE  POSTGRES ", topicKey: " DB ", sourceMessageIds: ["m1"] },
+      ],
+    });
+    const plan = await run(ctx);
+    if (plan.status !== "prepared") throw new Error(plan.status);
+    expect(plan.candidates).toHaveLength(1);
+    expect(plan.candidates[0]).toMatchObject({ kind: "fact", topicKey: "db" });
+  });
+  it.each([
+    ["distinct topic keys", "billing-api", "auth-api", "billing-db", "auth-db"],
+    ["a shared topic key", "billing-api", "auth-api", "db", " DB "],
+    ["no topic key", "billing-api", "auth-api", undefined, undefined],
+    ["case-distinct subjects", "api", "API", "db", "db"],
+    ["whitespace-distinct subjects", "api", " api ", "db", "db"],
+  ])(
+    "P153 FM-TOPIC-03: keeps identical statements about distinct subjects with %s",
+    async (_label, firstSubject, secondSubject, firstKey, secondKey) => {
+      const facts = [
+        {
+          content: "Uses Postgres",
+          subject: firstSubject,
+          topicKey: firstKey,
+          sourceMessageIds: ["m0"],
+        },
+        {
+          content: "Uses Postgres",
+          subject: secondSubject,
+          topicKey: secondKey,
+          sourceMessageIds: ["m1"],
+        },
+      ];
+      const ambiguous = firstKey?.trim().toLowerCase() === secondKey?.trim().toLowerCase();
+      const prepare = async (items: typeof facts) => {
+        const { ctx, writes } = fixture({ ...empty, facts: items });
+        const plan = await run(ctx);
+        if (plan.status !== "prepared") throw new Error(plan.status);
+        expect(plan.candidates).toHaveLength(2);
+        for (const fact of facts) {
+          const topicKey = ambiguous ? undefined : fact.topicKey;
+          expect(plan.candidates).toContainEqual(
+            expect.objectContaining({
+              kind: "fact",
+              topicKey,
+              sourceMessageIds: fact.sourceMessageIds,
+              input: expect.objectContaining({
+                statement: fact.content,
+                subject: fact.subject,
+                topicKey,
+              }),
+            })
+          );
+        }
+        expect(writes).not.toHaveBeenCalled();
+        const ids = plan.candidates.map((candidate) => candidate.id).sort();
+        expect(new Set(ids).size).toBe(2);
+        return ids;
+      };
+      expect(await prepare(facts)).toEqual(await prepare([...facts].reverse()));
+    }
+  );
+  it.each([
+    [undefined, "general"],
+    ["general", undefined],
+    ["billing-api", "billing-api"],
+  ])(
+    "P153 FM-TOPIC-04: deduplicates repetitions for the same effective subject %j",
+    async (firstSubject, secondSubject) => {
+      const { ctx } = fixture({
+        ...empty,
+        facts: [
+          {
+            content: "Uses Postgres",
+            subject: firstSubject,
+            topicKey: "db",
+            sourceMessageIds: ["m0"],
+          },
+          {
+            content: " USES  POSTGRES ",
+            subject: secondSubject,
+            topicKey: " DB ",
+            sourceMessageIds: ["m1"],
+          },
+        ],
+      });
+      const plan = await run(ctx);
+      if (plan.status !== "prepared") throw new Error(plan.status);
+      expect(plan.candidates).toHaveLength(1);
+      expect(plan.candidates[0]).toMatchObject({
+        kind: "fact",
+        topicKey: "db",
+        input: { subject: firstSubject ?? "general", statement: "Uses Postgres" },
+      });
+    }
+  );
+  it("P153 FM-TOPIC-05: a repetition keeps the supporting messages of every copy", async () => {
+    const { ctx } = fixture({
+      ...empty,
+      facts: [
+        { content: "Use Postgres", topicKey: "db", sourceMessageIds: ["m0"] },
+        { content: " USE  POSTGRES ", topicKey: " DB ", sourceMessageIds: ["m1", "m0"] },
+      ],
+      decisions: [
+        { title: "Pick Postgres", body: "It is already run", sourceMessageIds: ["m1"] },
+        { title: "Pick Postgres", body: "It is already run", sourceMessageIds: ["m0"] },
+      ],
+    });
+    const plan = await run(ctx);
+    if (plan.status !== "prepared") throw new Error(plan.status);
+    const fact = plan.candidates.filter((candidate) => candidate.kind === "fact");
+    const decision = plan.candidates.filter((candidate) => candidate.kind === "decision");
+    expect(fact).toHaveLength(1);
+    expect(decision).toHaveLength(1);
+    expect([...fact[0]!.sourceMessageIds].sort()).toEqual(["m0", "m1"]);
+    expect([...decision[0]!.sourceMessageIds].sort()).toEqual(["m0", "m1"]);
+  });
   it.each([undefined, [], ["not-live"]])(
     "rejects missing or unsupported source IDs %j",
     async (sourceMessageIds) => {
