@@ -87,20 +87,30 @@ export class ScopedApiKeyAdapter implements AuthAdapter {
 
   async authenticate(credentials: RawCredentials): Promise<AuthResult> {
     const raw = credentials.apiKey;
-    if (!raw) return { ok: false, code: "UNAUTHORIZED", reason: "No API key" };
+    if (!raw) return { ok: false, code: "UNAUTHORIZED", reason: "Invalid API key" };
 
     const parsed = parseApiKey(raw);
-    if (!parsed) return { ok: false, code: "INVALID", reason: "Malformed API key format" };
+    if (!parsed) return { ok: false, code: "INVALID", reason: "Invalid API key" };
 
     const { prefix, keyId, secret } = parsed;
     let record: ApiKeyRecord | null;
     try {
       record = await this.config.store.lookup(prefix, keyId);
     } catch {
-      return { ok: false, code: "INVALID", reason: "Key store unavailable" };
+      return { ok: false, code: "INVALID", reason: "Invalid API key" };
     }
 
-    if (!record) return { ok: false, code: "INVALID", reason: "Key not found" };
+    if (!record) return { ok: false, code: "INVALID", reason: "Invalid API key" };
+
+    // Prove possession before revealing state or producing state-specific audit writes.
+    // Keep the real Argon2id / legacy bcrypt verification on every existing key.
+    let valid: boolean;
+    try {
+      valid = await verifySecret(secret, record.hashedSecret);
+    } catch {
+      return { ok: false, code: "INVALID", reason: "Invalid API key" };
+    }
+    if (!valid) return { ok: false, code: "INVALID", reason: "Invalid API key" };
 
     // AB6.2: test/prod key isolation — mk_test_ keys may only access test workspaces.
     // If the store did not populate isTest, default to false (fail-safe: test keys blocked).
@@ -191,15 +201,6 @@ export class ScopedApiKeyAdapter implements AuthAdapter {
         };
       }
     }
-
-    // Secret verification — argon2id (or legacy bcrypt) via verifySecret.
-    let valid: boolean;
-    try {
-      valid = await verifySecret(secret, record.hashedSecret);
-    } catch {
-      return { ok: false, code: "INVALID", reason: "Hash verification failed" };
-    }
-    if (!valid) return { ok: false, code: "INVALID", reason: "Invalid secret" };
 
     // Anomaly detection over markUsed history (forced rotation, SECURITY.md §2.2).
     if (this.config.anomalyDetection && clientIp) {
