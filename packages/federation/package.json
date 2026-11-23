@@ -55,7 +55,7 @@
   "devDependencies": {
     "@mnemo-ai/adapter-postgres": "workspace:*",
     "@types/node": "^26.6.5",
-    "@vitest/coverage-v8": "^4.1.12",
+    "@vitest/coverage-v8": "^5.1.1",
     "postgres": "^3.4.9",
     "testcontainers": "^12.2.1",
     "tsup": "^9.0.0",
