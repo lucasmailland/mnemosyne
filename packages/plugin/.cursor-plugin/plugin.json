@@ -1,0 +1,14 @@
+{
+  "name": "mnemosyne",
+  "displayName": "Mnemosyne",
+  "description": "Persistent memory for AI coding agents — remembers decisions, bugs, and context across sessions.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Lucas Mailland"
+  },
+  "homepage": "https://getmnemosyne.ai",
+  "repository": "https://github.com/lucasmailland/mnemosyne",
+  "license": "Apache-2.0",
+  "keywords": ["memory", "context", "persistence", "decisions", "coding-agent"],
+  "skills": "./skills/"
+}

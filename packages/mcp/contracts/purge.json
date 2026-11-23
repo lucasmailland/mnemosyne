@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_purge",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "'fact' deletes one fact by ID; 'closed' bulk-deletes every forgotten fact.",
+        "enum": [
+          "fact",
+          "closed"
+        ],
+        "type": "string"
+      },
+      "confirm": {
+        "description": "Must be true for action='closed', the irreversible bulk delete.",
+        "type": "boolean"
+      },
+      "factId": {
+        "description": "Required when action='fact'.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

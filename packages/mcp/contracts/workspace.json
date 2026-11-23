@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_workspace",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "default": "list",
+        "description": "list | describe | members | current (incl. your role) | create | invite | set_role | remove.",
+        "enum": [
+          "list",
+          "describe",
+          "members",
+          "current",
+          "create",
+          "invite",
+          "set_role",
+          "remove"
+        ],
+        "type": "string"
+      },
+      "name": {
+        "description": "Required for create.",
+        "type": "string"
+      },
+      "ownerUserId": {
+        "description": "For create: initial owner.",
+        "type": "string"
+      },
+      "role": {
+        "description": "Required for set_role; default 'read' for invite.",
+        "enum": [
+          "owner",
+          "admin",
+          "write",
+          "read"
+        ],
+        "type": "string"
+      },
+      "slug": {
+        "description": "Optional slug for 'create'.",
+        "type": "string"
+      },
+      "tenantId": {
+        "description": "For create. Default: the current key's tenant (GET /me).",
+        "type": "string"
+      },
+      "userId": {
+        "description": "Target user. Required for invite, set_role, remove.",
+        "type": "string"
+      },
+      "visibility": {
+        "description": "For create. Default 'private'.",
+        "enum": [
+          "private",
+          "public"
+        ],
+        "type": "string"
+      },
+      "workspaceId": {
+        "description": "Required for describe, members, invite, set_role, remove.",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

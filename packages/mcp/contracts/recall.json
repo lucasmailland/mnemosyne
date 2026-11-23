@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_recall",
+  "inputSchema": {
+    "properties": {
+      "actorId": {
+        "description": "Exact stored actorId (e.g. \"key:<id>\"; not a userId).",
+        "type": "string"
+      },
+      "asOf": {
+        "description": "Past ISO 8601 instant: memory as it was then (later-superseded facts return as 'superseded').",
+        "format": "date-time",
+        "type": "string"
+      },
+      "includeGraph": {
+        "description": "Also list each hit's relations and group co-member ids (not added as hits). Default false.",
+        "type": "boolean"
+      },
+      "kinds": {
+        "description": "Default: fact, decision, strategy, workflow, skill, episode, entities. task, event, reasoning only if listed.",
+        "items": {
+          "enum": [
+            "fact",
+            "decision",
+            "strategy",
+            "workflow",
+            "skill",
+            "episode",
+            "task",
+            "event",
+            "reasoning",
+            "entity"
+          ],
+          "type": "string"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "limit": {
+        "description": "Default 5, max 25.",
+        "maximum": 25,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "minSimilarity": {
+        "description": "Min raw cosine (0 to 1) for semantic hits; lexical-only hits stay eligible.",
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "mode": {
+        "description": "'lexical', 'semantic', 'hybrid' or 'auto' (default).",
+        "enum": [
+          "lexical",
+          "semantic",
+          "hybrid",
+          "auto"
+        ],
+        "type": "string"
+      },
+      "projection": {
+        "description": "Default `compact`: 300 chars per hit, `truncated: true` when cut (full text: memory_fact). `full`: everything.",
+        "enum": [
+          "full",
+          "compact"
+        ],
+        "type": "string"
+      },
+      "query": {
+        "description": "What to recall, free text (e.g. 'client email preferences').",
+        "minLength": 1,
+        "type": "string"
+      },
+      "requestId": {
+        "description": "Optional id to correlate a deliberate retry.",
+        "maxLength": 128,
+        "minLength": 1,
+        "type": "string"
+      },
+      "scope": {
+        "description": "Omit for all scopes; 'personal' = personal-workspace facts.",
+        "enum": [
+          "global",
+          "conversation",
+          "personal"
+        ],
+        "type": "string"
+      },
+      "scopeRef": {
+        "description": "Filter by project; also matches a kind='project' entity's aliases.",
+        "type": "string"
+      },
+      "sessionId": {
+        "description": "Active session id; marks lastRecallAt (see memory_session). Unknown ids are ignored.",
+        "type": "string"
+      },
+      "vectorWeight": {
+        "description": "Deprecated: use mode. 0 = lexical, 1 = vector. Default 0.5.",
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      }
+    },
+    "required": [
+      "query"
+    ],
+    "type": "object"
+  }
+}

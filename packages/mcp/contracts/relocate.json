@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_relocate",
+  "inputSchema": {
+    "properties": {
+      "factId": {
+        "description": "The misplaced fact's id (from memory_recall or memory_search).",
+        "minLength": 1,
+        "type": "string"
+      },
+      "reason": {
+        "description": "Why; kept in the audit trail, the only record of the id change.",
+        "maxLength": 500,
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Target workspace from memory_context or memory_workspace; never invent it.",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "required": [
+      "factId",
+      "targetWorkspaceId"
+    ],
+    "type": "object"
+  }
+}

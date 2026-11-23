@@ -1,0 +1,164 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "include-component-in-tag": false,
+  "include-v-in-tag": true,
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "draft": false,
+  "prerelease": false,
+  "changelog-path": "CHANGELOG.md",
+  "changelog-sections": [
+    { "type": "feat", "section": "Added", "hidden": false },
+    { "type": "fix", "section": "Fixed", "hidden": false },
+    { "type": "perf", "section": "Changed", "hidden": false },
+    { "type": "refactor", "section": "Changed", "hidden": false },
+    { "type": "docs", "section": "Documentation", "hidden": false },
+    { "type": "security", "section": "Security", "hidden": false },
+    { "type": "build", "section": "Changed", "hidden": true },
+    { "type": "ci", "section": "Changed", "hidden": true },
+    { "type": "chore", "section": "Changed", "hidden": true },
+    { "type": "style", "section": "Changed", "hidden": true },
+    { "type": "test", "section": "Changed", "hidden": true },
+    { "type": "revert", "section": "Changed", "hidden": false }
+  ],
+  "plugins": [
+    {
+      "type": "node-workspace",
+      "always-link-local": true,
+      "merge": false
+    },
+    {
+      "type": "linked-versions",
+      "groupName": "mnemosyne-core",
+      "components": [
+        "mnemosyne",
+        "@mnemo-ai/core",
+        "@mnemo-ai/server",
+        "@mnemo-ai/client-ts",
+        "@mnemo-ai/types",
+        "@mnemo-ai/harness",
+        "@mnemo-ai/adapter-postgres",
+        "@mnemo-ai/adapter-redis",
+        "@mnemo-ai/adapter-vector",
+        "@mnemo-ai/adapter-llm",
+        "@mnemo-ai/llm-providers",
+        "@mnemo-ai/mcp",
+        "@mnemo-ai/cli",
+        "@mnemo-ai/consolidation",
+        "@mnemo-ai/cup",
+        "@mnemo-ai/federation",
+        "@mnemo-ai/plugins",
+        "@mnemo-ai/mock-server"
+      ]
+    }
+  ],
+  "packages": {
+    ".": {
+      "package-name": "mnemosyne",
+      "component": "mnemosyne"
+    },
+    "packages/core": {
+      "package-name": "@mnemo-ai/core",
+      "component": "@mnemo-ai/core",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/server": {
+      "package-name": "@mnemo-ai/server",
+      "component": "@mnemo-ai/server",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/client-ts": {
+      "package-name": "@mnemo-ai/client-ts",
+      "component": "@mnemo-ai/client-ts",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/types": {
+      "package-name": "@mnemo-ai/types",
+      "component": "@mnemo-ai/types",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/harness": {
+      "package-name": "@mnemo-ai/harness",
+      "component": "@mnemo-ai/harness",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/adapter-postgres": {
+      "package-name": "@mnemo-ai/adapter-postgres",
+      "component": "@mnemo-ai/adapter-postgres",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/adapter-redis": {
+      "package-name": "@mnemo-ai/adapter-redis",
+      "component": "@mnemo-ai/adapter-redis",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/adapter-vector": {
+      "package-name": "@mnemo-ai/adapter-vector",
+      "component": "@mnemo-ai/adapter-vector",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/adapter-llm": {
+      "package-name": "@mnemo-ai/adapter-llm",
+      "component": "@mnemo-ai/adapter-llm",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/llm-providers": {
+      "package-name": "@mnemo-ai/llm-providers",
+      "component": "@mnemo-ai/llm-providers",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/mcp": {
+      "package-name": "@mnemo-ai/mcp",
+      "component": "@mnemo-ai/mcp",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/cli": {
+      "package-name": "@mnemo-ai/cli",
+      "component": "@mnemo-ai/cli",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/consolidation": {
+      "package-name": "@mnemo-ai/consolidation",
+      "component": "@mnemo-ai/consolidation",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/cup": {
+      "package-name": "@mnemo-ai/cup",
+      "component": "@mnemo-ai/cup",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/federation": {
+      "package-name": "@mnemo-ai/federation",
+      "component": "@mnemo-ai/federation",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/plugins": {
+      "package-name": "@mnemo-ai/plugins",
+      "component": "@mnemo-ai/plugins",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/mock-server": {
+      "package-name": "@mnemo-ai/mock-server",
+      "component": "@mnemo-ai/mock-server",
+      "skip-github-release": true,
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/audit-entry",
+  "title": "AuditEntry",
+  "description": "One item in GET /audit's `items[]` — the inspector's undo-log feed (packages/server/src/routes/audit.ts). UNION of forgotten mnemo_fact rows (user-driven, revertible) and mnemo_fact_archive rows (system-driven janitor merge/prune, not revertible).",
+  "type": "object",
+  "required": [
+    "id",
+    "factId",
+    "factStatement",
+    "factSubject",
+    "factKind",
+    "action",
+    "actorKind",
+    "actorName",
+    "timestamp",
+    "revertible"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "factId": { "type": "string", "minLength": 1 },
+    "factStatement": { "type": "string" },
+    "factSubject": { "type": "string" },
+    "factKind": { "type": "string" },
+    "action": { "type": "string", "enum": ["forgotten"] },
+    "actorKind": { "type": "string", "enum": ["user", "system"] },
+    "actorName": { "type": ["string", "null"] },
+    "timestamp": { "type": "string" },
+    "revertible": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

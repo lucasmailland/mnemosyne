@@ -1,0 +1,6 @@
+[
+  {
+    "class": "top-0.5",
+    "reason": "2 px optical nudge that centers the 8 px status dot on the first text line of an atrium day row; no 4 px step aligns it"
+  }
+]

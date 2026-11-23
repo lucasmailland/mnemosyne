@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_context",
+  "inputSchema": {
+    "properties": {
+      "includeOtherWorkspaces": {
+        "default": true,
+        "description": "Your workspace memberships (else the tenant's). Default true.",
+        "type": "boolean"
+      },
+      "includeStats": {
+        "default": true,
+        "description": "Include workspace stats. Default true.",
+        "type": "boolean"
+      }
+    },
+    "type": "object"
+  }
+}

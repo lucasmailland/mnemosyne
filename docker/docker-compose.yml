@@ -1,0 +1,264 @@
+# Mnemosyne self-host stack.
+#
+# Why this file exists:
+#   - One command (`docker compose up -d`) should produce a working Mnemosyne
+#     server, end to end, on a fresh machine.
+#   - We split into three services (postgres / migrate / server) instead of an
+#     entrypoint script inside `server` because:
+#       1. Failed migrations are visible in `docker compose ps` (Exit 1) rather
+#          than hidden inside a server container that crash-loops.
+#       2. Re-running migrations is `docker compose up migrate` — no need to
+#          touch the server image.
+#       3. Healthchecks compose cleanly: server only starts after migrate
+#          exits 0, and migrate only starts after postgres is `pg_isready`.
+#
+# Why pgvector/pgvector:pg17 (not plain `postgres:17`):
+#   Mnemosyne stores embeddings as `vector(N)` columns and relies on the
+#   `vector` extension being available at CREATE EXTENSION time. The official
+#   pgvector image ships the extension preinstalled; using vanilla postgres
+#   would force a custom Dockerfile just to install pgvector.
+
+name: mnemosyne
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: mnemosyne-redis
+    restart: unless-stopped
+    ports:
+      # Loopback only (APP-032): Redis has no password in this stack.
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+      start_period: 5s
+
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: mnemosyne-postgres
+    restart: unless-stopped
+    environment:
+      # These default to mnemo/mnemo/mnemo. Override via .env for prod.
+      POSTGRES_USER: ${POSTGRES_USER:-mnemo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mnemo}
+      POSTGRES_DB: ${POSTGRES_DB:-mnemo}
+    # Performance tuning for Mnemosyne's vector + JSONB workload.
+    # Sized for a host with ~2 GB RAM dedicated to Postgres.
+    # Scale shared_buffers to 25% of available RAM on larger instances.
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_buffers=256MB"
+      - "-c"
+      - "effective_cache_size=768MB"
+      - "-c"
+      - "maintenance_work_mem=64MB"
+      - "-c"
+      - "work_mem=4MB"
+      - "-c"
+      - "checkpoint_completion_target=0.9"
+      - "-c"
+      - "wal_buffers=16MB"
+      - "-c"
+      - "default_statistics_target=100"
+      - "-c"
+      - "max_connections=100"
+      - "-c"
+      - "effective_io_concurrency=200"
+      - "-c"
+      - "max_worker_processes=4"
+      - "-c"
+      - "max_parallel_workers_per_gather=2"
+      - "-c"
+      - "max_parallel_workers=4"
+      - "-c"
+      - "random_page_cost=1.1"
+    volumes:
+      # Named volume so `docker compose down` keeps data; users have to
+      # explicitly `docker compose down -v` to wipe.
+      - mnemosyne-pgdata:/var/lib/postgresql/data
+    ports:
+      # Exposed on host for local debugging (psql, GUI clients). Comment out
+      # in prod if you don't want Postgres reachable from outside the bridge.
+      # Loopback only (APP-032): the local stack connects as the database owner.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      # pg_isready is cheap and authoritative. Interval is short because
+      # `migrate` and `server` block on this — we want fast startup.
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mnemo} -d ${POSTGRES_DB:-mnemo}"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+
+  migrate:
+    # Builds against the monorepo root (../) so we can access pnpm-lock.yaml
+    # and the full workspace. Dockerfile lives in this directory for clarity.
+    #
+    # Applies BOTH migration streams the dual-core runtime needs: the legacy
+    # stream (public schema — v1 routes + auth) and the v3 stream (mnemosyne
+    # schema — background tasks). See docker/Dockerfile.migrate. Idempotent:
+    # safe to re-run on an existing database; the v3 stream just adds the
+    # mnemosyne schema if it is not yet present.
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.migrate
+    container_name: mnemosyne-migrate
+    # Run once and exit. `restart: "no"` makes the exit visible instead of
+    # docker silently restarting on success.
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      MNEMO_MIGRATION_DATABASE_URL: ${MNEMO_MIGRATION_DATABASE_URL:-postgres://mnemo:mnemo@postgres:5432/mnemo}
+
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    # NOTE: container_name removed to allow docker-compose.prod.yml overlay with deploy.replicas.
+    # Local dev uses project name prefix (e.g., mnemosyne-server-1).
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        # Critical: server must NOT come up until migrations have completed
+        # successfully. `service_completed_successfully` waits for exit 0.
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgres://mnemo:mnemo@postgres:5432/mnemo}
+      MNEMO_REDIS_URL: ${MNEMO_REDIS_URL:-redis://redis:6379}
+      # Model API: none by default. Pick a provider in docker/.env (blocks for
+      # OpenAI, Gemini, Anthropic + Voyage and a local Ollama in .env.example).
+      # Unset, the server starts and logs what is missing.
+      MNEMO_LLM_PROVIDER: ${MNEMO_LLM_PROVIDER:-}
+      MNEMO_LLM_API_KEY: ${MNEMO_LLM_API_KEY:-}
+      MNEMO_LLM_BASE_URL: ${MNEMO_LLM_BASE_URL:-}
+      MNEMO_LLM_MODEL: ${MNEMO_LLM_MODEL:-}
+      # Daily USD cap on completions (empty: no cap). See docker/.env.example.
+      MNEMO_LLM_DAILY_BUDGET_USD: ${MNEMO_LLM_DAILY_BUDGET_USD:-}
+      # Completion provider per task (empty: the MNEMO_LLM_* provider). See docker/.env.example.
+      MNEMO_LLM_JUDGE_PROVIDER: ${MNEMO_LLM_JUDGE_PROVIDER:-}
+      MNEMO_LLM_JUDGE_MODEL: ${MNEMO_LLM_JUDGE_MODEL:-}
+      MNEMO_LLM_JUDGE_API_KEY: ${MNEMO_LLM_JUDGE_API_KEY:-}
+      MNEMO_LLM_SUMMARY_PROVIDER: ${MNEMO_LLM_SUMMARY_PROVIDER:-}
+      MNEMO_LLM_SUMMARY_MODEL: ${MNEMO_LLM_SUMMARY_MODEL:-}
+      MNEMO_LLM_SUMMARY_API_KEY: ${MNEMO_LLM_SUMMARY_API_KEY:-}
+      MNEMO_LLM_PREFILTER_PROVIDER: ${MNEMO_LLM_PREFILTER_PROVIDER:-}
+      MNEMO_LLM_PREFILTER_MODEL: ${MNEMO_LLM_PREFILTER_MODEL:-}
+      MNEMO_LLM_PREFILTER_API_KEY: ${MNEMO_LLM_PREFILTER_API_KEY:-}
+      MNEMO_EMBED_PROVIDER: ${MNEMO_EMBED_PROVIDER:-}
+      MNEMO_EMBED_API_KEY: ${MNEMO_EMBED_API_KEY:-}
+      MNEMO_EMBED_BASE_URL: ${MNEMO_EMBED_BASE_URL:-}
+      MNEMO_EMBED_MODEL: ${MNEMO_EMBED_MODEL:-text-embedding-3-small}
+      # Must match the model's width (1024, 1536, 2048 or 4096). Empty: 1536, or 1024 on Bedrock.
+      MNEMO_EMBED_DIMENSIONS: ${MNEMO_EMBED_DIMENSIONS:-}
+      MNEMO_EMBED_TIMEOUT_MS: ${MNEMO_EMBED_TIMEOUT_MS:-3000}
+      MNEMO_EMBED_STUB: ${MNEMO_EMBED_STUB:-false}
+      # Calibrated per embedding model; empty keeps the core default (0.7). See docker/.env.example.
+      MNEMO_REMINDER_SEMANTIC_THRESHOLD: ${MNEMO_REMINDER_SEMANTIC_THRESHOLD:-}
+      MNEMO_WARM_MODELS_ON_BOOT: ${MNEMO_WARM_MODELS_ON_BOOT:-}
+      # Which external providers get confidential/restricted text (empty: embed). See docker/.env.example.
+      MNEMO_SENSITIVE_TEXT_TO_PROVIDERS: ${MNEMO_SENSITIVE_TEXT_TO_PROVIDERS:-}
+      # Ollama only: threads per request. Empty lets Ollama choose.
+      MNEMO_OLLAMA_NUM_THREAD: ${MNEMO_OLLAMA_NUM_THREAD:-}
+      PORT: ${PORT:-3939}
+      # h2c listener for the bidirectional gRPC RPCs (empty: off); see docker/.env.example.
+      MNEMO_GRPC_PORT: ${MNEMO_GRPC_PORT:-}
+      NODE_ENV: ${NODE_ENV:-production}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      # Milliseconds a SIGTERM waits before force-exiting (empty: 45000).
+      MNEMO_SHUTDOWN_GRACE_MS: ${MNEMO_SHUTDOWN_GRACE_MS:-}
+      MNEMO_ALLOW_UNSAFE_DB_ROLE: ${MNEMO_ALLOW_UNSAFE_DB_ROLE:-false}
+      MNEMO_MASTER_KEY: ${MNEMO_MASTER_KEY:-}
+      MNEMO_KEY_PEPPER: ${MNEMO_KEY_PEPPER:-}
+      # Signs the dashboard's session cookie. Empty (the default) leaves the
+      # dashboard sign-in routes unmounted and the server headless; set it
+      # (at least 32 bytes) to let the Next.js dashboard sign in.
+      MNEMO_DASHBOARD_SECRET: ${MNEMO_DASHBOARD_SECRET:-}
+      # Optional fixed setup token for unattended first-run provisioning (16+ chars).
+      MNEMO_SETUP_TOKEN: ${MNEMO_SETUP_TOKEN:-}
+      # Webhooks go to https and to public addresses only unless these are "true".
+      MNEMO_WEBHOOK_ALLOW_HTTP: ${MNEMO_WEBHOOK_ALLOW_HTTP:-}
+      MNEMO_WEBHOOK_ALLOW_PRIVATE: ${MNEMO_WEBHOOK_ALLOW_PRIVATE:-}
+      # In-process plugins: npm packages and/or builtin:<id> (see docker/.env.example).
+      MNEMO_PLUGINS: ${MNEMO_PLUGINS:-}
+      # Each plugin's config is MNEMO_PLUGIN_<ID>__<KEY>; list the ones you use, e.g.:
+      # MNEMO_PLUGIN_WEBHOOK_NOTIFY__URL: ${MNEMO_PLUGIN_WEBHOOK_NOTIFY__URL:-}
+      # Region this instance serves (data residency). Empty: single-region, no lock.
+      MNEMO_REGION: ${MNEMO_REGION:-}
+      # Federation identity (needed to pull from peers) and TLS proxy trust.
+      MNEMO_FED_PEER_ID: ${MNEMO_FED_PEER_ID:-}
+      MNEMO_FEDERATION_PRIVATE_KEY: ${MNEMO_FEDERATION_PRIVATE_KEY:-}
+      MNEMO_FED_TLS_PROXY: ${MNEMO_FED_TLS_PROXY:-false}
+      MNEMO_TRUSTED_PROXY_IP: ${MNEMO_TRUSTED_PROXY_IP:-}
+      # Client certificate (and CA) this server presents when it pulls from peers
+      # behind an mTLS proxy: paths inside the container, so mount the PEM files.
+      MNEMO_FED_CLIENT_CERT_FILE: ${MNEMO_FED_CLIENT_CERT_FILE:-}
+      MNEMO_FED_CLIENT_KEY_FILE: ${MNEMO_FED_CLIENT_KEY_FILE:-}
+      MNEMO_FED_CA_FILE: ${MNEMO_FED_CA_FILE:-}
+      # --- Split provider config (all optional, backward compatible) ---
+      # Use a dedicated embedding provider (e.g. voyage, nvidia) instead of the LLM provider.
+      # Requires MNEMO_EMBED_API_KEY; falls back to MNEMO_LLM_PROVIDER when absent.
+      # MNEMO_EMBED_PROVIDER: ${MNEMO_EMBED_PROVIDER:-}
+      # API key for the embed provider (required when MNEMO_EMBED_PROVIDER is set).
+      # MNEMO_EMBED_API_KEY: ${MNEMO_EMBED_API_KEY:-}
+      # Custom base URL for self-hosted embed endpoints (e.g. a local Voyage or NVIDIA NIM).
+      # MNEMO_EMBED_BASE_URL: ${MNEMO_EMBED_BASE_URL:-}
+      # Separate pgvector connection string for deployments with a dedicated vector DB replica.
+      # Falls back to DATABASE_URL. Migrations always target DATABASE_URL, never this value.
+      # MNEMO_VECTOR_URL: ${MNEMO_VECTOR_URL:-}
+    ports:
+      # Loopback by default (APP-032). Set MNEMO_BIND=0.0.0.0 to reach it from
+      # other machines — only behind TLS and with the production overlay.
+      - "${MNEMO_BIND:-127.0.0.1}:${PORT:-3939}:${PORT:-3939}"
+      # With MNEMO_GRPC_PORT set, publish it too:
+      # - "${MNEMO_GRPC_PORT}:${MNEMO_GRPC_PORT}"
+    healthcheck:
+      # Server is expected to expose /healthz on its main port.
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:${PORT:-3939}/health/live"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  # Opt-in: starts only with `--profile local`. No model is pulled or chosen
+  # for you; see "Local models" in docker/README.md.
+  ollama:
+    profiles: ["local"]
+    image: ollama/ollama:latest
+    container_name: mnemosyne-ollama
+    restart: unless-stopped
+    volumes:
+      - mnemosyne-ollama-data:/root/.ollama
+    ports:
+      # Loopback only, and movable (APP-032): an Ollama already running on the host
+      # holds 11434; set OLLAMA_PORT to publish this one elsewhere. The server
+      # reaches it on the compose network either way.
+      - "127.0.0.1:${OLLAMA_PORT:-11434}:11434"
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    # GPU support (NVIDIA): uncomment the deploy block below
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  mnemosyne-pgdata:
+    name: mnemosyne-pgdata
+  mnemosyne-ollama-data:
+    name: mnemosyne-ollama-data

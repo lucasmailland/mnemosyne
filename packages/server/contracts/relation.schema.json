@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/relation",
+  "title": "MnemoRelation",
+  "description": "A binary edge in the Mnemosyne memory graph, one of the 9 locked verbs.",
+  "type": "object",
+  "required": [
+    "id",
+    "workspaceId",
+    "sourceKind",
+    "sourceId",
+    "targetKind",
+    "targetId",
+    "relation",
+    "judgmentStatus",
+    "markedByKind",
+    "validFrom",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "workspaceId": { "type": "string", "minLength": 1 },
+    "sourceKind": { "type": "string", "enum": ["fact", "decision", "entity", "episode"] },
+    "sourceId": { "type": "string", "minLength": 1 },
+    "targetKind": { "type": "string", "enum": ["fact", "decision", "entity", "episode"] },
+    "targetId": { "type": "string", "minLength": 1 },
+    "relation": {
+      "type": "string",
+      "enum": [
+        "related",
+        "compatible",
+        "scoped",
+        "conflicts_with",
+        "supersedes",
+        "not_conflict",
+        "derived_from",
+        "part_of",
+        "member_of"
+      ]
+    },
+    "judgmentStatus": { "type": "string", "enum": ["pending", "judged", "dismissed"] },
+    "reason": { "type": ["string", "null"] },
+    "evidence": { "type": ["object", "null"] },
+    "confidence": { "type": ["number", "null"] },
+    "markedByUserId": { "type": ["string", "null"] },
+    "markedByKind": { "type": "string", "enum": ["user", "agent", "system", "llm_judge"] },
+    "markedByModel": { "type": ["string", "null"] },
+    "markedByPromptVersion": { "type": ["string", "null"] },
+    "provenance": { "type": ["string", "null"] },
+    "conversationId": { "type": ["string", "null"] },
+    "supersededByRelationId": { "type": ["string", "null"] },
+    "validFrom": { "type": "string" },
+    "validTo": { "type": ["string", "null"] },
+    "createdAt": { "type": "string" },
+    "updatedAt": { "type": "string" }
+  },
+  "additionalProperties": true
+}

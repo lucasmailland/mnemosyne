@@ -1,0 +1,153 @@
+# syntax=docker/dockerfile:1.7
+#
+# @mnemo-ai/server runtime image.
+#
+# Mirrors the structure of Dockerfile.migrate (rewritten 2026-06-05 to
+# drop `pnpm deploy`): one build stage that uses the full workspace,
+# one stage that synthesises a flat runtime `node_modules/` from
+# pnpm-pack'd tarballs of the workspace deps + the server's direct
+# deps, then a minimal runtime stage that COPYs only what we need.
+#
+# Why pnpm-pack the workspace deps (@mnemo-ai/core, @mnemo-ai/llm-providers):
+#   The server declares them as peerDependencies with `workspace:*`. Outside
+#   the workspace they don't exist on any registry — so the runtime stage
+#   has nothing to install. `pnpm pack` produces real .tgz files identical
+#   to what `npm publish` would emit, which the runtime-deps stage can then
+#   `npm install file:/path/to/<pkg>.tgz` against a synthesised
+#   package.json. No symlink games, no workspace state leakage.
+
+ARG NODE_VERSION=22-alpine
+
+# ---------- Stage 1: build ----------
+FROM node:${NODE_VERSION} AS build
+WORKDIR /app
+RUN corepack enable
+
+# Native-build toolchain. The full workspace install pulls dev-only
+# transitive deps with node-gyp install scripts (esbuild's binary,
+# bcrypt, and testcontainers' ssh2 → cpu-features). On Alpine these
+# need python3 + a C/C++ compiler or `pnpm install` aborts. This stage
+# is discarded in the final image, so the toolchain adds no runtime size.
+RUN apk add --no-cache python3 make g++
+
+COPY pnpm-lock.yaml pnpm-workspace.yaml .npmrc* ./
+# pnpm.patchedDependencies (picomatch, next): install fails without them.
+COPY patches patches
+# LICENSE: each package's prepack copies ../../LICENSE, and pnpm pack below runs it.
+COPY package.json tsconfig.base.json turbo.json LICENSE ./
+COPY packages packages
+
+RUN pnpm install --frozen-lockfile
+
+# Build the server and every workspace dep it pulls in transitively.
+# MNEMO_BUILD_NO_DTS=1 skips the server's heavy DTS emit (the worker OOMs in
+# this memory-constrained build); the runtime image only runs dist/*.js.
+RUN MNEMO_BUILD_NO_DTS=1 pnpm --filter @mnemo-ai/server... build
+
+# Pack the workspace deps into tarballs that npm can install in the
+# next stage. We use `--pack-destination` so we know exactly where each
+# .tgz lands.
+RUN mkdir -p /app/tarballs && \
+    cd /app/packages/types            && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/core             && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/llm-providers    && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/consolidation    && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/adapter-redis    && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/adapter-llm      && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/adapter-postgres && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/adapter-vector   && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/federation       && pnpm pack --pack-destination /app/tarballs && \
+    cd /app/packages/plugins          && pnpm pack --pack-destination /app/tarballs
+
+# Source maps stay out of the runtime image (R-20): nothing runs with
+# --enable-source-maps, so they are dead weight. Deleted here, in
+# the build stage, because a later RUN rm would only hide them under a layer.
+RUN find /app/packages/server/dist -name '*.map' -type f -delete
+
+# ---------- Stage 2: runtime-deps ----------
+# Synthesise a flat node_modules/ that has everything the server's
+# dist/index.js needs at runtime: its own direct deps + the two
+# workspace peers (via local tarballs) + the peers of those (postgres,
+# drizzle-orm, which @mnemo-ai/core needs).
+FROM node:${NODE_VERSION} AS runtime-deps
+WORKDIR /app/runtime
+
+# bcrypt ships with a `node-pre-gyp install` script that pulls the
+# correct prebuilt binary for the current platform/Node version. We
+# need scripts ON for that to fire; the Alpine image already has the
+# C++ toolchain bits node-pre-gyp falls back on if the prebuild miss.
+RUN apk add --no-cache python3 make g++
+
+# Copy the original server manifest so we know its dependency versions,
+# then rewrite it to:
+#   - keep all `dependencies` (hono, postgres, bcrypt, etc.)
+#   - replace `workspace:*` peerDeps with `file:` paths to the tarballs
+#   - add core's peerDeps (postgres, drizzle-orm) as direct deps so
+#     they get resolved even though their declaring package is a tarball
+#   - drop devDependencies entirely
+COPY --from=build /app/packages/server/package.json          ./server-pkg.json
+COPY --from=build /app/packages/core/package.json            ./core-pkg.json
+COPY --from=build /app/packages/adapter-redis/package.json   ./adapter-redis-pkg.json
+COPY --from=build /app/packages/adapter-llm/package.json     ./adapter-llm-pkg.json
+COPY --from=build /app/packages/adapter-postgres/package.json ./adapter-postgres-pkg.json
+COPY --from=build /app/packages/adapter-vector/package.json  ./adapter-vector-pkg.json
+COPY --from=build /app/packages/federation/package.json      ./federation-pkg.json
+COPY --from=build /app/packages/plugins/package.json         ./plugins-pkg.json
+COPY --from=build /app/tarballs                            ./tarballs
+COPY docker/scripts/synth-runtime-pkg.cjs                  ./synth-runtime-pkg.cjs
+
+RUN node ./synth-runtime-pkg.cjs && \
+    rm server-pkg.json core-pkg.json synth-runtime-pkg.cjs
+
+# Flat install WITH scripts: bcrypt's `node-pre-gyp install` needs to
+# run so the platform-specific native binding gets downloaded (or
+# compiled from source via the toolchain we installed above). The
+# `lru-cache@11 / tshy` failure we saw in migrate's bundle doesn't
+# reproduce here because this stage installs into an empty tree from
+# a synthesised manifest — no pre-existing `prepare` hooks to fire.
+#
+# --legacy-peer-deps: the repo is pnpm-first and the pnpm lockfile already
+# pairs @hono/node-server@2.x with @hono/node-ws@1.3.1 (whose peer range
+# still declares node-server ^1.19.11 — no 2.x-compatible release exists).
+# pnpm treats that as a warning; npm errors without this flag. Matching
+# pnpm's resolution keeps the runtime tree identical to what CI tests.
+# The packed workspace packages ship their .map files too; drop them with the
+# install so they never reach a layer of the runtime image (R-20).
+RUN npm install --omit=dev --no-audit --no-fund --legacy-peer-deps && \
+    find node_modules -name '*.map' -type f -delete
+
+# ---------- Stage 3: runtime ----------
+FROM node:${NODE_VERSION} AS runtime
+WORKDIR /app
+USER node
+
+# Server bundle: dist/ + its own package.json (used for module
+# resolution and `type: module`).
+COPY --from=build       --chown=node:node /app/packages/server/dist         ./dist
+COPY --from=build       --chown=node:node /app/packages/server/package.json ./package.json
+
+# Flat node_modules/ resolved in stage 2 — contains the server's deps,
+# @mnemo-ai/core + llm-providers (from tarballs), plus core's peers
+# (postgres, drizzle-orm).
+COPY --from=runtime-deps --chown=node:node /app/runtime/node_modules ./node_modules
+
+# Convenience CLI scripts (create-api-key.cjs, etc.) referenced by the
+# README's `docker compose exec server node scripts/create-api-key.cjs`.
+COPY --chown=node:node docker/scripts ./scripts
+# Dashboard password admin (`docker compose exec -T server node
+# scripts/dashboard-password.mjs --email <mail> < password`). It imports
+# ../dist/dashboard-password.js, which resolves to ./dist from ./scripts.
+COPY --chown=node:node packages/server/scripts/dashboard-password.mjs ./scripts/dashboard-password.mjs
+
+ENV NODE_ENV=production \
+    PORT=3000
+
+EXPOSE 3000
+
+# Shell form on purpose: `${PORT:-3000}` is expanded when the probe runs, so a
+# container started with another PORT is probed where it listens (CHAOS-14).
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
+  CMD wget -q --spider "http://localhost:${PORT:-3000}/health/live" || exit 1
+
+# `dist/index.js` is the tsup entry point produced by @mnemo-ai/server.
+CMD ["node", "/app/dist/index.js"]

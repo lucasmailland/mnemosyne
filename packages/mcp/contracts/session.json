@@ -1,0 +1,86 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_session",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "The session operation to perform.",
+        "enum": [
+          "start",
+          "turn",
+          "pin_turn",
+          "pin",
+          "scratch",
+          "collapse",
+          "discard",
+          "feedback",
+          "get",
+          "list"
+        ],
+        "type": "string"
+      },
+      "agentId": {
+        "description": "For start: the new session's agent.",
+        "type": "string"
+      },
+      "collapseHint": {
+        "description": "For collapse: 'explicit' = full extraction, 'auto' = recurrence heuristic.",
+        "type": "string"
+      },
+      "content": {
+        "description": "For scratch and turn: the note or turn text.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "factId": {
+        "description": "Fact to pin or unpin. Required for pin.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "metadata": {
+        "description": "Metadata for start or scratch.",
+        "type": "object"
+      },
+      "rating": {
+        "description": "For feedback: 'up' (success) or 'down' (failure).",
+        "enum": [
+          "up",
+          "down"
+        ],
+        "type": "string"
+      },
+      "role": {
+        "description": "For scratch and turn. Default assistant (scratch), user (turn).",
+        "enum": [
+          "user",
+          "assistant",
+          "system"
+        ],
+        "type": "string"
+      },
+      "sessionId": {
+        "description": "Required for turn, pin_turn, collapse, scratch, discard, feedback, get.",
+        "type": "string"
+      },
+      "turnId": {
+        "description": "For pin_turn: the turn id (uuid).",
+        "type": "string"
+      },
+      "turnIndex": {
+        "description": "For pin_turn: the turn's index.",
+        "type": "integer"
+      },
+      "unpin": {
+        "description": "For pin/pin_turn: true unpins. Default false.",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

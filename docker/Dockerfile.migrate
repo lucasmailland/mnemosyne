@@ -1,0 +1,165 @@
+# syntax=docker/dockerfile:1.7
+#
+# One-shot migration runner — applies BOTH Mnemosyne schemas.
+#
+# The deployed server is a dual-core hybrid (see
+# docs/archive/superpowers/plans/2026-06-14-design-gap-remediation.md, finding #0):
+#   - the legacy core serves the v1 routes + auth against the `public` schema
+#     (migrations in @mnemo-ai/core, applied by core's mnemo-migrate CLI), and
+#   - the v3 core (DrizzleStorageAdapter) serves the background tasks against the
+#     `mnemosyne` schema (migrations in @mnemo-ai/adapter-postgres/migrations/v3,
+#     applied by adapter-postgres's migrate CLI).
+# This image builds both CLIs and runs them in order so a fresh deploy
+# provisions every table the runtime touches.
+#
+# Design notes:
+#
+# Why a separate image (instead of running migrations from the server image)?
+#   - The server image's CMD is `node dist/index.js`. We could `entrypoint`-
+#     override at compose level, but that hides the actual command in YAML
+#     and conflates concerns.
+#   - The migration tool lives in @mnemo-ai/core (CLI binary `mnemo-migrate`).
+#     The server doesn't depend on core's CLI runtime; isolating that here
+#     keeps the server image free of migration tooling.
+#   - Smaller blast radius: a bug in the migrate image can't accidentally
+#     bring down the server image.
+#
+# Why NOT `pnpm deploy`:
+#   pnpm's `--filter X deploy` has several quirks that bit us hard during
+#   bring-up (path is relative to the package not the workspace; peerDeps
+#   are excluded; bolting peers in afterwards with `pnpm add` reshapes the
+#   bundle and wipes the package's own `dist/`). The cleaner approach for
+#   a single-purpose image is to BUILD inside the container and then COPY
+#   exactly the artefacts we need into the runtime stage. No magic, no
+#   pnpm-specific layout to debug.
+#
+# Runtime composition (everything ends up under /app):
+#   /app/package.json   — only the fields the CLI needs to resolve modules
+#   /app/dist/          — the compiled CLI + types
+#   /app/migrations/    — the SQL files mnemo-migrate applies
+#   /app/node_modules/  — runtime deps + peers (postgres, drizzle-orm)
+
+ARG NODE_VERSION=22-alpine
+
+# ---------- Stage 1: build ----------
+# Builds @mnemo-ai/core (and its workspace deps) inside the full
+# workspace. The next stage cherry-picks only the artefacts the migrate
+# CLI needs at runtime.
+FROM node:${NODE_VERSION} AS build
+WORKDIR /app
+RUN corepack enable
+
+# Native-build toolchain — the full workspace install pulls dev-only
+# transitive deps with node-gyp install scripts (esbuild, bcrypt,
+# testcontainers' ssh2 → cpu-features) that need python3 + a C/C++
+# compiler on Alpine, or `pnpm install` aborts. Discarded in the final
+# image. (Mirrors Dockerfile.server's build stage.)
+RUN apk add --no-cache python3 make g++
+
+# Workspace manifests + root configs. `pnpm install` resolves the lockfile
+# against these without touching source — keeps this layer cache-friendly.
+COPY pnpm-lock.yaml pnpm-workspace.yaml .npmrc* ./
+# pnpm.patchedDependencies (picomatch, next): install fails without them.
+COPY patches patches
+COPY package.json tsconfig.base.json turbo.json ./
+COPY packages packages
+
+# Pull every dep declared in the lockfile (dev + runtime). We need dev
+# deps here because tsup, drizzle-orm, etc. participate in the build —
+# the runtime stage drops them all.
+RUN pnpm install --frozen-lockfile
+
+# Build both migration CLIs and their workspace-internal dependencies. We need
+# packages/core/dist/ (legacy/public stream) AND
+# packages/adapter-postgres/dist/ (v3/mnemosyne stream).
+RUN pnpm --filter @mnemo-ai/core... --filter @mnemo-ai/adapter-postgres... build
+
+# ---------- Stage 2: runtime-deps ----------
+# A throwaway stage whose only job is to materialise a `node_modules/`
+# containing JUST what mnemo-migrate needs at runtime. We start from
+# the core package's package.json, plus a hand-curated overlay that
+# pins the peerDependencies as direct deps so they actually get
+# installed.
+#
+# Why a separate stage: keeps the install step's filesystem footprint
+# out of the final image (pnpm's content-addressable store is large).
+FROM node:${NODE_VERSION} AS runtime-deps
+WORKDIR /app/runtime
+RUN corepack enable
+
+# Copy core's manifest. We rewrite it on the fly to (a) drop the
+# workspace-only `@orchester/db` dep that mnemosyne lists for its own
+# tests but the runtime doesn't need, and (b) lift peerDependencies
+# into dependencies so npm/pnpm actually pulls them in.
+COPY --from=build /app/packages/core/package.json ./package.json.orig
+RUN node -e "                                                              \
+  const fs = require('fs');                                                \
+  const pkg = JSON.parse(fs.readFileSync('./package.json.orig', 'utf8'));  \
+  const deps = { ...(pkg.dependencies || {}) };                            \
+  for (const [name, range] of Object.entries(pkg.peerDependencies || {})) {\
+    deps[name] = range;                                                    \
+  }                                                                        \
+  delete deps['@orchester/db'];                                            \
+  for (const [name, range] of Object.entries(deps)) {                     \
+    if (typeof range === 'string' && range.startsWith('workspace:')) {     \
+      delete deps[name];                                                   \
+    }                                                                      \
+  }                                                                        \
+  const runtimePkg = {                                                     \
+    name: pkg.name, version: pkg.version, type: pkg.type,                  \
+    dependencies: deps,                                                    \
+  };                                                                       \
+  fs.writeFileSync('./package.json', JSON.stringify(runtimePkg, null, 2)); \
+" && rm package.json.orig
+
+# Install with npm (not pnpm) to get a flat node_modules/ tree we can
+# copy verbatim into the runtime stage. `--ignore-scripts` skips any
+# `prepare`/`install` hooks; we don't need them since we're only
+# resolving runtime modules. `--omit=dev` keeps the tree minimal.
+RUN npm install --omit=dev --ignore-scripts --no-audit --no-fund
+
+# ---------- Stage 3: runtime ----------
+# Minimal image: just node + the build artefacts + the runtime deps.
+FROM node:${NODE_VERSION} AS runtime
+WORKDIR /app
+USER node
+
+# 1) The legacy/public CLI: core's compiled output (dist/) + SQL migrations.
+COPY --from=build --chown=node:node /app/packages/core/dist        ./dist
+COPY --from=build --chown=node:node /app/packages/core/migrations  ./migrations
+COPY --from=build --chown=node:node /app/packages/core/package.json ./package.json
+
+# 1b) The v3/mnemosyne CLI: adapter-postgres's compiled output + SQL migrations.
+#     The v3 CLI resolves its migrations at `../migrations/v3` relative to
+#     dist/, so the /app/v3 layout mirrors the package. It needs only `postgres`
+#     at runtime (raw SQL, no ORM), which the shared node_modules below already
+#     provides; ESM resolution walks up to /app/package.json (type: module).
+COPY --from=build --chown=node:node /app/packages/adapter-postgres/dist        ./v3/dist
+COPY --from=build --chown=node:node /app/packages/adapter-postgres/migrations  ./v3/migrations
+
+# 2) The flat node_modules/ resolved in the runtime-deps stage —
+#    contains @mnemo-ai/core's runtime deps + the peerDependencies
+#    (postgres, drizzle-orm) lifted in by the manifest rewrite. `postgres`
+#    here also satisfies the v3 CLI.
+COPY --from=runtime-deps --chown=node:node /app/runtime/node_modules ./node_modules
+
+# 3) Migration entrypoint and role provisioner. The entrypoint requires a
+#    dedicated direct/session-pooled URL, then passes it to all three steps as
+#    DATABASE_URL because the underlying CLIs retain their standalone contract.
+COPY --chown=node:node docker/scripts/run-migrations.mjs ./scripts/run-migrations.mjs
+COPY --chown=node:node docker/scripts/provision-app-role.mjs ./scripts/provision-app-role.mjs
+
+ENV NODE_ENV=production
+
+# Apply BOTH migration streams, in order: legacy/public (core) first, then
+# v3/mnemosyne (adapter-postgres). The entrypoint requires
+# MNEMO_MIGRATION_DATABASE_URL and deliberately never falls back to the pooled
+# application DATABASE_URL. It passes the validated direct URL to each CLI and
+# exits non-zero on the first failure. Compose's
+# `service_completed_successfully` gates the server on the combined exit code —
+# so a bad migration in EITHER stream blocks the stack from coming up.
+#
+# We invoke each `dist/migrate.js` directly (not via a `.bin/` symlink): pnpm
+# doesn't symlink the binary of the package being installed, and our
+# flat-npm-install also won't have it because the package is the runtime root.
+CMD ["node", "/app/scripts/run-migrations.mjs"]

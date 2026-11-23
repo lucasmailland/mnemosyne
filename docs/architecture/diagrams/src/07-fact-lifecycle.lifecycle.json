@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Mnemosyne — Ciclo de vida de un fact",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1040,
+      620
+    ],
+    "views": [
+      {
+        "id": "consolidacion",
+        "label": "Consolidación",
+        "focus": [
+          "written",
+          "active",
+          "pending",
+          "replay",
+          "merged"
+        ],
+        "note": "Clusters de facts débiles y parecidos se fusionan solo si el replay no empeora el recall."
+      },
+      {
+        "id": "rollback",
+        "label": "Rollback",
+        "focus": [
+          "replay",
+          "rollback",
+          "active"
+        ],
+        "note": "Si el replay falla, las filas se restauran y el caso va a revisión."
+      },
+      {
+        "id": "salidas",
+        "label": "Olvido y borrado",
+        "focus": [
+          "active",
+          "forgotten",
+          "erased"
+        ],
+        "note": "forget cierra validez (bitemporal); solo purge o GDPR borran filas."
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Estados del fact"
+    },
+    {
+      "id": "recovery",
+      "label": "Recuperación"
+    },
+    {
+      "id": "terminal",
+      "label": "Salidas"
+    }
+  ],
+  "states": [
+    {
+      "id": "written",
+      "type": "start",
+      "label": "remember()",
+      "sublabel": "dedup hash · topicKey",
+      "lane": "main",
+      "col": 0,
+      "step": "01",
+      "tag": "escritura"
+    },
+    {
+      "id": "active",
+      "type": "active",
+      "label": "active",
+      "sublabel": "validTo = NULL",
+      "lane": "main",
+      "col": 1,
+      "step": "02",
+      "tag": "recallable"
+    },
+    {
+      "id": "pending",
+      "type": "waiting",
+      "label": "Consolidación",
+      "sublabel": "lease 15 min",
+      "lane": "main",
+      "col": 2,
+      "step": "03",
+      "tag": "pending marker"
+    },
+    {
+      "id": "replay",
+      "type": "decision",
+      "label": "Replay validator",
+      "sublabel": "5-10 queries · top-3",
+      "lane": "main",
+      "col": 3,
+      "step": "04",
+      "tag": "gate"
+    },
+    {
+      "id": "merged",
+      "type": "success",
+      "label": "merged",
+      "sublabel": "merged_into_id",
+      "lane": "main",
+      "col": 4,
+      "step": "05",
+      "tag": "sobreviviente +α"
+    },
+    {
+      "id": "rollback",
+      "type": "failure",
+      "label": "Rollback",
+      "sublabel": "→ review_queue",
+      "lane": "recovery",
+      "col": 1,
+      "tag": "reintentable"
+    },
+    {
+      "id": "forgotten",
+      "type": "neutral",
+      "label": "forgotten",
+      "sublabel": "validTo = now",
+      "lane": "terminal",
+      "col": 0,
+      "tag": "fila preservada",
+      "yOffset": -40
+    },
+    {
+      "id": "erased",
+      "type": "failure",
+      "label": "Borrado físico",
+      "sublabel": "purge · GDPR",
+      "lane": "terminal",
+      "col": 1,
+      "tag": "deletion_log",
+      "yOffset": -40
+    }
+  ],
+  "transitions": [
+    {
+      "id": "replay-fail",
+      "from": "replay",
+      "to": "rollback",
+      "label": "fail ≥ 0.6",
+      "variant": "security",
+      "route": "drop"
+    },
+    {
+      "id": "rollback-active",
+      "from": "rollback",
+      "to": "active",
+      "label": "restaurado",
+      "variant": "emphasis",
+      "fromSide": "left",
+      "toSide": "bottom"
+    },
+    {
+      "id": "active-forgotten",
+      "from": "active",
+      "to": "forgotten",
+      "label": "forget · update · relocate",
+      "variant": "dashed",
+      "labelDy": 40
+    },
+    {
+      "id": "forgotten-erased",
+      "from": "forgotten",
+      "to": "erased",
+      "label": "purge",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Gate",
+      "items": [
+        "≥3 facts · coseno ≥ 0.85",
+        "worth < 0.5 · sin recall 14 días"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Bitemporal",
+      "items": [
+        "update/topicKey → sucesor",
+        "confidential+ no se relocaliza"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Borrado real",
+      "items": [
+        "purge → deletion_log",
+        "GDPR destruye DEKs (crypto)"
+      ]
+    }
+  ]
+}

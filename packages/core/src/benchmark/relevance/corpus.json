@@ -1,0 +1,2846 @@
+{
+  "_about": "Recall relevance benchmark corpus (BENCH-1). Two labelled corpora from the 2026-10-17 evaluation: recall (145 memories over 5 fictitious projects, 83 queries: 62 with a stored answer, 17 topically adjacent negatives and 4 off-topic ones) and agentsim (62 memories written by a simulated agent over 21 sessions, 40 future-session tasks). Vectors for every text are frozen in vectors.json (bge-m3); regenerate with generate-vectors.mjs.",
+  "recall": {
+    "memories": [
+      {
+        "label": "A01",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas payments API runs on Node.js 20 with Fastify 4 as the HTTP framework.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A02",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "El API de pagos Atlas está escrito con Fastify sobre Node 20.",
+        "role": "para",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A03",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas uses PostgreSQL 16 in production, hosted on AWS RDS in us-east-1.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A04",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas staging uses PostgreSQL 15 on a single db.t4g.medium RDS instance.",
+        "role": "near",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A05",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas connects to Postgres through PgBouncer in transaction pooling mode with PGBOUNCER_POOL_SIZE=40.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A06",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas does NOT use Redis; idempotency keys are stored in the Postgres table idempotency_keys.",
+        "role": "neg",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A25",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "There is no Redis anywhere in the Atlas stack: idempotency is handled inside Postgres.",
+        "role": "para",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A07",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Stripe webhooks for Atlas are verified with the signing secret stored in AWS Secrets Manager under atlas/stripe-webhook.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A24",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "The Atlas sandbox environment uses Stripe test-mode keys stored in AWS Secrets Manager under atlas/stripe-test.",
+        "role": "near",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A08",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas pins the Stripe API version to 2023-10-16.",
+        "role": "super",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/stripe-api-version",
+        "state": "superseded"
+      },
+      {
+        "label": "A08n",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas pins the Stripe API version to 2024-06-20 since the October upgrade.",
+        "role": "update",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/stripe-api-version",
+        "state": "active"
+      },
+      {
+        "label": "A09",
+        "kind": "decision",
+        "project": "atlas",
+        "text": "Decision: Atlas retries failed card charges at most 3 times with exponential backoff (1 min, 10 min, 1 h).",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A10",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas p95 latency SLO for POST /charges is 300 ms.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A17",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas p95 latency SLO for GET /balances is 120 ms.",
+        "role": "near",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A11",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas on-call rotation is managed in PagerDuty schedule ATLAS-PRIMARY with the weekly handoff on Mondays.",
+        "role": "super",
+        "scopeRef": "atlas",
+        "state": "superseded"
+      },
+      {
+        "label": "A11n",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas on-call rotation moved to the Opsgenie schedule atlas-oncall with the weekly handoff on Wednesdays.",
+        "role": "update",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A12",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas exposes a legacy SOAP endpoint /legacy/soap/refunds for the bank partner Banco Sur.",
+        "role": "forgot",
+        "scopeRef": "atlas",
+        "state": "forgotten"
+      },
+      {
+        "label": "A13",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "En Atlas los montos se guardan como enteros en centavos (BIGINT), nunca como float.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A14",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas error ATL-4521 means the card issuer declined the 3-D Secure challenge.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A15",
+        "kind": "decision",
+        "project": "atlas",
+        "text": "Decisión: Atlas emite reembolsos parciales sólo desde el panel de backoffice, no desde la API pública.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A16",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas currency conversion uses rates from the ECB feed refreshed every 6 hours.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A18",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "The Atlas OpenAPI spec lives in docs/openapi/atlas.yaml and is published to Stoplight on every merge to main.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A19",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas uses Prisma ORM 5 for database access; raw SQL is allowed only in reporting queries.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A20",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas registra logs en formato JSON con pino y los envía a Datadog.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A21",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas feature flags are evaluated with Unleash, self-hosted at flags.atlas.internal.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A22",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas idempotency keys expire after 24 hours.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A23",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "Atlas supports the currencies ARS, BRL, MXN, USD and EUR.",
+        "role": "base",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "B01",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "La app Borealis está hecha con React Native 0.74 y Expo SDK 51.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B02",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "The Borealis mobile app is built on Expo SDK 51 (React Native 0.74).",
+        "role": "para",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B03",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis usa Zustand para el estado global; Redux fue descartado.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B04",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis NO usa Firebase; las notificaciones push van por OneSignal.",
+        "role": "neg",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B05",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis soporta como mínimo iOS 15.",
+        "role": "super",
+        "scopeRef": "borealis",
+        "topicKey": "borealis/min-ios",
+        "state": "superseded"
+      },
+      {
+        "label": "B05n",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis soporta como mínimo iOS 16 desde la versión 3.2 de la app.",
+        "role": "update",
+        "scopeRef": "borealis",
+        "topicKey": "borealis/min-ios",
+        "state": "active"
+      },
+      {
+        "label": "B06",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Los builds de Borealis se hacen con EAS Build y se publican en TestFlight cada viernes.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B07",
+        "kind": "decision",
+        "project": "borealis",
+        "text": "Decisión: Borealis guarda el token de sesión en SecureStore, nunca en AsyncStorage.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B08",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "La versión actual de Borealis en la App Store es la 3.4.1 (build 412).",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B09",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "La versión actual de Borealis en Google Play es la 3.4.0 (versionCode 409).",
+        "role": "near",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B10",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis deep links use the scheme borealis:// and universal links on app.borealis.io.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B11",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis tenía un feature flag 'nuevo_checkout' controlado desde LaunchDarkly.",
+        "role": "forgot",
+        "scopeRef": "borealis",
+        "state": "forgotten"
+      },
+      {
+        "label": "B12",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "La analítica de Borealis va a Amplitude con el proyecto 'borealis-prod'.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B13",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "El diseñador principal de Borealis es Martín Quiroga.",
+        "role": "super",
+        "scopeRef": "borealis",
+        "state": "superseded"
+      },
+      {
+        "label": "B13n",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "La diseñadora principal de Borealis es Lucía Ferrer desde agosto.",
+        "role": "update",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B14",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis usa i18next con los idiomas es-AR, es-MX y pt-BR.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B15",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "The Borealis crash-free sessions target is 99.5%, measured in Sentry.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B16",
+        "kind": "decision",
+        "project": "borealis",
+        "text": "Decision: Borealis dropped Android 8 support; minSdkVersion is 28.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B22",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "The minimum Android version supported by Borealis is Android 9 (API level 28).",
+        "role": "para",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B17",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "El mapa de Borealis usa react-native-maps con Google Maps en Android y Apple Maps en iOS.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B18",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis uses TanStack Query v5 (React Query) for server state.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B19",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis tiene 38 pantallas y la navegación se hace con Expo Router.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B20",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "Borealis over-the-air updates are shipped with EAS Update on the production channel.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B21",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "El onboarding de Borealis pide permiso de notificaciones recién en la tercera pantalla.",
+        "role": "base",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "B23",
+        "kind": "fact",
+        "project": "borealis",
+        "text": "The Borealis web companion is built with Next.js 14.",
+        "role": "near",
+        "scopeRef": "borealis",
+        "state": "active"
+      },
+      {
+        "label": "C01",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus pipelines are orchestrated with Apache Airflow 2.9 running on Cloud Composer.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C02",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus orquesta sus pipelines con Airflow (versión 2.9) en Cloud Composer.",
+        "role": "para",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C03",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus warehouse is BigQuery; the main dataset is cygnus_prod.analytics.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C23",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus dev environment uses the BigQuery dataset cygnus_dev.analytics.",
+        "role": "near",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C04",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus nightly ETL DAG runs at 02:00 UTC.",
+        "role": "super",
+        "scopeRef": "cygnus",
+        "topicKey": "cygnus/nightly-schedule",
+        "state": "superseded"
+      },
+      {
+        "label": "C04n",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus nightly ETL DAG runs at 04:30 UTC to avoid the BigQuery slot contention window.",
+        "role": "update",
+        "scopeRef": "cygnus",
+        "topicKey": "cygnus/nightly-schedule",
+        "state": "active"
+      },
+      {
+        "label": "C05",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus does NOT use Spark; all transformations run as dbt models inside BigQuery.",
+        "role": "neg",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C24",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus no corre Spark: todo se transforma con dbt dentro de BigQuery.",
+        "role": "para",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C06",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus dbt project uses dbt-core 1.8 with the dbt-bigquery adapter.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C07",
+        "kind": "decision",
+        "project": "cygnus",
+        "text": "Decision: Cygnus partitions every fact table by event_date and clusters it by customer_id.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C08",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus raw events land in the GCS bucket gs://cygnus-raw-events with a 30-day lifecycle deletion.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C09",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus processed exports land in gs://cygnus-exports with 365-day retention.",
+        "role": "near",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C10",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus data quality checks use Great Expectations suites stored in quality/expectations.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C11",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus ingests Salesforce data through a Fivetran connector named sf_prod.",
+        "role": "forgot",
+        "scopeRef": "cygnus",
+        "state": "forgotten"
+      },
+      {
+        "label": "C12",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "El DAG de Cygnus 'billing_daily' falla si la tabla payments_ledger de Atlas no se exportó antes de las 03:00 UTC.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C13",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus Looker dashboards read only from the BigQuery dataset cygnus_prod.marts.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C14",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus BigQuery monthly budget alert is set at 2,000 USD.",
+        "role": "super",
+        "scopeRef": "cygnus",
+        "state": "superseded"
+      },
+      {
+        "label": "C14n",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus BigQuery monthly budget alert is set at 3,500 USD.",
+        "role": "update",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C15",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus PII columns are tokenized with Cloud DLP before landing in analytics.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C16",
+        "kind": "decision",
+        "project": "cygnus",
+        "text": "Decisión: en Cygnus los modelos dbt incrementales usan merge por unique_key, no insert_overwrite.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C17",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus Airflow pool bq_heavy limits concurrent heavy BigQuery tasks to 4.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C18",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus streaming ingestion uses Pub/Sub topics prefixed with cyg-.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C19",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus tiene 214 modelos dbt y 37 DAGs activos.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C20",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus SLA: the analytics marts must be fresh by 07:00 UTC every day.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C21",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "The Cygnus Airflow service account is cygnus-airflow@cygnus-prod.iam.gserviceaccount.com.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "C22",
+        "kind": "fact",
+        "project": "cygnus",
+        "text": "Cygnus uses SQLFluff with the bigquery dialect to lint dbt SQL.",
+        "role": "base",
+        "scopeRef": "cygnus",
+        "state": "active"
+      },
+      {
+        "label": "D01",
+        "kind": "fact",
+        "project": "delta",
+        "text": "El portal de RRHH Delta está hecho en Django 5.0 con Python 3.12.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D02",
+        "kind": "fact",
+        "project": "delta",
+        "text": "The Delta HR portal backend is Django 5 on Python 3.12.",
+        "role": "para",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D03",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta usa Celery con RabbitMQ como broker para las tareas asíncronas.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D04",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta NO usa Kafka; la integración con la nómina es por un SFTP diario.",
+        "role": "neg",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D05",
+        "kind": "fact",
+        "project": "delta",
+        "text": "En Delta el cierre de nómina es el día 25 de cada mes.",
+        "role": "super",
+        "scopeRef": "delta",
+        "topicKey": "delta/payroll-cutoff",
+        "state": "superseded"
+      },
+      {
+        "label": "D05n",
+        "kind": "fact",
+        "project": "delta",
+        "text": "En Delta el cierre de nómina pasó al día 20 de cada mes a partir de 2026.",
+        "role": "update",
+        "scopeRef": "delta",
+        "topicKey": "delta/payroll-cutoff",
+        "state": "active"
+      },
+      {
+        "label": "D06",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta autentica a los empleados con SSO de Azure AD (Entra ID) vía SAML.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D07",
+        "kind": "decision",
+        "project": "delta",
+        "text": "Decisión: Delta guarda los recibos de sueldo en S3 con cifrado SSE-KMS y URLs prefirmadas de 15 minutos.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D08",
+        "kind": "fact",
+        "project": "delta",
+        "text": "El límite de días de vacaciones que se pueden arrastrar en Delta es 10 por año.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D09",
+        "kind": "fact",
+        "project": "delta",
+        "text": "El límite de días de home office en Delta es 2 por semana.",
+        "role": "near",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D10",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta exports headcount reports to the finance team every Monday at 09:00 ART.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D11",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta tenía integración con el reloj biométrico ZKTeco modelo K40.",
+        "role": "forgot",
+        "scopeRef": "delta",
+        "state": "forgotten"
+      },
+      {
+        "label": "D12",
+        "kind": "fact",
+        "project": "delta",
+        "text": "En Delta el legajo de cada empleado se identifica con el campo employee_code de 6 dígitos.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D13",
+        "kind": "fact",
+        "project": "delta",
+        "text": "La product owner de Delta es Carla Benítez.",
+        "role": "super",
+        "scopeRef": "delta",
+        "state": "superseded"
+      },
+      {
+        "label": "D13n",
+        "kind": "fact",
+        "project": "delta",
+        "text": "El product owner de Delta es Diego Salvatierra desde septiembre.",
+        "role": "update",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D14",
+        "kind": "fact",
+        "project": "delta",
+        "text": "The Delta Django admin is only reachable through the VPN at admin.delta.internal.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D15",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta usa django-simple-history para auditar los cambios del modelo Employee.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D16",
+        "kind": "decision",
+        "project": "delta",
+        "text": "Decision: Delta stores dates in UTC and converts to America/Argentina/Buenos_Aires only in templates.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D17",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Los tests de Delta corren con pytest-django y la cobertura mínima exigida en CI es 85%.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D18",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta uses PostgreSQL 14 as its database, separate from the Atlas cluster.",
+        "role": "near",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D19",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta envía los emails transaccionales con Amazon SES desde no-reply@delta.example.com.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D20",
+        "kind": "fact",
+        "project": "delta",
+        "text": "En Delta el frontend es HTMX con plantillas Django, no React.",
+        "role": "neg",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D21",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta had 1,240 active employees loaded as of September.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D22",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta calcula las horas extra al 50% en días hábiles y al 100% en feriados.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "D23",
+        "kind": "fact",
+        "project": "delta",
+        "text": "Delta staging se despliega en Heroku; producción corre en AWS ECS.",
+        "role": "base",
+        "scopeRef": "delta",
+        "state": "active"
+      },
+      {
+        "label": "E01",
+        "kind": "fact",
+        "project": "eos",
+        "text": "The Eos platform runs Kubernetes 1.30 on AWS EKS in us-east-1 and sa-east-1.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E02",
+        "kind": "fact",
+        "project": "eos",
+        "text": "La plataforma Eos corre sobre EKS (Kubernetes 1.30) en dos regiones: us-east-1 y sa-east-1.",
+        "role": "para",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E23",
+        "kind": "fact",
+        "project": "eos",
+        "text": "The Eos staging cluster runs Kubernetes 1.31 to test upgrades early.",
+        "role": "near",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E03",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos infrastructure is defined in Terraform 1.8 with state in the S3 bucket eos-tfstate and DynamoDB locking.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E04",
+        "kind": "fact",
+        "project": "eos",
+        "text": "The Eos ingress controller is ingress-nginx.",
+        "role": "super",
+        "scopeRef": "eos",
+        "topicKey": "eos/ingress",
+        "state": "superseded"
+      },
+      {
+        "label": "E04n",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos replaced ingress-nginx with the AWS Load Balancer Controller for all ingress.",
+        "role": "update",
+        "scopeRef": "eos",
+        "topicKey": "eos/ingress",
+        "state": "active"
+      },
+      {
+        "label": "E05",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos does NOT use Helm for in-house services; they are deployed with Kustomize overlays via Argo CD.",
+        "role": "neg",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E06",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos deploys with Argo CD; the app-of-apps repository is eos-gitops.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E07",
+        "kind": "decision",
+        "project": "eos",
+        "text": "Decision: Eos requires every container image to be signed with cosign before admission.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E08",
+        "kind": "fact",
+        "project": "eos",
+        "text": "The Eos observability stack is Grafana, Prometheus and Loki; traces go to Tempo.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E09",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos log retention in Loki is 14 days; metrics retention in Prometheus is 30 days.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E10",
+        "kind": "fact",
+        "project": "eos",
+        "text": "En Eos los nodos de producción son instancias m7g.xlarge (Graviton) gestionadas con Karpenter.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E11",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos has a bastion host bastion.eos.internal reachable over SSH on port 2222.",
+        "role": "forgot",
+        "scopeRef": "eos",
+        "state": "forgotten"
+      },
+      {
+        "label": "E12",
+        "kind": "fact",
+        "project": "eos",
+        "text": "The Eos production cluster autoscaler maximum is 40 nodes.",
+        "role": "super",
+        "scopeRef": "eos",
+        "state": "superseded"
+      },
+      {
+        "label": "E12n",
+        "kind": "fact",
+        "project": "eos",
+        "text": "The Eos production cluster maximum is 60 nodes after the Karpenter migration.",
+        "role": "update",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E13",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Los secretos de Eos se sincronizan desde AWS Secrets Manager con External Secrets Operator.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E14",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos DNS zones are managed in Route 53; the public zone is eos.cloud.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E15",
+        "kind": "decision",
+        "project": "eos",
+        "text": "Decisión: Eos no permite Services de tipo LoadBalancer públicos fuera del namespace ingress.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E16",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos EBS volumes are backed up daily with AWS Backup and kept for 35 days.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E17",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos uses Renovate to bump container base images every Tuesday.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E18",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos Terraform modules are versioned in the eos-modules repo and pinned by git tag.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E19",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos tiene un presupuesto mensual de AWS de 48.000 USD.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E20",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos uses Kyverno policies to block privileged pods.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E21",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos cluster upgrades happen in a maintenance window on the first Sunday of each month.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "E22",
+        "kind": "fact",
+        "project": "eos",
+        "text": "Eos usa cert-manager con Let's Encrypt para los certificados de los servicios.",
+        "role": "base",
+        "scopeRef": "eos",
+        "state": "active"
+      },
+      {
+        "label": "X01",
+        "kind": "fact",
+        "project": "team",
+        "text": "The guest Wi-Fi network at the office is called Visitantes-5G.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X02",
+        "kind": "fact",
+        "project": "team",
+        "text": "Team lunch on Fridays is ordered from the Thai place on Avenida Corrientes.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X03",
+        "kind": "fact",
+        "project": "team",
+        "text": "Nico prefers dark mode in every editor.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X04",
+        "kind": "fact",
+        "project": "team",
+        "text": "La reunión de planificación semanal es los lunes a las 10:00.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X05",
+        "kind": "fact",
+        "project": "team",
+        "text": "The company holiday calendar follows Argentina's national holidays.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X06",
+        "kind": "fact",
+        "project": "team",
+        "text": "Receta: las mejores empanadas llevan comino y un poco de pimentón.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X07",
+        "kind": "fact",
+        "project": "team",
+        "text": "The marketing site is built with Astro and deployed on Netlify.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X08",
+        "kind": "fact",
+        "project": "team",
+        "text": "El equipo de soporte usa Zendesk para los tickets de clientes.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X09",
+        "kind": "fact",
+        "project": "team",
+        "text": "Quarterly OKRs are tracked in a Notion database called OKR Tracker.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X10",
+        "kind": "fact",
+        "project": "team",
+        "text": "The design system Figma file is called Aurora UI Kit.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X11",
+        "kind": "fact",
+        "project": "team",
+        "text": "Vacation requests must be approved by the direct manager at least two weeks in advance.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X12",
+        "kind": "fact",
+        "project": "team",
+        "text": "La contraseña del Wi-Fi de la oficina se cambia el primer día de cada mes.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X13",
+        "kind": "fact",
+        "project": "team",
+        "text": "The coffee machine on the 3rd floor is broken until further notice.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X14",
+        "kind": "fact",
+        "project": "team",
+        "text": "Our GitHub organization enforces 2FA for all members.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X15",
+        "kind": "fact",
+        "project": "team",
+        "text": "El repositorio de documentación interna se llama handbook y está en GitLab.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X16",
+        "kind": "fact",
+        "project": "team",
+        "text": "Code reviews require at least one approval from a CODEOWNER.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X17",
+        "kind": "fact",
+        "project": "team",
+        "text": "The legal entity used for invoices in Brazil is Atlas Pagamentos Ltda.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X18",
+        "kind": "fact",
+        "project": "team",
+        "text": "El offsite anual va a ser en Bariloche en marzo.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X19",
+        "kind": "fact",
+        "project": "team",
+        "text": "Nico writes commit messages in English.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X20",
+        "kind": "fact",
+        "project": "team",
+        "text": "El canal de incidentes en Slack es #incidentes-prod.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X21",
+        "kind": "fact",
+        "project": "team",
+        "text": "The company's preferred laptop vendor for new hires is Lenovo ThinkPad.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "X22",
+        "kind": "fact",
+        "project": "team",
+        "text": "El cumpleaños de Sofía del equipo de datos es el 3 de noviembre.",
+        "role": "distractor",
+        "state": "active"
+      },
+      {
+        "label": "P01",
+        "kind": "fact",
+        "project": "me",
+        "text": "I prefer to receive code review comments in Spanish.",
+        "role": "personal",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "P02",
+        "kind": "fact",
+        "project": "me",
+        "text": "My local development machine is a MacBook Pro M4 with 48 GB of RAM.",
+        "role": "personal",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "P03",
+        "kind": "fact",
+        "project": "me",
+        "text": "I usually work from 9:00 to 18:00 Argentina time.",
+        "role": "personal",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "P04",
+        "kind": "fact",
+        "project": "me",
+        "text": "Prefiero que los resúmenes técnicos sean en bullets cortos.",
+        "role": "personal",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "P05",
+        "kind": "fact",
+        "project": "me",
+        "text": "My GitHub handle is nico-dev.",
+        "role": "personal",
+        "owner": "user",
+        "state": "active"
+      }
+    ],
+    "queries": [
+      {
+        "id": "q01",
+        "text": "Which web framework does the Atlas payments API use?",
+        "relevant": ["A01", "A02"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q02",
+        "text": "What Postgres version is Atlas production on?",
+        "relevant": ["A03"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q03",
+        "text": "How does Atlas pool its database connections?",
+        "relevant": ["A05"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q04",
+        "text": "Does Atlas use Redis?",
+        "relevant": ["A06", "A25"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q05",
+        "text": "Which Stripe API version is Atlas pinned to?",
+        "relevant": ["A08n"],
+        "stale": ["A08"],
+        "type": "updated"
+      },
+      {
+        "id": "q06",
+        "text": "How many times do we retry a failed card charge in Atlas?",
+        "relevant": ["A09"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q07",
+        "text": "What is the latency SLO for creating charges in Atlas?",
+        "relevant": ["A10"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q08",
+        "text": "Who handles on-call for Atlas and in which tool?",
+        "relevant": ["A11n"],
+        "stale": ["A11"],
+        "type": "updated"
+      },
+      {
+        "id": "q09",
+        "text": "ATL-4521",
+        "relevant": ["A14"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q10",
+        "text": "Where is the Atlas OpenAPI spec kept?",
+        "relevant": ["A18"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q11",
+        "text": "¿Cómo guardamos los montos de dinero en Atlas?",
+        "relevant": ["A13"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q12",
+        "text": "¿Qué framework HTTP usa la API de pagos Atlas?",
+        "relevant": ["A01", "A02"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q13",
+        "text": "¿Atlas tiene un endpoint SOAP para reembolsos de Banco Sur?",
+        "relevant": [],
+        "stale": ["A12"],
+        "type": "negative"
+      },
+      {
+        "id": "q14",
+        "text": "Which feature flag service does Atlas use?",
+        "relevant": ["A21"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q15",
+        "text": "What currencies does Atlas support?",
+        "relevant": ["A23"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q16",
+        "text": "¿Con qué tecnología está hecha la app Borealis?",
+        "relevant": ["B01", "B02"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q17",
+        "text": "Which state management library does Borealis use?",
+        "relevant": ["B03"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q18",
+        "text": "How are push notifications sent in Borealis?",
+        "relevant": ["B04"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q19",
+        "text": "¿Cuál es la versión mínima de iOS que soporta Borealis?",
+        "relevant": ["B05n"],
+        "stale": ["B05"],
+        "type": "updated"
+      },
+      {
+        "id": "q20",
+        "text": "¿Dónde se guarda el token de sesión en la app móvil?",
+        "relevant": ["B07"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q21",
+        "text": "What is the current App Store version of Borealis?",
+        "relevant": ["B08"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q22",
+        "text": "¿Quién es la diseñadora principal de Borealis?",
+        "relevant": ["B13n"],
+        "stale": ["B13"],
+        "type": "updated"
+      },
+      {
+        "id": "q23",
+        "text": "What is the minimum Android version for Borealis?",
+        "relevant": ["B16", "B22"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q24",
+        "text": "¿Qué flag de LaunchDarkly controla el nuevo checkout de Borealis?",
+        "relevant": [],
+        "stale": ["B11"],
+        "type": "negative"
+      },
+      {
+        "id": "q25",
+        "text": "Which analytics tool does the mobile app send events to?",
+        "relevant": ["B12"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q26",
+        "text": "borealis://",
+        "relevant": ["B10"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q27",
+        "text": "¿Qué idiomas soporta Borealis?",
+        "relevant": ["B14"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q28",
+        "text": "What orchestrates the Cygnus data pipelines?",
+        "relevant": ["C01", "C02"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q29",
+        "text": "At what time does the Cygnus nightly ETL run?",
+        "relevant": ["C04n"],
+        "stale": ["C04"],
+        "type": "updated"
+      },
+      {
+        "id": "q30",
+        "text": "¿Cygnus usa Spark?",
+        "relevant": ["C05", "C24"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q31",
+        "text": "How are Cygnus fact tables partitioned?",
+        "relevant": ["C07"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q32",
+        "text": "Where do Cygnus raw events land and how long are they kept?",
+        "relevant": ["C08"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q33",
+        "text": "¿Cuál es el umbral de la alerta de presupuesto de BigQuery en Cygnus?",
+        "relevant": ["C14n"],
+        "stale": ["C14"],
+        "type": "updated"
+      },
+      {
+        "id": "q34",
+        "text": "How do we ingest Salesforce data into Cygnus?",
+        "relevant": [],
+        "stale": ["C11"],
+        "type": "negative"
+      },
+      {
+        "id": "q35",
+        "text": "Why does the billing_daily DAG fail?",
+        "relevant": ["C12"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q36",
+        "text": "bq_heavy",
+        "relevant": ["C17"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q37",
+        "text": "Which incremental strategy do the Cygnus dbt models use?",
+        "relevant": ["C16"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q38",
+        "text": "Which dataset should the Looker dashboards read from?",
+        "relevant": ["C13"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q39",
+        "text": "¿En qué está hecho el portal de RRHH Delta?",
+        "relevant": ["D01", "D02"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q40",
+        "text": "¿Qué día es el cierre de nómina en Delta?",
+        "relevant": ["D05n"],
+        "stale": ["D05"],
+        "type": "updated"
+      },
+      {
+        "id": "q41",
+        "text": "How do employees log into Delta?",
+        "relevant": ["D06"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q42",
+        "text": "¿Dónde guardamos los recibos de sueldo de Delta?",
+        "relevant": ["D07"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q43",
+        "text": "Who is the product owner of the Delta HR portal?",
+        "relevant": ["D13n"],
+        "stale": ["D13"],
+        "type": "updated"
+      },
+      {
+        "id": "q44",
+        "text": "¿Cuántos días de vacaciones se pueden arrastrar al año siguiente en Delta?",
+        "relevant": ["D08"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q45",
+        "text": "¿Delta se integra con un reloj biométrico?",
+        "relevant": [],
+        "stale": ["D11"],
+        "type": "negative"
+      },
+      {
+        "id": "q46",
+        "text": "Does Delta use Kafka?",
+        "relevant": ["D04"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q47",
+        "text": "employee_code",
+        "relevant": ["D12"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q48",
+        "text": "What is the minimum test coverage required in Delta CI?",
+        "relevant": ["D17"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q49",
+        "text": "¿Cómo se calculan las horas extra en Delta?",
+        "relevant": ["D22"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q50",
+        "text": "Which Kubernetes version does Eos production run?",
+        "relevant": ["E01", "E02"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q51",
+        "text": "What ingress controller does Eos use?",
+        "relevant": ["E04n"],
+        "stale": ["E04"],
+        "type": "updated"
+      },
+      {
+        "id": "q52",
+        "text": "¿Eos usa Helm para desplegar los servicios propios?",
+        "relevant": ["E05"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q53",
+        "text": "Where is the Terraform state for Eos stored?",
+        "relevant": ["E03"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q54",
+        "text": "¿Cuál es el máximo de nodos del cluster de producción de Eos?",
+        "relevant": ["E12n"],
+        "stale": ["E12"],
+        "type": "updated"
+      },
+      {
+        "id": "q55",
+        "text": "How do we SSH into the Eos bastion host?",
+        "relevant": [],
+        "stale": ["E11"],
+        "type": "negative"
+      },
+      {
+        "id": "q56",
+        "text": "How are container image signatures enforced in Eos?",
+        "relevant": ["E07"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q57",
+        "text": "How long are logs kept in Loki?",
+        "relevant": ["E09"],
+        "stale": [],
+        "type": "nl_en"
+      },
+      {
+        "id": "q58",
+        "text": "¿Qué tipo de instancias usan los nodos de producción de Eos?",
+        "relevant": ["E10"],
+        "stale": [],
+        "type": "nl_es"
+      },
+      {
+        "id": "q59",
+        "text": "m7g.xlarge",
+        "relevant": ["E10"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q60",
+        "text": "eos-tfstate",
+        "relevant": ["E03"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q61",
+        "text": "How are secrets synced into the Eos clusters?",
+        "relevant": ["E13"],
+        "stale": [],
+        "type": "cross"
+      },
+      {
+        "id": "q62",
+        "text": "PGBOUNCER_POOL_SIZE",
+        "relevant": ["A05"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q63",
+        "text": "OneSignal",
+        "relevant": ["B04"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q64",
+        "text": "cosign",
+        "relevant": ["E07"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q65",
+        "text": "3.4.1",
+        "relevant": ["B08"],
+        "stale": [],
+        "type": "kw"
+      },
+      {
+        "id": "q66",
+        "text": "What laptop do I use for development?",
+        "relevant": ["P02"],
+        "stale": [],
+        "type": "personal"
+      },
+      {
+        "id": "q67",
+        "text": "¿En qué idioma prefiero los comentarios de code review?",
+        "relevant": ["P01"],
+        "stale": [],
+        "type": "personal"
+      },
+      {
+        "id": "n01",
+        "text": "Which GraphQL library does Atlas use?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n02",
+        "text": "What is the Borealis Apple Watch app written in?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n03",
+        "text": "¿Qué versión de Snowflake usa Cygnus?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n04",
+        "text": "Who is the CTO of the company?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n05",
+        "text": "What is the uptime SLA of the Delta mobile app?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n06",
+        "text": "¿Cuál es la política de retención de backups de MongoDB en Eos?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n07",
+        "text": "How do we rotate the Datadog API key for Cygnus?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n08",
+        "text": "What is the parental leave policy duration?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n09",
+        "text": "¿Qué framework usa Borealis para los tests end-to-end?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n10",
+        "text": "Which CDN serves the Atlas checkout widget?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n11",
+        "text": "What programming language is the Eos command-line tool written in?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "n12",
+        "text": "¿Cuándo es el próximo hackathon de la empresa?",
+        "relevant": [],
+        "stale": [],
+        "type": "negative"
+      },
+      {
+        "id": "o01",
+        "text": "What is the capital of Australia?",
+        "relevant": [],
+        "stale": [],
+        "type": "offtopic"
+      },
+      {
+        "id": "o02",
+        "text": "¿Cuál es la receta del flan casero?",
+        "relevant": [],
+        "stale": [],
+        "type": "offtopic"
+      },
+      {
+        "id": "o03",
+        "text": "How many moons does Jupiter have?",
+        "relevant": [],
+        "stale": [],
+        "type": "offtopic"
+      },
+      {
+        "id": "o04",
+        "text": "¿Quién ganó el Mundial de fútbol de 1986?",
+        "relevant": [],
+        "stale": [],
+        "type": "offtopic"
+      }
+    ]
+  },
+  "agentsim": {
+    "memories": [
+      {
+        "label": "L.runtime.node20",
+        "key": "L.runtime.node20",
+        "kind": "decision",
+        "project": "ledgerly",
+        "title": "payments-api",
+        "body": "ledgerly: payments-api is a Node 20 Fastify service backed by Postgres 15.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "L.kafka.dropped",
+        "key": "L.kafka.dropped",
+        "kind": "decision",
+        "project": "ledgerly",
+        "title": "ledgerly: drop Kafka for payments-api events; use a Postgres transactional outbox polled by billing-worker",
+        "body": "We dropped Kafka for ledgerly's payments-api domain events. Rationale: the team is two engineers and could not operate a Kafka cluster on-call; the outbox gives exactly-once publication inside the same Postgres transaction as the payment write. Alternatives considered: Kafka on MSK (ops burden), SQS (no ordering per merchant). Chosen: transactional outbox table payments_outbox polled by billing-worker every 2s.",
+        "scopeRef": "ledgerly",
+        "topicKey": "ledgerly/eventing",
+        "state": "active"
+      },
+      {
+        "label": "L.money.cents",
+        "key": "L.money.cents",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: payments-api stores all money amounts as integer minor units (cents) in bigint columns, never as floats.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "L.owner.marta",
+        "key": "L.owner.marta",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: Marta Ruiz owns the billing domain (billing-worker and invoices) and approves schema changes to invoice tables.",
+        "scopeRef": "ledgerly",
+        "topicKey": "ledgerly/billing-owner",
+        "state": "superseded"
+      },
+      {
+        "label": "U.pref.vitest",
+        "key": "U.pref.vitest",
+        "kind": "fact",
+        "project": "personal",
+        "text": "Nico prefers Vitest over Jest for TypeScript projects.",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "T.expo51",
+        "key": "T.expo51",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: the Tidepool mobile app is built with Expo SDK 51 and React Native 0.74.",
+        "scopeRef": "tidepool",
+        "topicKey": "tidepool/expo-sdk",
+        "state": "superseded"
+      },
+      {
+        "label": "T.zustand",
+        "key": "T.zustand",
+        "kind": "decision",
+        "project": "tidepool",
+        "title": "tidepool: use Zustand instead of Redux Toolkit for client state in the mobile app",
+        "body": "Chosen Zustand for the Tidepool mobile app's client state. Rationale: the stores are small, and Redux Toolkit's boilerplate (slices, provider, typed hooks) slowed down onboarding of the two new mobile devs. Server state stays in TanStack Query. Alternatives considered: Redux Toolkit, Jotai.",
+        "scopeRef": "tidepool",
+        "topicKey": "tidepool/state-management",
+        "state": "active"
+      },
+      {
+        "label": "T.folders",
+        "key": "T.folders",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: mobile app code is organized by feature folders under src/features/<feature>, each with its own components, hooks and api files.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "T.sofia",
+        "key": "T.sofia",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: Sofía Lind is the design lead and signs off on any new screen in the mobile app before it ships.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "A.airflow",
+        "key": "A.airflow",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: the Atlas data platform orchestrates its pipelines with Airflow 2.7 on Amazon MWAA.",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/orchestrator",
+        "state": "superseded"
+      },
+      {
+        "label": "A.cdc.redpanda",
+        "key": "A.cdc.redpanda",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Atlas ingests change data capture from the core Postgres databases through Debezium into a Kafka-compatible Redpanda cluster.",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A.dbt.naming",
+        "key": "A.dbt.naming",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: dbt staging models are prefixed stg_, intermediate models int_, and marts are named fct_ or dim_.",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A.priya",
+        "key": "A.priya",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Priya Nair is the data platform lead and owns the Snowflake warehouse cost budget.",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/lead",
+        "state": "superseded"
+      },
+      {
+        "label": "L.deploy.fly",
+        "key": "L.deploy.fly",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: payments-api deploys to Fly.io through the GitHub Actions workflow deploy.yml (fly deploy) on every merge to main.",
+        "scopeRef": "ledgerly",
+        "topicKey": "ledgerly/payments-api/deploy",
+        "state": "superseded"
+      },
+      {
+        "label": "L.deploy.approval",
+        "key": "L.deploy.approval",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: production deploys of payments-api need a manual approval from the #payments-oncall rotation in the GitHub environment 'production'.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "L.fly.migration",
+        "key": "L.fly.migration",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: fly deploy of payments-api fails with 'release command failed' when a migration runs longer than 60s; long migrations must run first on a one-off Fly machine.",
+        "scopeRef": "ledgerly",
+        "state": "superseded"
+      },
+      {
+        "label": "T.e2e.detox",
+        "key": "T.e2e.detox",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: end-to-end tests for the mobile app use Detox running on the iOS simulator in CI.",
+        "scopeRef": "tidepool",
+        "topicKey": "tidepool/e2e",
+        "state": "superseded"
+      },
+      {
+        "label": "T.release.eas",
+        "key": "T.release.eas",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: mobile releases are built and submitted with EAS Build and EAS Submit; production builds use the 'production' profile in eas.json.",
+        "scopeRef": "tidepool",
+        "topicKey": "tidepool/release",
+        "state": "active"
+      },
+      {
+        "label": "T.jest",
+        "key": "T.jest",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: unit tests in the mobile app use Jest via the jest-expo preset, not Vitest, because the Expo preset only supports Jest.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "A.snowflake",
+        "key": "A.snowflake",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: the Atlas warehouse is Snowflake, database ANALYTICS, with one schema per dbt layer.",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/warehouse",
+        "state": "active"
+      },
+      {
+        "label": "A.dbt.deploy",
+        "key": "A.dbt.deploy",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: dbt changes deploy by merging to main; CI runs dbt build --select state:modified+ against a zero-copy Snowflake clone before the production job runs.",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/dbt-deploy",
+        "state": "active"
+      },
+      {
+        "label": "A.airflow.parse",
+        "key": "A.airflow.parse",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Airflow DAG files must not import dbt at module level, because the MWAA scheduler times out parsing DAGs that take longer than 30 seconds.",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "L.bug.doublecharge",
+        "key": "L.bug.doublecharge",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: payments-api double-charged customers on client retries because the idempotency key was looked up globally instead of per merchant; fixed by scoping the unique index to (merchant_id, idempotency_key).",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "L.stripe.2024",
+        "key": "L.stripe.2024",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: the Stripe API version for payments-api is pinned to 2024-06-20 in the Stripe client config.",
+        "scopeRef": "ledgerly",
+        "topicKey": "ledgerly/stripe-api-version",
+        "state": "superseded"
+      },
+      {
+        "label": "U.pref.regression",
+        "key": "U.pref.regression",
+        "kind": "fact",
+        "project": "personal",
+        "text": "Nico wants every bugfix PR to include a regression test that reproduces the bug before the fix.",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "T.bug.fcm",
+        "key": "T.bug.fcm",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: Android push notifications stopped arriving because the mobile app still used the legacy FCM server key; fixed by migrating to FCM HTTP v1 with a service-account JSON uploaded to EAS credentials.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "T.prebuild",
+        "key": "T.prebuild",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: running expo prebuild deletes manual edits in the android/ folder; native changes must go through config plugins in app.config.ts.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "A.dagster.why",
+        "key": "A.dagster.why",
+        "kind": "decision",
+        "project": "atlas",
+        "title": "atlas: migrate Atlas orchestration from Airflow on MWAA to Dagster",
+        "body": "Decision for the Atlas data platform: move orchestration from Airflow 2.7 on MWAA to Dagster. Rationale: Dagster's software-defined assets give column-level lineage that Airflow lacks, local development works without a scheduler, and MWAA cost about 1,900 USD/month for idle environments. Alternatives considered: staying on MWAA with Cosmos for dbt, Prefect. Dagster won on dbt asset integration.",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/orchestrator-decision",
+        "state": "active"
+      },
+      {
+        "label": "A.bug.refunds",
+        "key": "A.bug.refunds",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: fct_orders double-counted refunds because stg_refunds did not deduplicate Debezium update events; fixed by keeping the latest event per refund_id with qualify row_number().",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "L.bug.webhook",
+        "key": "L.bug.webhook",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: Stripe webhook signature verification in payments-api failed because Fastify parsed the JSON body before verification; the webhook route must read the raw body (addContentTypeParser with parseAs buffer).",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "L.money.cents#2",
+        "key": "L.money.cents",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: payments-api keeps money as integer cents in bigint columns, not floating point.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "L.runtime.node22",
+        "key": "L.runtime.node22",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: payments-api was upgraded to Node 22 LTS.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "T.e2e.maestro",
+        "key": "T.e2e.maestro",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: mobile end-to-end tests now use Maestro instead of Detox, because Detox was flaky on the Android emulator in CI; Maestro flows live in .maestro/.",
+        "scopeRef": "tidepool",
+        "topicKey": "tidepool/e2e",
+        "state": "active"
+      },
+      {
+        "label": "U.pref.smallpr",
+        "key": "U.pref.smallpr",
+        "kind": "fact",
+        "project": "personal",
+        "text": "Nico prefers small pull requests of under 400 changed lines.",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "A.dagster",
+        "key": "A.dagster",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Atlas pipelines now run on Dagster Cloud with a hybrid agent on EKS; Airflow on MWAA was decommissioned.",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/orchestrator",
+        "state": "active"
+      },
+      {
+        "label": "A.retention",
+        "key": "A.retention",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Redpanda topic retention for Atlas CDC topics is 7 days.",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "U.pref.ruff",
+        "key": "U.pref.ruff",
+        "kind": "fact",
+        "project": "personal",
+        "text": "Nico prefers Python code formatted with ruff format and linted with ruff, not black or flake8.",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "L.deploy.argocd",
+        "key": "L.deploy.argocd",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: payments-api no longer deploys to Fly.io; since the October migration it deploys to the shared EKS cluster through ArgoCD, which syncs the payments-api Helm chart from the infra-gitops repo.",
+        "scopeRef": "ledgerly",
+        "topicKey": "ledgerly/payments-api/deploy",
+        "state": "active"
+      },
+      {
+        "label": "L.deploy.howto",
+        "key": "L.deploy.howto",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: to deploy payments-api, bump the image tag in infra-gitops/apps/payments-api/values-prod.yaml and let ArgoCD sync; there is no manual fly deploy anymore.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "L.rename.invoicing",
+        "key": "L.rename.invoicing",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: billing-worker was renamed to invoicing-worker; the Kubernetes deployment, the Docker image and the Datadog service tag all use the name invoicing-worker.",
+        "scopeRef": "ledgerly",
+        "topicKey": "ledgerly/billing-worker-name",
+        "state": "active"
+      },
+      {
+        "label": "L.pg16",
+        "key": "L.pg16",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: payments-api runs Postgres 16 on RDS after the October upgrade from Postgres 15.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "T.expo52",
+        "key": "T.expo52",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: the mobile app was upgraded to Expo SDK 52 and React Native 0.76 with the New Architecture enabled.",
+        "scopeRef": "tidepool",
+        "topicKey": "tidepool/expo-sdk",
+        "state": "active"
+      },
+      {
+        "label": "T.ken",
+        "key": "T.ken",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: Ken Ito owns mobile QA and runs the release checklist before every App Store and Play Store submission.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "T.e2e.detox#2",
+        "key": "T.e2e.detox",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: Detox is used for the mobile app's end-to-end tests on the iOS simulator.",
+        "scopeRef": "tidepool",
+        "stale": true,
+        "state": "active"
+      },
+      {
+        "label": "A.dagster.deploy",
+        "key": "A.dagster.deploy",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Dagster code locations for Atlas deploy through the GitHub Actions workflow dagster-deploy.yml, which builds the image and runs dagster-cloud deployment update.",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A.terraform",
+        "key": "A.terraform",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Atlas production infrastructure (Snowflake roles, Dagster agent, Redpanda) is managed with Terraform in the atlas-infra repo, and terraform apply runs only through the Atlantis bot on PR comments.",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A.dbt18",
+        "key": "A.dbt18",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: the Atlas dbt project was upgraded from dbt-core 1.7 to dbt-core 1.8.",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/dbt-version",
+        "state": "active"
+      },
+      {
+        "label": "L.owner.diego",
+        "key": "L.owner.diego",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: Diego Ferrer took over ownership of the billing domain (invoicing-worker and invoices) from Marta Ruiz in October; schema changes to invoice tables now need Diego's approval.",
+        "scopeRef": "ledgerly",
+        "topicKey": "ledgerly/billing-owner",
+        "state": "active"
+      },
+      {
+        "label": "L.stripe.2025",
+        "key": "L.stripe.2025",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: the Stripe API version for payments-api was bumped to 2025-03-31 in the Stripe client config.",
+        "scopeRef": "ledgerly",
+        "topicKey": "ledgerly/stripe-api-version",
+        "state": "active"
+      },
+      {
+        "label": "L.kafka.msk",
+        "key": "L.kafka.msk",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: Kafka (Amazon MSK) was reintroduced only for the analytics export of payment events; the Postgres transactional outbox is still the mechanism for billing events.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "T.ota",
+        "key": "T.ota",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: JS-only hotfixes for the mobile app ship as OTA updates with EAS Update on the 'production' channel; native changes still require a store build.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "T.apiurl",
+        "key": "T.apiurl",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: the mobile app's API base URL comes from app.config.ts extra.apiUrl, set per EAS build profile.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "T.zustand#2",
+        "key": "T.zustand",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: client state in the mobile app is managed with Zustand stores.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "A.tomas",
+        "key": "A.tomas",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Tomás Vega replaced Priya Nair as the data platform lead and now owns the Snowflake warehouse cost budget.",
+        "scopeRef": "atlas",
+        "topicKey": "atlas/lead",
+        "state": "active"
+      },
+      {
+        "label": "A.wh",
+        "key": "A.wh",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: the Snowflake warehouse TRANSFORM_WH is sized MEDIUM with auto-suspend at 60 seconds to control cost.",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "L.owner.marta#2",
+        "key": "L.owner.marta",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: Marta Ruiz approves schema changes to invoice tables.",
+        "scopeRef": "ledgerly",
+        "stale": true,
+        "state": "active"
+      },
+      {
+        "label": "L.deploy.argocd#2",
+        "key": "L.deploy.argocd",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: payments-api is deployed by ArgoCD from the infra-gitops repo.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "L.runbook",
+        "key": "L.runbook",
+        "kind": "fact",
+        "project": "ledgerly",
+        "text": "ledgerly: the payments-api on-call runbook lives in Notion under Payments > Runbooks > payments-api.",
+        "scopeRef": "ledgerly",
+        "state": "active"
+      },
+      {
+        "label": "T.deeplinks",
+        "key": "T.deeplinks",
+        "kind": "fact",
+        "project": "tidepool",
+        "text": "tidepool: deep links use the scheme tidepool:// and universal links on links.tidepool.app, handled by expo-router.",
+        "scopeRef": "tidepool",
+        "state": "active"
+      },
+      {
+        "label": "U.pref.conventional",
+        "key": "U.pref.conventional",
+        "kind": "fact",
+        "project": "personal",
+        "text": "Nico wants commit messages to follow the Conventional Commits format.",
+        "owner": "user",
+        "state": "active"
+      },
+      {
+        "label": "A.dagster#2",
+        "key": "A.dagster",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Atlas uses Dagster for pipeline orchestration.",
+        "scopeRef": "atlas",
+        "state": "active"
+      },
+      {
+        "label": "A.backfill",
+        "key": "A.backfill",
+        "kind": "fact",
+        "project": "atlas",
+        "text": "atlas: Dagster backfills in Atlas must be launched with the partition range and the tag atlas/backfill=true so the cost dashboard can exclude them.",
+        "scopeRef": "atlas",
+        "state": "active"
+      }
+    ],
+    "queries": [
+      {
+        "id": "Q01",
+        "project": "ledgerly",
+        "text": "how do we deploy payments-api now?",
+        "relevant": ["L.deploy.argocd", "L.deploy.howto"],
+        "stale": ["L.deploy.fly", "L.fly.migration"]
+      },
+      {
+        "id": "Q02",
+        "project": "ledgerly",
+        "text": "why did we drop Kafka?",
+        "relevant": ["L.kafka.dropped"],
+        "stale": []
+      },
+      {
+        "id": "Q03",
+        "project": "ledgerly",
+        "text": "who owns billing and approves invoice table schema changes?",
+        "relevant": ["L.owner.diego"],
+        "stale": ["L.owner.marta"]
+      },
+      {
+        "id": "Q04",
+        "project": "ledgerly",
+        "text": "which Stripe API version is payments-api pinned to?",
+        "relevant": ["L.stripe.2025"],
+        "stale": ["L.stripe.2024"]
+      },
+      {
+        "id": "Q05",
+        "project": "ledgerly",
+        "text": "what Node version does payments-api run on?",
+        "relevant": ["L.runtime.node22"],
+        "stale": ["L.runtime.node20"]
+      },
+      {
+        "id": "Q06",
+        "project": "ledgerly",
+        "text": "what is the billing worker service called now in Kubernetes and Datadog?",
+        "relevant": ["L.rename.invoicing"],
+        "stale": []
+      },
+      {
+        "id": "Q07",
+        "project": "ledgerly",
+        "text": "customers got double charged on retries, have we seen this before?",
+        "relevant": ["L.bug.doublecharge"],
+        "stale": []
+      },
+      {
+        "id": "Q08",
+        "project": "ledgerly",
+        "text": "Stripe webhook signature verification is failing in payments-api",
+        "relevant": ["L.bug.webhook"],
+        "stale": []
+      },
+      {
+        "id": "Q09",
+        "project": "ledgerly",
+        "text": "how should I store money amounts in the payments-api database?",
+        "relevant": ["L.money.cents"],
+        "stale": []
+      },
+      {
+        "id": "Q10",
+        "project": "ledgerly",
+        "text": "what Postgres version does payments-api use?",
+        "relevant": ["L.pg16"],
+        "stale": ["L.runtime.node20"]
+      },
+      {
+        "id": "Q11",
+        "project": "ledgerly",
+        "text": "is Kafka used anywhere in ledgerly today?",
+        "relevant": ["L.kafka.msk"],
+        "stale": []
+      },
+      {
+        "id": "Q12",
+        "project": "ledgerly",
+        "text": "where is the payments-api on-call runbook?",
+        "relevant": ["L.runbook"],
+        "stale": []
+      },
+      {
+        "id": "Q13",
+        "project": "ledgerly",
+        "text": "do production deploys need an approval?",
+        "relevant": ["L.deploy.approval"],
+        "stale": []
+      },
+      {
+        "id": "Q14",
+        "project": "tidepool",
+        "text": "what do we use for mobile end-to-end tests?",
+        "relevant": ["T.e2e.maestro"],
+        "stale": ["T.e2e.detox"]
+      },
+      {
+        "id": "Q15",
+        "project": "tidepool",
+        "text": "which Expo SDK version is the mobile app on?",
+        "relevant": ["T.expo52"],
+        "stale": ["T.expo51"]
+      },
+      {
+        "id": "Q16",
+        "project": "tidepool",
+        "text": "how do we release the mobile app to the app stores?",
+        "relevant": ["T.release.eas"],
+        "stale": []
+      },
+      {
+        "id": "Q17",
+        "project": "tidepool",
+        "text": "Android push notifications are not arriving",
+        "relevant": ["T.bug.fcm"],
+        "stale": []
+      },
+      {
+        "id": "Q18",
+        "project": "tidepool",
+        "text": "which state management library does the mobile app use and why?",
+        "relevant": ["T.zustand"],
+        "stale": []
+      },
+      {
+        "id": "Q19",
+        "project": "tidepool",
+        "text": "who has to sign off on a new screen design?",
+        "relevant": ["T.sofia"],
+        "stale": []
+      },
+      {
+        "id": "Q20",
+        "project": "tidepool",
+        "text": "which test runner should I use for unit tests in the mobile app?",
+        "relevant": ["T.jest"],
+        "stale": ["U.pref.vitest"]
+      },
+      {
+        "id": "Q21",
+        "project": "tidepool",
+        "text": "can I edit files in the android folder directly?",
+        "relevant": ["T.prebuild"],
+        "stale": []
+      },
+      {
+        "id": "Q22",
+        "project": "tidepool",
+        "text": "how do we ship a JS-only hotfix without a store build?",
+        "relevant": ["T.ota"],
+        "stale": []
+      },
+      {
+        "id": "Q23",
+        "project": "tidepool",
+        "text": "who runs the release checklist before store submission?",
+        "relevant": ["T.ken"],
+        "stale": []
+      },
+      {
+        "id": "Q24",
+        "project": "tidepool",
+        "text": "where does the mobile app get its API base URL?",
+        "relevant": ["T.apiurl"],
+        "stale": []
+      },
+      {
+        "id": "Q25",
+        "project": "atlas",
+        "text": "what orchestrator runs the Atlas pipelines?",
+        "relevant": ["A.dagster"],
+        "stale": ["A.airflow", "A.airflow.parse"]
+      },
+      {
+        "id": "Q26",
+        "project": "atlas",
+        "text": "why did we move off Airflow?",
+        "relevant": ["A.dagster.why"],
+        "stale": []
+      },
+      {
+        "id": "Q27",
+        "project": "atlas",
+        "text": "how do dbt changes get deployed to production?",
+        "relevant": ["A.dbt.deploy"],
+        "stale": []
+      },
+      {
+        "id": "Q28",
+        "project": "atlas",
+        "text": "how do I run terraform apply for atlas infrastructure?",
+        "relevant": ["A.terraform"],
+        "stale": []
+      },
+      {
+        "id": "Q29",
+        "project": "atlas",
+        "text": "who is the data platform lead and owns the warehouse budget?",
+        "relevant": ["A.tomas"],
+        "stale": ["A.priya"]
+      },
+      {
+        "id": "Q30",
+        "project": "atlas",
+        "text": "how does change data capture get into the platform?",
+        "relevant": ["A.cdc.redpanda"],
+        "stale": []
+      },
+      {
+        "id": "Q31",
+        "project": "atlas",
+        "text": "why did we drop Kafka?",
+        "relevant": ["A.cdc.redpanda"],
+        "stale": [],
+        "trap": "atlas never dropped Kafka; the ledgerly decision is bleed"
+      },
+      {
+        "id": "Q32",
+        "project": "atlas",
+        "text": "fct_orders is double counting refunds",
+        "relevant": ["A.bug.refunds"],
+        "stale": []
+      },
+      {
+        "id": "Q33",
+        "project": "atlas",
+        "text": "which dbt-core version are we on?",
+        "relevant": ["A.dbt18"],
+        "stale": []
+      },
+      {
+        "id": "Q34",
+        "project": "atlas",
+        "text": "what are the dbt model naming conventions?",
+        "relevant": ["A.dbt.naming"],
+        "stale": []
+      },
+      {
+        "id": "Q35",
+        "project": "atlas",
+        "text": "how do I launch a backfill?",
+        "relevant": ["A.backfill"],
+        "stale": []
+      },
+      {
+        "id": "Q36",
+        "project": "personal",
+        "text": "what test framework does Nico prefer?",
+        "relevant": ["U.pref.vitest"],
+        "stale": []
+      },
+      {
+        "id": "Q37",
+        "project": "personal",
+        "text": "what are Nico's preferences for pull requests and commits?",
+        "relevant": ["U.pref.smallpr", "U.pref.conventional", "U.pref.regression"],
+        "stale": []
+      },
+      {
+        "id": "Q38",
+        "project": "personal",
+        "text": "how should Python code be formatted and linted?",
+        "relevant": ["U.pref.ruff"],
+        "stale": []
+      },
+      {
+        "id": "Q39",
+        "project": "ledgerly",
+        "text": "how do we deploy?",
+        "relevant": ["L.deploy.argocd", "L.deploy.howto"],
+        "stale": ["L.deploy.fly"]
+      },
+      {
+        "id": "Q40",
+        "project": "tidepool",
+        "text": "who owns QA?",
+        "relevant": ["T.ken"],
+        "stale": []
+      }
+    ]
+  }
+}

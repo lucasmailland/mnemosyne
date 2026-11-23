@@ -1,0 +1,15 @@
+{
+  "plugins": {
+    "mnemosyne": {
+      "name": "mnemosyne",
+      "description": "Persistent memory for AI coding agents — remembers decisions, bugs, and context across sessions.",
+      "versions": {
+        "0.1.0": {
+          "installPath": "packages/plugin",
+          "pluginFile": ".claude-plugin/plugin.json"
+        }
+      },
+      "latest": "0.1.0"
+    }
+  }
+}

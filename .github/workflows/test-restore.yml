@@ -1,0 +1,158 @@
+name: Weekly DR Test-Restore
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # Every Sunday at 03:00 UTC
+  workflow_dispatch:      # Allow manual trigger
+
+jobs:
+  test-restore:
+    name: pg_dump → pg_restore drill + integrity check
+    runs-on: ubuntu-latest
+    # Production S3 restore: set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, BACKUP_S3_BUCKET
+    # as repository secrets (see docs/ops/ci-secrets.md). When set, the S3 download step
+    # below activates and replaces the local pg_dump with the real production backup.
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mnemo_source
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 5432:5432
+
+    env:
+      PGPASSWORD: postgres
+      PG_HOST: localhost
+      PG_USER: postgres
+      SOURCE_DB: mnemo_source
+      RESTORE_DB: mnemo_restore_verify
+      DUMP_PATH: /tmp/mnemo_backup.dump
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build adapter-postgres
+        run: pnpm --filter @mnemo-ai/adapter-postgres build
+
+      - name: Apply migrations to source DB
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mnemo_source
+        run: node packages/adapter-postgres/dist/migrate.js
+
+      - name: Record pre-backup checksums
+        id: pre_backup
+        run: |
+          MIG_COUNT=$(psql -h "$PG_HOST" -U "$PG_USER" -d "$SOURCE_DB" -t \
+            -c "SELECT count(*) FROM mnemosyne.schema_migrations;" | tr -d '[:space:]')
+          POLICY_COUNT=$(psql -h "$PG_HOST" -U "$PG_USER" -d "$SOURCE_DB" -t \
+            -c "SELECT count(*) FROM pg_policies WHERE schemaname = 'mnemosyne';" | tr -d '[:space:]')
+          echo "migration_count=$MIG_COUNT" >> "$GITHUB_OUTPUT"
+          echo "policy_count=$POLICY_COUNT" >> "$GITHUB_OUTPUT"
+          echo "Pre-backup: $MIG_COUNT migrations, $POLICY_COUNT RLS policies"
+
+      # ── Option A: download real production backup from S3 (requires secrets) ──────────
+      - name: Download production backup from S3
+        if: ${{ env.AWS_ACCESS_KEY_ID != '' && env.BACKUP_S3_BUCKET != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+        run: |
+          aws s3 cp "s3://${BACKUP_S3_BUCKET}/latest.dump" "$DUMP_PATH"
+          ls -lh "$DUMP_PATH"
+
+      # ── Option B: take a local pg_dump (runs when S3 secrets are absent) ───────────
+      - name: Take pg_dump backup of source DB
+        if: ${{ env.AWS_ACCESS_KEY_ID == '' || env.BACKUP_S3_BUCKET == '' }}
+        run: |
+          pg_dump \
+            --host="$PG_HOST" --username="$PG_USER" \
+            --format=custom --compress=9 \
+            --file="$DUMP_PATH" \
+            "$SOURCE_DB"
+          echo "Backup taken: $(wc -c < "$DUMP_PATH") bytes at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      # ─────────────────────────────────────────────────────────────────────────────────
+      - name: Create restore target database
+        run: psql -h "$PG_HOST" -U "$PG_USER" -c "CREATE DATABASE $RESTORE_DB;"
+
+      - name: Restore from backup
+        run: |
+          pg_restore \
+            --host="$PG_HOST" --username="$PG_USER" \
+            --dbname="$RESTORE_DB" \
+            --exit-on-error \
+            "$DUMP_PATH"
+          echo "Restore complete at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Verify restore integrity
+        id: verify
+        env:
+          EXPECTED_MIG: ${{ steps.pre_backup.outputs.migration_count }}
+          EXPECTED_POL: ${{ steps.pre_backup.outputs.policy_count }}
+        run: |
+          RESTORE_MIG=$(psql -h "$PG_HOST" -U "$PG_USER" -d "$RESTORE_DB" -t \
+            -c "SELECT count(*) FROM mnemosyne.schema_migrations;" | tr -d '[:space:]')
+          RESTORE_POL=$(psql -h "$PG_HOST" -U "$PG_USER" -d "$RESTORE_DB" -t \
+            -c "SELECT count(*) FROM pg_policies WHERE schemaname = 'mnemosyne';" | tr -d '[:space:]')
+
+          echo "migrations   source=$EXPECTED_MIG  restore=$RESTORE_MIG"
+          echo "RLS policies source=$EXPECTED_POL  restore=$RESTORE_POL"
+
+          FAIL=0
+          if [ "$RESTORE_MIG" != "$EXPECTED_MIG" ]; then
+            echo "INTEGRITY FAILURE: migration count mismatch"
+            FAIL=1
+          fi
+          if [ "$RESTORE_POL" -lt 1 ]; then
+            echo "INTEGRITY FAILURE: no RLS policies in restore"
+            FAIL=1
+          fi
+          if [ "$RESTORE_POL" != "$EXPECTED_POL" ]; then
+            echo "INTEGRITY FAILURE: RLS policy count mismatch"
+            FAIL=1
+          fi
+          [ "$FAIL" = "1" ] && exit 1
+
+          echo "INTEGRITY PASS: $RESTORE_MIG migrations + $RESTORE_POL RLS policies verified"
+          echo "mig_count=$RESTORE_MIG" >> "$GITHUB_OUTPUT"
+          echo "pol_count=$RESTORE_POL" >> "$GITHUB_OUTPUT"
+
+      - name: Report restore summary
+        if: always()
+        env:
+          MIG_COUNT: ${{ steps.verify.outputs.mig_count }}
+          POL_COUNT: ${{ steps.verify.outputs.pol_count }}
+        run: |
+          DUMP_SIZE=$(wc -c < "$DUMP_PATH" 2>/dev/null || echo "N/A")
+          echo "DR test-restore summary"
+          echo "  Completed : $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "  Dump bytes: $DUMP_SIZE"
+          echo "  Migrations: ${MIG_COUNT:-N/A}"
+          echo "  RLS pols  : ${POL_COUNT:-N/A}"
+
+      - name: Upload backup artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: dr-backup-${{ github.run_id }}
+          path: /tmp/mnemo_backup.dump
+          retention-days: 7

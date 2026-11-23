@@ -1,0 +1,97 @@
+# Fly.io deployment configuration for Mnemosyne — Wave V §26
+#
+# Deploy:
+#   fly deploy
+#
+# Secrets (set all of these before the first deploy; deploy/README.md explains each):
+#   fly secrets set MNEMO_MIGRATION_DATABASE_URL="postgres://<superuser>@<host>:5432/<db>"  # direct, not a transaction pooler
+#   fly secrets set MNEMO_APP_DB_PASSWORD="$(openssl rand -hex 32)"   # release_command creates mnemo_app with it
+#   fly secrets set DATABASE_URL="postgres://mnemo_app:<MNEMO_APP_DB_PASSWORD>@<host>:5432/<db>"
+#   fly secrets set MNEMO_MASTER_KEY="$(openssl rand -hex 32)"        # NODE_ENV=production: boot fails without it
+#   fly secrets set MNEMO_KEY_PEPPER="$(openssl rand -hex 32)"        # NODE_ENV=production: boot fails without it
+#   fly secrets set MNEMO_DASHBOARD_SECRET="$(openssl rand -hex 32)"  # dashboard sign-in; unset = dashboard auth off
+#   fly secrets set MNEMO_METRICS_TOKEN="$(openssl rand -hex 32)"     # unset = /metrics answers 404
+#   fly secrets set MNEMO_LLM_API_KEY="sk-..."
+#   fly secrets set MNEMO_REDIS_URL="rediss://..."
+#
+# Scale:
+#   fly scale count 3 --region iad,lhr,nrt   # 3 replicas across 3 regions
+#   fly scale vm performance-2x              # upgrade machine size
+
+app = "mnemosyne"
+primary_region = "iad"
+
+[build]
+  dockerfile = "docker/Dockerfile.server"
+  # Build context is the repo root (monorepo)
+  build_context = "."
+
+[env]
+  PORT = "3000"
+  NODE_ENV = "production"
+  LOG_LEVEL = "info"
+  # Wave V: 45s OTel flush + hot-tier dump grace period
+  MNEMO_SHUTDOWN_GRACE_MS = "45000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 2
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 500
+    hard_limit = 1000
+
+  [[http_service.checks]]
+    grace_period = "15s"
+    interval = "10s"
+    method = "GET"
+    path = "/health/live"
+    timeout = "3s"
+
+  # Readiness: no auth, 200 while Postgres answers (degraded dependencies
+  # included), 503 when it does not. /health/deep needs a bearer token, so a
+  # platform check against it only ever saw 401.
+  [[http_service.checks]]
+    grace_period = "30s"
+    interval = "30s"
+    method = "GET"
+    path = "/health/ready"
+    timeout = "10s"
+
+[[vm]]
+  # 2 shared-CPU cores, 1 GiB RAM — adjust for your workload
+  size = "shared-cpu-2x"
+  memory = "1gb"
+
+# Persistent volume for any local state (not required if fully stateless)
+# [[mounts]]
+#   source = "mnemosyne_data"
+#   destination = "/data"
+
+# No [metrics] section: the server serves Prometheus metrics on its own port
+# (3000, /metrics/prometheus), and with NODE_ENV=production only to a request
+# carrying Authorization: Bearer <MNEMO_METRICS_TOKEN>. Fly's metrics agent
+# cannot send that header, and nothing listened on the 9091 it pointed at.
+# Scrape from a Prometheus of your own with the token.
+
+[deploy]
+  # Rolling deploy: Wave V uses 45s grace for OTel flush + dump
+  strategy = "rolling"
+  wait_timeout = "5m"
+  # kill_timeout must exceed MNEMO_SHUTDOWN_GRACE_MS (45s) to prevent Fly from
+  # sending SIGKILL before OTel flush and hot-tier dump complete (M20 fix).
+  kill_timeout = "60s"
+  # Runs once per deploy, before any machine is updated, in a temporary machine
+  # of this same image. The same entrypoint as the migrate image: v2 and v3
+  # migrations, then the mnemo_app role. Needs MNEMO_MIGRATION_DATABASE_URL and
+  # MNEMO_APP_DB_PASSWORD; a failure stops the deploy.
+  release_command = "node /app/scripts/run-migrations.mjs"
+
+# Machine-level resources and process groups
+# See: https://fly.io/docs/apps/processes/
+[processes]
+  app = "node /app/dist/index.js"

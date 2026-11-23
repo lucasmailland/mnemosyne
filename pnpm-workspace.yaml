@@ -1,0 +1,36 @@
+# Mnemosyne monorepo workspace
+#
+# packages/        — published npm artifacts (core, server, mcp, client-ts, llm-providers, cli)
+# examples/        — runnable consumer examples (graph-viewer)
+#
+# Settings (overrides, peerDependencyRules, onlyBuiltDependencies) live in the
+# root package.json "pnpm" field: pnpm 9 (packageManager) does not read them
+# from this file.
+#
+# The "vite": "^6.4.6" override is a security floor on a peer pnpm 9 installs
+# itself and never re-resolves (vitest's), and it also caps vite at 6.x. Lift
+# or widen it when the workspace moves to vite 7 or later.
+#
+# GHSA-fc5q-39xc-vjpf (picomatch ReDoS, high) has no fixed picomatch release:
+# every version up to the latest, 4.0.7, is affected. The "picomatch": "4.0.7"
+# override keeps a single copy in the tree and patches/picomatch@4.0.7.patch
+# fixes it (repeated extglobs that could backtrack exponentially compile to a
+# literal match); patches/next@16.4.6.patch swaps Next's vendored copy for a
+# bundle of that patched file. scripts/__tests__/picomatch-redos.test.mjs
+# checks all three copies. pnpm audit only sees the version number, so
+# auditConfig.ignoreGhsas keeps GHSA-fc5q-39xc-vjpf: patched locally in
+# patches/picomatch@4.0.7.patch, see scripts/__tests__/picomatch-redos.test.mjs.
+# Drop the patches and that entry when picomatch ships a fix.
+#
+# "hyperid>uuid", "archiver-utils>glob" and "rimraf>glob" lift dev and
+# transitive deps past moderate advisories their parents pin below the fix:
+# uuid 8 (GHSA-w5hq-g745-h8pq) under autocannon's hyperid, which only falls
+# back to uuid.v4 when crypto.randomUUID is missing; glob 10 + minimatch 9
+# (GHSA-3g3m-2fjr-6pw4, GHSA-g3hv-75wg-m249) under testcontainers' archiver
+# and under gaxios 7.1.3's rimraf (gcp-metadata pins that gaxios; the server's
+# OpenTelemetry GCP detector pulls it, nothing calls rimraf). glob 14 keeps the
+# sync/glob/globSync API both use. Drop each once its parent moves on.
+#
+packages:
+  - "packages/*"
+  - "examples/*"

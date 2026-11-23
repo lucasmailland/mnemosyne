@@ -1,0 +1,126 @@
+diff --git a/lib/parse.js b/lib/parse.js
+index 29207512c60183b4bb9bf5112be3b9b5f4a9a9fd..ec72b0ffb2459325a013ba9ce713d0f4623b3b28 100644
+--- a/lib/parse.js
++++ b/lib/parse.js
+@@ -270,6 +270,85 @@ const getStarExtglobSequenceChars = pattern => {
+   return chars;
+ };
+ 
++// Local patch (GHSA-fc5q-39xc-vjpf): length of the strings a branch matches when
++// that length is fixed, `undefined` otherwise. Only literal characters, escapes,
++// `?` and bracket expressions have a fixed length; `*`, extglobs, braces, quotes
++// and alternation do not.
++const fixedBranchLength = branch => {
++  let length = 0;
++
++  for (let i = 0; i < branch.length; i++) {
++    const ch = branch[i];
++
++    if (ch === '\\') {
++      if (i + 1 >= branch.length) return;
++      i++;
++      length++;
++      continue;
++    }
++
++    if (ch === '[') {
++      let j = i + 1;
++      if (branch[j] === '!' || branch[j] === '^') j++;
++      if (branch[j] === ']') j++;
++
++      while (j < branch.length && branch[j] !== ']') {
++        if (branch[j] === '\\') {
++          j += 2;
++        } else if (branch[j] === '[' && branch[j + 1] === ':') {
++          const end = branch.indexOf(':]', j + 2);
++          if (end === -1) return;
++          j = end + 2;
++        } else {
++          j++;
++        }
++      }
++
++      if (j >= branch.length) return;
++      i = j;
++      length++;
++      continue;
++    }
++
++    if (/[*+@!(){}|"]/.test(ch)) {
++      return;
++    }
++
++    length++;
++  }
++
++  return length;
++};
++
++// Local patch (GHSA-fc5q-39xc-vjpf): a repeated extglob `+(...)`/`*(...)` only
++// compiles to a regex without exponential backtracking when each position of
++// the input can be consumed in one way. That holds for a single fixed-length
++// branch (`+(abc)`, `+([0-9])`, `*(?)`) and for plain literal branches that are
++// prefix-free (`+(foo|bar)`). Anything else (`+(*a)`, `+(a|*a)`, `+(a|[a-z])`,
++// `+(a|ab|b)`, ...) is reported as risky and, like the patterns upstream
++// already flags, is matched as a literal string.
++const isUnambiguousRepeatedBody = branches => {
++  if (branches.length === 1) {
++    const length = fixedBranchLength(branches[0]);
++    return length !== undefined && length > 0;
++  }
++
++  const values = branches.map(normalizeSimpleBranch);
++  if (values.some(value => !value)) {
++    return false;
++  }
++
++  for (let i = 0; i < values.length; i++) {
++    for (let j = 0; j < values.length; j++) {
++      if (i !== j && values[j].startsWith(values[i])) {
++        return false;
++      }
++    }
++  }
++
++  return true;
++};
++
+ const repeatedExtglobRecursion = pattern => {
+   let depth = 0;
+   let value = pattern.trim();
+@@ -315,6 +394,7 @@ const analyzeRepeatedExtglob = (body, options) => {
+   const safeChars = [];
+   let sawStarSequence = false;
+   let combinable = true;
++  let allowedNesting = false;
+ 
+   for (const branch of branches) {
+     const chars = getStarExtglobSequenceChars(branch);
+@@ -332,9 +412,15 @@ const analyzeRepeatedExtglob = (body, options) => {
+ 
+     combinable = false;
+ 
+-    if (repeatedExtglobRecursion(branch) > max) {
++    const depth = repeatedExtglobRecursion(branch);
++    if (depth > max) {
+       return { risky: true };
+     }
++
++    // Nested repetition the caller allowed with `maxExtglobRecursion`.
++    if (depth > 0) {
++      allowedNesting = true;
++    }
+   }
+ 
+   if (sawStarSequence) {
+@@ -343,6 +429,10 @@ const analyzeRepeatedExtglob = (body, options) => {
+       : { risky: true };
+   }
+ 
++  if (!allowedNesting && !isUnambiguousRepeatedBody(branches)) {
++    return { risky: true };
++  }
++
+   return { risky: false };
+ };
+ 

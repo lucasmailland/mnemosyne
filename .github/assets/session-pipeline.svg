@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Session pipeline sequence: start a session, stream turns, collapse — the engine extracts facts and decisions into primitives">
+  <title>Session Pipeline — start · turn · collapse</title>
+  <desc>An AI agent calls POST /session/start, streams turns via POST /session/{id}/turn, then POST /session/{id}/collapse. The Mnemosyne server writes to PostgreSQL and, in the background, extracts facts, decisions, and entities into primitives.</desc>
+
+  <defs>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.32"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="gridP" x="0" y="0" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#c9c6ee" stroke-width="0.5" stroke-opacity="0.45"/>
+    </pattern>
+    <marker id="reqHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a18f0"/>
+    </marker>
+    <marker id="resHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b4a72"/>
+    </marker>
+    <style><![CDATA[
+      @keyframes m-pulse {
+        0%, 100% { opacity: 0.55; transform: scale(1); }
+        50%      { opacity: 1;    transform: scale(1.22); }
+      }
+      @keyframes m-ring {
+        0%, 100% { opacity: 0.35; transform: scale(1); }
+        50%      { opacity: 0.80; transform: scale(1.16); }
+      }
+      /* every message arrow marches toward its arrowhead — requests
+         flow right into the server, responses flow back left */
+      @keyframes m-flow {
+        from { stroke-dashoffset: 22; }
+        to   { stroke-dashoffset: 0; }
+      }
+      /* lifelines flow downward — time advancing down the sequence */
+      @keyframes m-life {
+        from { stroke-dashoffset: 0; }
+        to   { stroke-dashoffset: 18; }
+      }
+      circle[r="5"], circle[r="9"] {
+        transform-origin: center; transform-box: fill-box;
+      }
+      circle[r="5"] { animation: m-pulse 2.8s ease-in-out infinite; }
+      circle[r="9"] { animation: m-ring  3.4s ease-in-out infinite; }
+      line[marker-end] { stroke-dasharray: 6 5; animation: m-flow 1.6s linear infinite; }
+      .lifeline { animation: m-life 3.5s linear infinite; }
+      @media (prefers-reduced-motion: reduce) {
+        circle[r="5"], circle[r="9"] { animation: none; }
+        line[marker-end] { stroke-dasharray: 6 5; animation: none; }
+        .lifeline { animation: none; }
+      }
+    ]]></style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="600" fill="#fcfbf8"/>
+  <rect width="1200" height="600" fill="url(#gridP)"/>
+  <rect x="24" y="24" width="1152" height="552" rx="0" fill="none" stroke="#c9c6ee" stroke-width="1" stroke-opacity="0.7"/>
+
+  <!-- Lifelines -->
+  <line class="lifeline" x1="235" y1="100" x2="235" y2="500" stroke="#c9c6ee" stroke-width="1.2" stroke-dasharray="4 5"/>
+  <line class="lifeline" x1="600" y1="100" x2="600" y2="500" stroke="#c9c6ee" stroke-width="1.2" stroke-dasharray="4 5"/>
+  <line class="lifeline" x1="965" y1="100" x2="965" y2="500" stroke="#c9c6ee" stroke-width="1.2" stroke-dasharray="4 5"/>
+
+  <!-- Participant headers -->
+  <g transform="translate(135, 44)">
+    <rect width="200" height="54" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <circle cx="22" cy="20" r="5" fill="#1a18f0"/>
+    <circle cx="22" cy="20" r="9" fill="none" stroke="#1a18f0" stroke-width="0.8" opacity="0.55"/>
+    <text x="40" y="25" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#0b0a2e">AI Agent</text>
+    <text x="40" y="43" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">your runtime</text>
+  </g>
+  <g transform="translate(500, 44)">
+    <rect width="200" height="54" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <circle cx="22" cy="20" r="5" fill="#1210b0"/>
+    <circle cx="22" cy="20" r="9" fill="none" stroke="#1210b0" stroke-width="0.8" opacity="0.55"/>
+    <text x="40" y="25" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#0b0a2e">Mnemosyne Server</text>
+    <text x="40" y="43" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">@mnemo-ai/server</text>
+  </g>
+  <g transform="translate(865, 44)">
+    <rect width="200" height="54" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <circle cx="22" cy="20" r="5" fill="#0f7a4f"/>
+    <circle cx="22" cy="20" r="9" fill="none" stroke="#0f7a4f" stroke-width="0.8" opacity="0.55"/>
+    <text x="40" y="25" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#0b0a2e">PostgreSQL</text>
+    <text x="40" y="43" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">+ pgvector · RLS</text>
+  </g>
+
+  <!-- ===== m1: A → S  start ===== -->
+  <text x="417" y="124" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600" fill="#0b0a2e">POST /session/start</text>
+  <text x="417" y="138" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#4b4a72">{agentId, label}</text>
+  <line x1="235" y1="146" x2="600" y2="146" stroke="#1a18f0" stroke-width="1.5" marker-end="url(#reqHead)"/>
+
+  <!-- ===== m2: S → DB  insert ===== -->
+  <text x="782" y="174" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#4b4a72">INSERT mnemo_session → session_id</text>
+  <line x1="600" y1="182" x2="965" y2="182" stroke="#1a18f0" stroke-width="1.5" marker-end="url(#reqHead)"/>
+
+  <!-- ===== m3: S ⇠ A  201 ===== -->
+  <text x="417" y="210" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">201 · {id}</text>
+  <line x1="600" y1="218" x2="235" y2="218" stroke="#4b4a72" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#resHead)"/>
+
+  <!-- ===== loop frame: each turn ===== -->
+  <rect x="168" y="240" width="858" height="150" rx="0" fill="none" stroke="#9a98fa" stroke-width="1" stroke-dasharray="5 4"/>
+  <g transform="translate(168, 240)">
+    <path d="M 0 0 H 96 V 14 L 82 28 H 0 Z" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <text x="14" y="19" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" font-weight="700" letter-spacing="0.08em" fill="#4b4a72">loop</text>
+  </g>
+  <text x="1012" y="258" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#4b4a72">each turn</text>
+
+  <!-- ===== m4: A → S  turn ===== -->
+  <text x="417" y="292" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600" fill="#0b0a2e">POST /session/{id}/turn</text>
+  <text x="417" y="306" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#4b4a72">{role, content}</text>
+  <line x1="235" y1="314" x2="600" y2="314" stroke="#1a18f0" stroke-width="1.5" marker-end="url(#reqHead)"/>
+
+  <!-- ===== m5: S → DB  insert turn ===== -->
+  <text x="782" y="338" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#4b4a72">INSERT mnemo_session_turn</text>
+  <line x1="600" y1="346" x2="965" y2="346" stroke="#1a18f0" stroke-width="1.5" marker-end="url(#reqHead)"/>
+
+  <!-- ===== m6: S ⇠ A  204 ===== -->
+  <text x="417" y="370" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">204</text>
+  <line x1="600" y1="378" x2="235" y2="378" stroke="#4b4a72" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#resHead)"/>
+
+  <!-- ===== m7: A → S  collapse ===== -->
+  <text x="417" y="420" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600" fill="#0b0a2e">POST /session/{id}/collapse</text>
+  <text x="417" y="434" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#4b4a72">{strategy: "auto"}</text>
+  <line x1="235" y1="442" x2="600" y2="442" stroke="#1a18f0" stroke-width="1.5" marker-end="url(#reqHead)"/>
+
+  <!-- ===== m8: S → DB  status ===== -->
+  <text x="782" y="466" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#4b4a72">status = "collapsed"</text>
+  <line x1="600" y1="474" x2="965" y2="474" stroke="#1a18f0" stroke-width="1.5" marker-end="url(#reqHead)"/>
+
+  <!-- ===== m9: S ⇠ A  202 ===== -->
+  <text x="417" y="498" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">202 · {accepted: true}</text>
+  <line x1="600" y1="500" x2="235" y2="500" stroke="#4b4a72" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#resHead)"/>
+
+  <!-- ===== background note (over Server..Postgres) ===== -->
+  <g transform="translate(540, 522)">
+    <rect width="540" height="40" rx="0" fill="#f5ecde" stroke="#0f7a4f" stroke-width="1.1" stroke-opacity="0.6"/>
+    <circle cx="22" cy="20" r="5" fill="#0f7a4f"/>
+    <circle cx="22" cy="20" r="9" fill="none" stroke="#0f7a4f" stroke-width="0.8" opacity="0.55"/>
+    <text x="40" y="24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#0b0a2e">Background: extract facts · decisions · entities → primitives</text>
+  </g>
+</svg>

@@ -1,0 +1,20 @@
+{
+  ".": "0.1.0",
+  "packages/core": "0.1.0",
+  "packages/server": "0.1.0",
+  "packages/client-ts": "0.1.0",
+  "packages/types": "0.1.0",
+  "packages/harness": "0.1.0",
+  "packages/adapter-postgres": "0.1.0",
+  "packages/adapter-redis": "0.1.0",
+  "packages/adapter-vector": "0.1.0",
+  "packages/adapter-llm": "0.1.0",
+  "packages/llm-providers": "0.1.0",
+  "packages/mcp": "0.1.0",
+  "packages/cli": "0.1.0",
+  "packages/consolidation": "0.1.0",
+  "packages/cup": "0.1.0",
+  "packages/federation": "0.1.0",
+  "packages/plugins": "0.1.0",
+  "packages/mock-server": "0.1.0"
+}

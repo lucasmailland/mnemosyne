@@ -1,0 +1,11 @@
+[
+  "mcp:memory_fact",
+  "mcp:memory_suggest_topic_key",
+  "route:DELETE /relations/:id",
+  "route:GET /composition/inferences",
+  "route:PATCH /skills/:id",
+  "route:PATCH /workflows/:id",
+  "route:POST /admin/harness/quiesce",
+  "route:POST /facts/compare",
+  "route:POST /topic-key/suggest"
+]

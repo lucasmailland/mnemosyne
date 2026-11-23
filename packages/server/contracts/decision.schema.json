@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/decision",
+  "title": "MnemoDecision",
+  "description": "A durable, audited decision primitive in the Mnemosyne v3 cognitive store.",
+  "type": "object",
+  "required": ["id", "workspaceId", "kind", "title", "body", "revisionCount", "normalizedHash", "status", "metadata", "validFrom", "createdAt", "updatedAt"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "workspaceId": { "type": "string", "minLength": 1 },
+    "agentId": { "type": ["string", "null"] },
+    "conversationId": { "type": ["string", "null"] },
+    "kind": {
+      "type": "string",
+      "enum": ["decision", "architecture", "policy", "process", "bugfix", "learning", "discovery", "config"]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "body": { "type": "string", "minLength": 1 },
+    "topicKey": { "type": ["string", "null"] },
+    "revisionCount": { "type": "number" },
+    "normalizedHash": { "type": "string", "minLength": 1 },
+    "decidedByUserId": { "type": ["string", "null"] },
+    "status": {
+      "type": "string",
+      "enum": ["active", "superseded", "withdrawn"]
+    },
+    "supersededById": { "type": ["string", "null"] },
+    "metadata": { "type": ["object", "null"] },
+    "validFrom": { "type": "string" },
+    "validTo": { "type": ["string", "null"] },
+    "createdAt": { "type": "string" },
+    "updatedAt": { "type": "string" }
+  },
+  "additionalProperties": true
+}

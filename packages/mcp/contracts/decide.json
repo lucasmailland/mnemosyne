@@ -1,0 +1,70 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_decide",
+  "inputSchema": {
+    "properties": {
+      "body": {
+        "description": "The rationale: reasoning, alternatives considered, deciding factors.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "conversationId": {
+        "description": "Provenance: pass the episode sessionId here; decide has no sessionId parameter of its own.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "kind": {
+        "description": "Decision category. One of: decision | architecture | policy | process | bugfix | learning | discovery | config.",
+        "enum": [
+          "decision",
+          "architecture",
+          "policy",
+          "process",
+          "bugfix",
+          "learning",
+          "discovery",
+          "config"
+        ],
+        "type": "string"
+      },
+      "scopeRef": {
+        "description": "Project the decision belongs to (e.g. 'project-x').",
+        "type": "string"
+      },
+      "sensitivity": {
+        "description": "Default 'internal'.",
+        "enum": [
+          "public",
+          "internal",
+          "confidential",
+          "restricted"
+        ],
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context).",
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": {
+        "description": "The decision in one sentence (e.g. 'Use PostgreSQL as the primary database.').",
+        "maxLength": 500,
+        "minLength": 1,
+        "type": "string"
+      },
+      "topicKey": {
+        "description": "Dedup key ('Auth-Strategy' = 'auth-strategy'): the same key updates the decision; without topicKey each call creates one.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "body",
+      "kind",
+      "title"
+    ],
+    "type": "object"
+  }
+}

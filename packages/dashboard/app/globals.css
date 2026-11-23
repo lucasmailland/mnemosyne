@@ -1,0 +1,686 @@
+@import "tailwindcss";
+
+/**
+ * Design tokens — identidad de marca Mnemosyne.
+ *
+ * Fuente de verdad: mnemosyne-branding/reports/tokens.css y brandbook.html.
+ * Reemplaza la paleta "cognitive dark" ad-hoc de spec.md §1.3 por la marca real.
+ * Los NOMBRES de token no cambian, así que ningún componente se toca: en
+ * Tailwind v4 cada `--color-X` de @theme genera bg-X / text-X / border-X, y
+ * redefinir la variable bajo un media query cambia la utilidad con ella.
+ *
+ * Las cuatro constantes de abajo SON la marca y no se redefinen por tema.
+ * Lo que cambia entre temas es qué rol cumple cada una.
+ */
+:root {
+  --brand-electric: #1a18f0; /* primario. AAA contra ivory y paper */
+  --brand-electric-strong: #1210b0;
+  --brand-electric-soft: #9a98fa;
+  --brand-ivory: #f5ecde;
+  --brand-deep: #0b0a2e;
+  --brand-paper: #fcfbf8;
+
+  /* Tracking del wordmark — README §brand. No es decorativo: es la marca. */
+  --track-wordmark: 0.14em;
+  --track-display: 0.02em;
+}
+
+/**
+ * With no theme chosen the OS decides (prefers-color-scheme); light otherwise. Dark applies under [data-theme="dark"] and, for the
+ * "system" choice (no data-theme attribute), under prefers-color-scheme. The two
+ * dark blocks below are the same values twice (CSS cannot share one block between
+ * an attribute selector and a media query): change one, change the other.
+ * Token names are stable: in Tailwind v4 each --color-X in @theme generates
+ * bg-X / text-X / border-X, so redefining the variable restyles every utility.
+ *
+ * Dark accent is electric-soft: pure electric does not contrast on Deep.
+ */
+@theme {
+  --color-base: #fcfbf8; /* paper */
+  --color-surface: #fffefc;
+  --color-surface-2: #f5ecde; /* ivory */
+  --color-border: #e2dccd;
+  --color-border-soft: #ece6d8;
+  /* The edge of a control (field, select, outline button): WCAG 1.4.11 asks 3:1 against what
+     it sits on. #857f6c: 3.97 on surface, 3.42 on surface-2, 3.87 on base. --color-border
+     (1.2–1.4) stays for dividers and panels, which are not controls. */
+  --color-control-border: #857f6c;
+  --color-text: #0b0a2e; /* deep */
+  --color-text-muted: #4a4866;
+  --color-text-faint: #6c6880;
+  --color-accent: #1a18f0; /* electric */
+  --color-accent-strong: #1210b0;
+  --color-accent-hover: #1210b0;
+  /* Text on a solid accent or red fill: white on electric, Deep on the light dark-theme accent. */
+  --color-on-accent: #ffffff;
+
+  /* Semantic: kept apart from the accent so status never reads as brand. */
+  --color-gold: #906200;
+  --color-green: #0f7a52;
+  --color-red: #b3261e;
+  --color-yellow: #8a6100;
+  --color-purple: #5b3fc4;
+  --color-teal: #0d7268;
+
+  --font-sans: var(--font-inter), Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:
+    var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-didot), "GFS Didot", Didot, "Bodoni MT", Georgia, serif;
+
+  /* Spacing scale (px): 4 8 12 16 20 24 32 40 48 64 = multiples of 4 (p-1 ... p-16). */
+  --spacing: 0.25rem;
+
+  /* Square everywhere: the brand type is sharp, so no corner is rounded (owner ruling 2026-11-17).
+     scripts/check-arbitrary-values.mjs refuses any rounded-* utility but rounded-none. */
+  --radius-tile: 0;
+  --radius-control: 0;
+  --radius-panel: 0;
+
+  --text-display-1: 56px;
+  --text-display-2: 44px;
+  --text-display-3: 38px;
+  --text-display-4: 31px;
+  --text-display-5: 24px;
+  --text-display-6: 20px;
+  --text-ui-lg: 16px;
+  --text-ui: 14.5px;
+  --text-ui-sm: 13.5px;
+  --text-ui-xs: 12.5px;
+  --text-ui-2xs: 11px;
+  --text-mono: 12px;
+  --text-mono-sm: 11px;
+  --text-mono-xs: 10.5px;
+  --text-eyebrow: 10.5px;
+
+  --shadow-panel: 0 1px 2px rgb(11 10 46 / 0.06), 0 1px 1px rgb(11 10 46 / 0.04);
+  --shadow-overlay: 0 12px 32px rgb(11 10 46 / 0.18), 0 2px 6px rgb(11 10 46 / 0.08);
+}
+
+/**
+ * Chart palette (docs/superpowers/specs/2026-11-17-dashboard-metrics-design.md), validated with
+ * the dataviz validator against each theme's surface: every check passes, CVD-safe. Categorical
+ * slots are used in this order, never cycled; a sixth part folds into "other". Marks wear these;
+ * text never does. Track is the meter's unfilled step of the electric ramp.
+ */
+:root {
+  --chart-1: #1a18f0;
+  --chart-2: #d95f1e;
+  --chart-3: #1a9e6e;
+  --chart-4: #b98900;
+  --chart-5: #c2417a;
+  --chart-other: #8a8799;
+  --chart-track: #dedcfc;
+  --chart-grid: var(--color-border-soft);
+  --chart-axis: var(--color-border);
+}
+
+/* The engraved hatch for HTML chart marks (bars, meters), the twin of HatchPattern in
+   components/hatch.tsx: 2 px lines every 4 px at 45°, inked with --hatch (a series color). */
+.hatch {
+  background-image: repeating-linear-gradient(-45deg, var(--hatch) 0 2px, transparent 2px 4px);
+}
+
+:root[data-theme="dark"] {
+  --color-base: #0b0a2e;
+  --color-surface: #131234;
+  --color-surface-2: #1a1940;
+  --color-border: #2a2856;
+  --color-border-soft: #1f1e48;
+  /* 3.58 on surface, 3.31 on surface-2, 3.80 on base. */
+  --color-control-border: #6c69a0;
+  --color-text: #f5ecde;
+  --color-text-muted: #a9a4bd;
+  --color-text-faint: #8a86a6; /* 4.8:1 on surface-2 */
+  --color-accent: #9a98fa;
+  --color-accent-strong: #b8b6fc;
+  --color-accent-hover: #b8b6fc;
+  --color-on-accent: #0b0a2e;
+
+  --color-gold: #f0b429;
+  --color-green: #34d399;
+  --color-red: #f87171;
+  --color-yellow: #fbbf24;
+  --color-purple: #a78bfa;
+  --color-teal: #2dd4bf;
+
+  --shadow-panel: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
+
+  --chart-1: #7b79f5;
+  --chart-2: #e06a2c;
+  --chart-3: #22a874;
+  --chart-4: #c08a00;
+  --chart-5: #dc5f93;
+  --chart-other: #6f6c94;
+  --chart-track: #2a2966;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-base: #0b0a2e;
+    --color-surface: #131234;
+    --color-surface-2: #1a1940;
+    --color-border: #2a2856;
+    --color-border-soft: #1f1e48;
+    --color-control-border: #6c69a0;
+    --color-text: #f5ecde;
+    --color-text-muted: #a9a4bd;
+    --color-text-faint: #8a86a6;
+    --color-accent: #9a98fa;
+    --color-accent-strong: #b8b6fc;
+    --color-accent-hover: #b8b6fc;
+    --color-on-accent: #0b0a2e;
+
+    --color-gold: #f0b429;
+    --color-green: #34d399;
+    --color-red: #f87171;
+    --color-yellow: #fbbf24;
+    --color-purple: #a78bfa;
+    --color-teal: #2dd4bf;
+
+    --shadow-panel: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
+
+    --chart-1: #7b79f5;
+    --chart-2: #e06a2c;
+    --chart-3: #22a874;
+    --chart-4: #c08a00;
+    --chart-5: #dc5f93;
+    --chart-other: #6f6c94;
+    --chart-track: #2a2966;
+  }
+}
+
+html {
+  background-color: var(--color-base);
+  color: var(--color-text);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+  }
+}
+
+/* Wordmark: MNΣMOSΥNΣ. The 0.14em tracking is part of the identity. */
+.wordmark {
+  font-family: var(--font-display);
+  letter-spacing: var(--track-wordmark);
+  font-weight: 400;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* Two hairlines 5 px apart. */
+.double-rule {
+  border: 0;
+  height: 7px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Entry pages: engraving scene beside the form (spec §4). */
+.auth-layout {
+  display: block;
+}
+@media (min-width: 1024px) {
+  .auth-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+  }
+}
+.auth-scene {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 30vh;
+  padding: 24px;
+  background: var(--brand-electric);
+  color: var(--brand-ivory);
+}
+@media (min-width: 1024px) {
+  .auth-scene {
+    min-height: 100vh;
+    padding: 40px;
+  }
+}
+.auth-scene-img {
+  object-fit: cover;
+  object-position: 30% 50%;
+}
+/* Phone: only the wordmark, over a top fade so it reads. */
+.auth-scene::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  height: 70%;
+  background: linear-gradient(to bottom, var(--brand-electric) 50%, transparent);
+}
+.auth-scene::after {
+  display: none;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  background: linear-gradient(to top, var(--brand-electric) 22%, transparent);
+}
+@media (min-width: 1024px) {
+  .auth-scene::before {
+    display: none;
+  }
+  .auth-scene::after {
+    display: block;
+  }
+}
+.auth-quote {
+  max-width: 330px;
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.3;
+}
+.auth-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.02;
+}
+.auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 48px;
+  padding: 0 18px;
+  border-radius: var(--radius-control);
+  background: var(--brand-electric);
+  color: var(--brand-paper);
+  font-size: var(--text-ui);
+  font-weight: 500;
+}
+.auth-btn:hover:enabled {
+  background: var(--brand-electric-strong);
+}
+.auth-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.auth-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Motion: one curve, only opacity and transform, exits 0.6x. */
+:root {
+  --dur-micro: 120ms;
+  --dur-ui: 240ms;
+  --dur-enter: 480ms;
+  --dur-scene: 900ms;
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes enter-scene {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* --i is the list index; stagger is 40 ms, capped at index 7 (8 items). */
+.enter {
+  animation: enter var(--dur-enter) var(--ease-out-expo) both;
+  animation-delay: calc(min(var(--i, 0), 7) * 40ms);
+}
+.enter-scene {
+  animation: enter-scene var(--dur-scene) var(--ease-out-expo) both;
+}
+.pulse {
+  animation: pulse 1600ms var(--ease-out-expo) infinite;
+}
+
+/* Hover leaves a fading electric echo. text-shadow is the one deliberate exception to opacity/transform-only (spec §3). */
+.echo {
+  transition: text-shadow 700ms var(--ease-out-expo);
+}
+.echo:hover,
+.echo:focus-visible {
+  text-shadow:
+    7px 0 0 color-mix(in srgb, var(--brand-electric) 16%, transparent),
+    14px 0 0 color-mix(in srgb, var(--brand-electric) 9%, transparent),
+    21px 0 0 color-mix(in srgb, var(--brand-electric) 4%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-micro: 0ms;
+    --dur-ui: 0ms;
+    --dur-enter: 0ms;
+    --dur-scene: 0ms;
+  }
+  .enter,
+  .enter-scene,
+  .pulse {
+    animation: none;
+  }
+  .echo,
+  .echo:hover,
+  .echo:focus-visible {
+    transition: none;
+    text-shadow: none;
+  }
+}
+
+/* Phone navigation drawer and its scrim: UI duration in, 0.6x out, out-expo. */
+@media (max-width: 767px) {
+  .drawer,
+  .scrim {
+    visibility: hidden;
+    transition:
+      transform calc(var(--dur-ui) * 0.6) var(--ease-out-expo),
+      opacity calc(var(--dur-ui) * 0.6) var(--ease-out-expo),
+      visibility 0s linear calc(var(--dur-ui) * 0.6);
+  }
+  .drawer {
+    transform: translateX(-100%);
+  }
+  .scrim {
+    opacity: 0;
+    background: rgb(11 10 46 / 0.4); /* Deep */
+  }
+  .drawer[data-open="true"],
+  .scrim[data-open="true"] {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      transform var(--dur-ui) var(--ease-out-expo),
+      opacity var(--dur-ui) var(--ease-out-expo);
+  }
+}
+
+/*
+ * Atrium: the older side of a conflict is hatched; narrative links get a quiet underline.
+ * The hatch here is a 7% wash behind running text, on purpose not HatchPattern (components/hatch.tsx,
+ * the full-strength engraver's hatch of bars and spans): at full strength the statement would fail AA.
+ */
+.atrium-hatch {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-accent) 7%, transparent) 0 1px,
+    transparent 1px 7px
+  );
+}
+.atrium-link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  text-underline-offset: 4px;
+}
+
+/* Catalog: index cards with a ruled left edge, the open one marked in the accent; superseded text struck in a faint accent. */
+.catalog-grid {
+  display: grid;
+  gap: 32px;
+}
+@media (min-width: 1024px) {
+  .catalog-grid {
+    grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.catalog-card {
+  position: relative;
+}
+.catalog-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: transparent;
+}
+.catalog-card[aria-current="page"] {
+  border-color: var(--color-accent);
+}
+.catalog-card[aria-current="page"]::before {
+  background: var(--color-accent);
+}
+.catalog-struck {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+/* The arrow sits outside the node's box, between nodes, and is decoration: the list order carries the sequence. */
+.catalog-chain {
+  gap: 28px;
+}
+.catalog-chain > .catalog-node {
+  position: relative;
+}
+.catalog-chain > .catalog-node + .catalog-node::before {
+  content: "↓" / "";
+  position: absolute;
+  top: -22px;
+  left: 16px;
+  color: var(--color-accent);
+  line-height: 1;
+}
+@media (min-width: 640px) {
+  .catalog-chain > .catalog-node + .catalog-node::before {
+    content: "→" / "";
+    top: 50%;
+    left: -22px;
+    transform: translateY(-50%);
+  }
+}
+
+/* Columbarium: square niches in a responsive grid; the open one is marked in the accent. */
+.columbarium-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+}
+.columbarium-niche[aria-current="page"] {
+  border-color: var(--color-accent);
+}
+.columbarium-open {
+  border-top: 1px solid var(--color-border);
+  padding-top: 24px;
+}
+
+/* Graph room: ivory ink on the electric scene. Every colour is a brand token. */
+.sky-scene {
+  background: var(--brand-electric);
+  color: var(--brand-ivory);
+}
+/* On a wide screen the sky takes the window's height (main's padding is 2.5rem a side). */
+@media (min-width: 64rem) {
+  .sky-scene {
+    min-height: calc(100svh - 5rem);
+  }
+}
+.sky-hud .eyebrow {
+  color: inherit;
+  opacity: 0.85;
+}
+.sky-card {
+  background: var(--brand-paper);
+  color: var(--brand-deep);
+}
+/* The graph's tools (zoom, fit, pause, back): square ivory outlines on the scene. */
+.sky-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid rgb(245 236 222 / 0.75);
+  color: var(--brand-ivory);
+  font-size: var(--text-ui-sm);
+}
+.sky-tool:hover,
+.sky-tool[aria-pressed="true"] {
+  background: var(--brand-ivory);
+  color: var(--brand-deep);
+}
+.sky-tool:focus-visible {
+  outline: 2px solid var(--brand-ivory);
+  outline-offset: 2px;
+}
+
+/* Recall (Lethe): the pipeline strip scrolls inside its own box; a hit's strength is a bar filled with HatchPattern. */
+.lethe-strip {
+  display: flex;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: max-content;
+  min-width: 100%;
+}
+.lethe-cell {
+  flex: 0 0 auto;
+  min-width: 112px;
+  padding: 12px 16px;
+  border-right: 1px solid var(--color-border-soft);
+}
+.lethe-cell:last-child {
+  border-right: 0;
+}
+.lethe-bar {
+  height: 8px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+}
+.lethe-why {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 24px;
+  margin: 0;
+}
+
+/* A not-found or error scene inside a room owns the page: hide the room's header strip
+   (its h1 and engraving) so there is one h1. display:none also leaves the accessibility
+   tree. :has() is supported by every browser the dashboard targets. */
+main:has([data-lethe]) > header {
+  display: none;
+}
+
+/* Dialogs and the ⌘K palette (spec §3): the backdrop fades and the panel fades and scales
+   .98 -> 1 at the UI duration, each time it opens. They close at once (no exit). */
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.modal[open] {
+  animation: modal-in var(--dur-ui) var(--ease-out-expo) both;
+}
+.modal[open]::backdrop {
+  animation: backdrop-in var(--dur-ui) var(--ease-out-expo) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal[open],
+  .modal[open]::backdrop {
+    animation: none;
+  }
+}
+
+/* Popovers (components/ui/popover.tsx): a bordered square panel in the top layer. Where the
+   browser has CSS anchor positioning it sits under its button and flips to stay on screen;
+   elsewhere it is centred in the viewport (Tailwind's reset drops the UA margin: auto). In the
+   components layer, so a panel's own utilities (p-3, w-64) win over these defaults. */
+@layer components {
+  .pop {
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: var(--shadow-overlay);
+    max-width: min(22rem, calc(100vw - 32px));
+    max-height: min(26rem, calc(100vh - 32px));
+    overflow: auto;
+  }
+  @supports (position-area: block-end) {
+    .pop {
+      inset: auto;
+      margin: 4px 0;
+      position-area: block-end span-inline-end;
+      position-try-fallbacks:
+        flip-inline,
+        flip-block,
+        flip-block flip-inline;
+    }
+  }
+}
+
+/* The graph's segmented filter: ivory on the electric scene, like the chips it replaced. */
+.sky-hud .seg-box {
+  border-color: rgb(245 236 222 / 0.75);
+}
+.sky-hud .seg-opt {
+  color: var(--brand-ivory);
+}
+.sky-hud input:checked + .seg-opt {
+  background: var(--brand-ivory);
+  color: var(--brand-deep);
+}
+.sky-hud input:focus-visible + .seg-opt {
+  outline-color: var(--brand-ivory);
+}
+.sky-scene .info-tip {
+  color: var(--brand-ivory);
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/hyperedge",
+  "title": "MnemoHyperedge",
+  "description": "An n-ary relation (hyperedge) connecting ≥3 members in the Mnemosyne v3 cognitive store.",
+  "type": "object",
+  "required": ["id", "workspaceId", "memberIds", "activationCount", "worth", "validFrom", "createdAt"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "workspaceId": { "type": "string", "minLength": 1 },
+    "memberIds": { "type": "array", "items": { "type": "string" } },
+    "label": { "type": ["string", "null"] },
+    "description": { "type": ["string", "null"] },
+    "contextQuery": { "type": ["string", "null"] },
+    "activationCount": { "type": "number" },
+    "worth": { "type": "number" },
+    "validFrom": { "type": "string" },
+    "validTo": { "type": ["string", "null"] },
+    "createdAt": { "type": "string" }
+  },
+  "additionalProperties": true
+}

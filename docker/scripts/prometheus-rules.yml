@@ -1,0 +1,183 @@
+groups:
+  # ---------------------------------------------------------------------------
+  # SLO error-budget recording rules (evaluated every 1m)
+  # These pre-compute multi-window error rates for efficient alerting.
+  # ---------------------------------------------------------------------------
+  - name: mnemo.slo.error_budget
+    interval: 1m
+    rules:
+      - record: mnemo:request:error_rate5m
+        expr: |
+          sum(rate(mnemo_requests_total{status=~"5.."}[5m]))
+          /
+          sum(rate(mnemo_requests_total[5m]))
+
+      - record: mnemo:request:error_rate1h
+        expr: |
+          sum(rate(mnemo_requests_total{status=~"5.."}[1h]))
+          /
+          sum(rate(mnemo_requests_total[1h]))
+
+      - record: mnemo:request:error_rate6h
+        expr: |
+          sum(rate(mnemo_requests_total{status=~"5.."}[6h]))
+          /
+          sum(rate(mnemo_requests_total[6h]))
+
+  # ---------------------------------------------------------------------------
+  # Multi-window burn-rate alerts (Google SRE Workbook §5 pattern)
+  #
+  # SLO target : 99.9 % availability  →  error budget = 0.1 % = 0.001
+  # Fast burn  : 14.4× threshold  — exhausts 30-day budget in ~2 h
+  # Slow burn  :  6×  threshold  — exhausts 30-day budget in ~5 days
+  # ---------------------------------------------------------------------------
+  - name: mnemo.slo.burn_rate_alerts
+    rules:
+      - alert: MnemoErrorBudgetBurnFast
+        expr: |
+          mnemo:request:error_rate5m > (14.4 * 0.001)
+          and
+          mnemo:request:error_rate1h > (14.4 * 0.001)
+        for: 2m
+        labels:
+          severity: critical
+          team: mnemo
+        annotations:
+          summary: "Mnemosyne error budget burning fast (14.4× threshold)"
+          description: >
+            5-minute and 1-hour error rates both exceed 14.4× the SLO error
+            budget rate (0.1% threshold = 14.4× * 0.001). At this burn rate
+            the 30-day error budget will be exhausted in ~2 hours. Page immediately.
+          runbook_url: "https://github.com/your-org/mnemosyne/blob/main/docs/runbooks/slo-burn-rate.md"
+
+      - alert: MnemoErrorBudgetBurnSlow
+        expr: |
+          mnemo:request:error_rate1h > (6 * 0.001)
+          and
+          mnemo:request:error_rate6h > (6 * 0.001)
+        for: 15m
+        labels:
+          severity: warning
+          team: mnemo
+        annotations:
+          summary: "Mnemosyne error budget burning slow (6× threshold)"
+          description: >
+            1-hour and 6-hour error rates both exceed 6× the SLO error budget
+            rate. At this burn rate the 30-day error budget will be exhausted
+            in ~5 days. File a ticket and investigate.
+          runbook_url: "https://github.com/your-org/mnemosyne/blob/main/docs/runbooks/slo-burn-rate.md"
+
+  # ---------------------------------------------------------------------------
+  # Tiered-recall latency + quality SLO recording rules
+  # ---------------------------------------------------------------------------
+  - name: mnemo.slo.tiered_recall
+    interval: 1m
+    rules:
+      # Hot-tier recall latency p99 SLO target: 10ms (0.01s)
+      - record: mnemo:recall_hot:p99_latency
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(mnemo_recall_duration_seconds_bucket{tier="hot"}[5m])) by (le)
+          )
+
+      # Warm-tier recall latency p99 SLO target: 30ms (0.03s)
+      - record: mnemo:recall_warm:p99_latency
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(mnemo_recall_duration_seconds_bucket{tier="warm"}[5m])) by (le)
+          )
+
+      # Cold-tier recall latency p99 SLO target: 500ms (0.5s)
+      - record: mnemo:recall_cold:p99_latency
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(mnemo_recall_duration_seconds_bucket{tier="cold"}[5m])) by (le)
+          )
+
+      # Reasoning cache hit rate SLO target: ≥70%
+      - record: mnemo:reasoning:cache_hit_ratio
+        expr: |
+          sum(rate(mnemo_reasoning_resolve_total{result="cache_hit"}[5m]))
+          /
+          sum(rate(mnemo_reasoning_resolve_total[5m]))
+
+      # Hot-tier cache hit rate SLO target: ≥60%
+      - record: mnemo:recall:hot_tier_hit_ratio
+        expr: |
+          sum(rate(mnemo_recall_duration_seconds_count{tier="hot"}[5m]))
+          /
+          sum(rate(mnemo_recall_duration_seconds_count[5m]))
+
+  # ---------------------------------------------------------------------------
+  # Tiered-recall SLO breach alerts
+  # ---------------------------------------------------------------------------
+  - name: mnemo.slo.tiered_recall_alerts
+    rules:
+      - alert: MnemoHotTierLatencySLOBreach
+        expr: mnemo:recall_hot:p99_latency > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          team: mnemo
+          slo: hot_tier_latency
+        annotations:
+          summary: "Hot-tier recall p99 exceeds 10ms SLO"
+          description: >
+            The hot-tier recall p99 latency has exceeded the 10ms SLO target
+            for 5 minutes. Hot-tier misses may be causing cascade to cold storage.
+
+      - alert: MnemoWarmTierLatencySLOBreach
+        expr: mnemo:recall_warm:p99_latency > 0.03
+        for: 5m
+        labels:
+          severity: warning
+          team: mnemo
+          slo: warm_tier_latency
+        annotations:
+          summary: "Warm-tier recall p99 exceeds 30ms SLO"
+          description: >
+            The warm-tier recall p99 latency has exceeded the 30ms SLO target
+            for 5 minutes.
+
+      - alert: MnemoColdTierLatencySLOBreach
+        expr: mnemo:recall_cold:p99_latency > 0.5
+        for: 5m
+        labels:
+          severity: critical
+          team: mnemo
+          slo: cold_tier_latency
+        annotations:
+          summary: "Cold-tier recall p99 exceeds 500ms SLO"
+          description: >
+            The cold-tier recall p99 latency has exceeded the 500ms SLO target
+            for 5 minutes. Database query performance may be degraded.
+
+      - alert: MnemoReasoningCacheHitSLOBreach
+        expr: mnemo:reasoning:cache_hit_ratio < 0.70
+        for: 15m
+        labels:
+          severity: warning
+          team: mnemo
+          slo: reasoning_cache_hit
+        annotations:
+          summary: "Reasoning cache hit rate below 70% SLO"
+          description: >
+            The reasoning cache hit ratio has been below 70% for 15 minutes.
+            Cache warming may be needed or TTL tuning.
+
+      - alert: MnemoHotTierHitSLOBreach
+        expr: mnemo:recall:hot_tier_hit_ratio < 0.60
+        for: 15m
+        labels:
+          severity: warning
+          team: mnemo
+          slo: hot_tier_hit_rate
+        annotations:
+          summary: "Hot-tier cache hit rate below 60% SLO"
+          description: >
+            The hot-tier hit ratio has been below 60% for 15 minutes. Consider
+            increasing maxHotTierSize or investigating eviction patterns.
+
+      # MnemoRoiBelowTarget removed (APP-015): mnemo_roi_multiplier is built from
+      # estimated savings that only distillation emits, so it read 0 and fired on
+      # every install with LLM spend. Measured context: GET /admin/stats → context.

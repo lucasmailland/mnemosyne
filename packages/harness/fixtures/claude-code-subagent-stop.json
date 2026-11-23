@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "provenance": {
+    "kind": "observed",
+    "host": "claude-code",
+    "hostBinaryVersion": "2.1.325",
+    "platform": "linux-aarch64",
+    "event": "SubagentStop",
+    "capturedWith": "claude -p with an isolated --settings file whose SubagentStop command copies stdin to a file; run from a scratch directory outside the repo; model haiku; subagent launched via the Task tool with a synthetic canary instruction",
+    "sanitized": true
+  },
+  "contractCitation": "docs/internals/host-hook-contracts.md#claude-code--full-hooks",
+  "documentedFields": ["session_id", "transcript_path", "cwd", "hook_event_name"],
+  "observedFields": [
+    "agent_id",
+    "agent_transcript_path",
+    "agent_type",
+    "background_tasks",
+    "cwd",
+    "effort",
+    "hook_event_name",
+    "last_assistant_message",
+    "permission_mode",
+    "prompt_id",
+    "session_crons",
+    "session_id",
+    "stop_hook_active",
+    "transcript_path"
+  ],
+  "observedPayload": {
+    "session_id": "<redacted-session-id>",
+    "transcript_path": "<redacted-path>/session.jsonl",
+    "cwd": "<redacted-path>",
+    "prompt_id": "<redacted-id>",
+    "permission_mode": "bypassPermissions",
+    "agent_id": "<redacted-agent-id>",
+    "agent_type": "general-purpose",
+    "effort": { "level": "medium" },
+    "hook_event_name": "SubagentStop",
+    "stop_hook_active": false,
+    "agent_transcript_path": "<redacted-path>/subagents/agent-<redacted-agent-id>.jsonl",
+    "last_assistant_message": "SS01_CANARY\nDONE_SS01",
+    "background_tasks": [],
+    "session_crons": []
+  },
+  "resume": {
+    "observed": true,
+    "sessionIdPreserved": true,
+    "evidence": "A second claude -p run with --resume <first session_id> launched a subagent; its SubagentStop payload reported the same session_id. The resumed payload's last_assistant_message was RESUME_SUB_CANARY\\nRESUME_DONE (synthetic, not in this fixture)."
+  },
+  "notEstablished": [
+    "Whether last_assistant_message is always the subagent's own final output or the parent turn's text; agent_transcript_path is the only observed pointer to the subagent transcript.",
+    "Behaviour on hosts or versions other than 2.1.325 linux-aarch64."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/governance-worth-item",
+  "title": "GovernanceWorthItem",
+  "description": "One item in GET /governance/worth's `items[]` (packages/server/src/routes/governance.ts).",
+  "type": "object",
+  "required": [
+    "id",
+    "subject",
+    "statement",
+    "worth",
+    "worthAlpha",
+    "worthBeta",
+    "confidenceLower",
+    "hitCount",
+    "action"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "subject": { "type": "string" },
+    "statement": { "type": "string" },
+    "worth": { "type": "number" },
+    "worthAlpha": { "type": "number" },
+    "worthBeta": { "type": "number" },
+    "confidenceLower": { "type": "number" },
+    "hitCount": { "type": "integer" },
+    "action": { "type": "string", "enum": ["canonical", "promote", "demote", "neutral"] }
+  },
+  "additionalProperties": true
+}

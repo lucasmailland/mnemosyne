@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_suggest_topic_key",
+  "inputSchema": {
+    "properties": {
+      "attribute": {
+        "description": "WHAT is described, not its value (e.g. 'deploy method'); key = subject + attribute, so a new value supersedes the old.",
+        "maxLength": 200,
+        "type": "string"
+      },
+      "body": {
+        "description": "Statement of the fact or body of the decision. Optional.",
+        "type": "string"
+      },
+      "subject": {
+        "description": "Fact subject or decision title (e.g. 'auth strategy').",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "description": "Lexical-only recall quality fixture — 8 facts, 6 questions. Facts use distinct vocabulary so bag-of-words similarity correctly ranks the relevant fact in top-5 for every question.",
+  "facts": [
+    {
+      "id": "fact-1",
+      "statement": "Paris is the capital city of France, famous for the Eiffel Tower and the Louvre museum.",
+      "subject": "Paris",
+      "kind": "observation"
+    },
+    {
+      "id": "fact-2",
+      "statement": "Mount Everest is the highest mountain on Earth, standing at 8849 metres above sea level in the Himalayas.",
+      "subject": "Mount Everest",
+      "kind": "observation"
+    },
+    {
+      "id": "fact-3",
+      "statement": "Python is a general-purpose programming language designed for readability and ease of use, created by Guido van Rossum.",
+      "subject": "Python",
+      "kind": "observation"
+    },
+    {
+      "id": "fact-4",
+      "statement": "The Pacific Ocean covers an area of approximately 165 million square kilometres, making it the largest ocean on Earth.",
+      "subject": "Pacific Ocean",
+      "kind": "observation"
+    },
+    {
+      "id": "fact-5",
+      "statement": "William Shakespeare wrote the plays Hamlet and Romeo and Juliet, considered masterpieces of English literature.",
+      "subject": "Shakespeare",
+      "kind": "observation"
+    },
+    {
+      "id": "fact-6",
+      "statement": "DNA is a double-helix molecule that carries the genetic information of living organisms and is found in every cell.",
+      "subject": "DNA",
+      "kind": "observation"
+    },
+    {
+      "id": "fact-7",
+      "statement": "The speed of light in a vacuum is exactly 299792458 metres per second, a fundamental constant of physics.",
+      "subject": "Speed of Light",
+      "kind": "observation"
+    },
+    {
+      "id": "fact-8",
+      "statement": "Rome was the ancient capital of the Roman Empire and is now the capital city of Italy.",
+      "subject": "Rome",
+      "kind": "observation"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q-1",
+      "text": "What is the capital city of France and what famous tower is found there?",
+      "groundTruth": {
+        "factIds": ["fact-1"],
+        "acceptedAnswers": ["Paris", "Eiffel Tower"]
+      },
+      "category": "geography"
+    },
+    {
+      "id": "q-2",
+      "text": "How tall is Mount Everest above sea level in metres?",
+      "groundTruth": {
+        "factIds": ["fact-2"],
+        "acceptedAnswers": ["8849", "Mount Everest"]
+      },
+      "category": "geography"
+    },
+    {
+      "id": "q-3",
+      "text": "What programming language was designed for readability by Guido van Rossum?",
+      "groundTruth": {
+        "factIds": ["fact-3"],
+        "acceptedAnswers": ["Python", "programming language"]
+      },
+      "category": "technology"
+    },
+    {
+      "id": "q-4",
+      "text": "What is the area of the Pacific Ocean in square kilometres?",
+      "groundTruth": {
+        "factIds": ["fact-4"],
+        "acceptedAnswers": ["Pacific Ocean", "165 million"]
+      },
+      "category": "geography"
+    },
+    {
+      "id": "q-5",
+      "text": "What plays did Shakespeare write that are considered masterpieces of English literature?",
+      "groundTruth": {
+        "factIds": ["fact-5"],
+        "acceptedAnswers": ["Hamlet", "Romeo and Juliet", "Shakespeare"]
+      },
+      "category": "literature"
+    },
+    {
+      "id": "q-6",
+      "text": "What is the speed of light in a vacuum expressed in metres per second?",
+      "groundTruth": {
+        "factIds": ["fact-7"],
+        "acceptedAnswers": ["299792458", "speed of light"]
+      },
+      "category": "science"
+    }
+  ]
+}

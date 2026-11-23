@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Mnemosyne — Seguridad de una request",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "identidad", "label": "Identidad", "focus": ["key", "lookup", "scopes", "deny"], "note": "La API key establece workspace, rol y scopes antes de cualquier query con RLS." },
+      { "id": "autorizacion", "label": "Autorización", "focus": ["scopes", "rbac", "approval"], "note": "Scopes recortados por rol; RBAC puede exigir aprobación de otra persona." },
+      { "id": "datos", "label": "Aislamiento y protección", "focus": ["tx", "ceiling", "notfound", "crypto", "audit"], "note": "RLS por transacción, techo numérico de sensitivity y cifrado por actor." }
+    ]
+  },
+  "lanes": [
+    { "id": "access", "label": "Identidad y autorización (auth.ts · rbac-policy.ts)" },
+    { "id": "isolation", "label": "Aislamiento de datos" },
+    { "id": "protection", "label": "Protección en reposo" },
+    { "id": "reject", "label": "Rechazos", "variant": "exception" }
+  ],
+  "phases": [
+    { "id": "authn", "label": "Autenticación", "fromCol": 0, "toCol": 1, "variant": "security" },
+    { "id": "authz-phase", "label": "Autorización", "fromCol": 2, "toCol": 3 },
+    { "id": "data-phase", "label": "Datos", "fromCol": 4, "toCol": 5, "variant": "emphasis" }
+  ],
+  "mainPath": ["key", "lookup", "scopes", "rbac", "tx", "ceiling"],
+  "nodes": [
+    { "id": "key", "lane": "access", "col": 0, "type": "external", "label": "API key", "sublabel": "mns_ · mk_ · uk_", "width": 132 },
+    { "id": "lookup", "lane": "access", "col": 1, "type": "security", "label": "HMAC lookup", "sublabel": "pepper + bcrypt", "tag": "LRU 60s · IP allowlist", "width": 140 },
+    { "id": "scopes", "lane": "access", "col": 2, "type": "security", "label": "Scopes ∩ rol", "sublabel": "read · write · admin", "width": 140 },
+    { "id": "rbac", "lane": "access", "col": 3, "type": "security", "label": "RBAC + break-glass", "sublabel": "políticas por actor", "tag": "rate limit después", "width": 150 },
+    { "id": "tx", "lane": "isolation", "col": 4, "type": "database", "label": "withMnemoTx", "sublabel": "SET ROLE app_user + GUC", "width": 160 },
+    { "id": "ceiling", "lane": "isolation", "col": 5, "type": "security", "label": "Techo sensitivity", "sublabel": "SENSITIVITY_ORDER", "width": 150 },
+    { "id": "crypto", "lane": "protection", "col": 4, "type": "security", "label": "Cifrado confidential+", "sublabel": "KEK HKDF → DEK/actor", "width": 160 },
+    { "id": "audit", "lane": "protection", "col": 5, "type": "database", "label": "Audit Merkle", "sublabel": "INSERT-only + trigger", "width": 150 },
+    { "id": "deny", "lane": "reject", "col": 1, "type": "security", "label": "401 / 403", "sublabel": "key · IP · scope", "width": 140 },
+    { "id": "approval", "lane": "reject", "col": 3, "type": "messagebus", "label": "202 aprobación", "sublabel": "15 min · otro userId", "width": 150 },
+    { "id": "notfound", "lane": "reject", "col": 5, "type": "security", "label": "404", "sublabel": "anti-probing", "width": 150 }
+  ],
+  "edges": [
+    { "id": "key-lookup", "from": "key", "to": "lookup", "variant": "emphasis" },
+    { "id": "lookup-scopes", "from": "lookup", "to": "scopes", "label": "workspace + rol", "variant": "emphasis" },
+    { "id": "scopes-rbac", "from": "scopes", "to": "rbac", "variant": "emphasis" },
+    { "id": "rbac-tx", "from": "rbac", "to": "tx", "variant": "emphasis" },
+    { "id": "tx-ceiling", "from": "tx", "to": "ceiling", "variant": "emphasis" },
+    { "id": "lookup-deny", "from": "lookup", "to": "deny", "label": "inválida", "variant": "security", "role": "error" },
+    { "id": "rbac-approval", "from": "rbac", "to": "approval", "label": "approval_required", "variant": "security", "role": "error" },
+    { "id": "ceiling-notfound", "from": "ceiling", "to": "notfound", "label": "sobre el techo", "variant": "security", "role": "error" },
+    { "id": "tx-crypto", "from": "tx", "to": "crypto", "label": "escritura", "variant": "dashed", "role": "branch" },
+    { "id": "crypto-audit", "from": "crypto", "to": "audit", "variant": "dashed", "role": "branch" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Identidad", "items": ["HMAC(pepper) + un solo bcrypt", "Solo uk_ cambia de workspace"] },
+    { "dot": "rose", "title": "Aislamiento", "items": ["FORCE RLS · boot rechaza superuser", "Sobre el techo → 404, no 403"] },
+    { "dot": "amber", "title": "Protección", "items": ["enc:v1: solo confidential+", "GDPR: destruir la DEK del usuario"] }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_strategy",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "Required for create: the response to run.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "agentId": {
+        "description": "Owning agent. For create and store.",
+        "type": "string"
+      },
+      "context": {
+        "description": "When it applies, free text. For create, store and patch.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "id": {
+        "description": "Required for get/patch/archive.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "limit": {
+        "description": "For list.",
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "metadata": {
+        "description": "Free-form JSON. For create, store and patch.",
+        "type": "object"
+      },
+      "op": {
+        "description": "The operation to perform.",
+        "enum": [
+          "create",
+          "get",
+          "list",
+          "patch",
+          "archive",
+          "store",
+          "recall",
+          "rate"
+        ],
+        "type": "string"
+      },
+      "outcome": {
+        "description": "For rate: success or failure.",
+        "enum": [
+          "success",
+          "failure"
+        ],
+        "type": "string"
+      },
+      "scopeRef": {
+        "description": "Project, set on create/store (patch refuses it); filters list/recall.",
+        "type": "string"
+      },
+      "sensitivity": {
+        "description": "Set on create/store only (patch refuses it). Default 'internal'.",
+        "enum": [
+          "public",
+          "internal",
+          "confidential",
+          "restricted"
+        ],
+        "type": "string"
+      },
+      "status": {
+        "description": "For patch: the new status.",
+        "enum": [
+          "active",
+          "superseded",
+          "archived"
+        ],
+        "type": "string"
+      },
+      "statusFilter": {
+        "description": "For list: only strategies in this status.",
+        "enum": [
+          "active",
+          "superseded",
+          "archived"
+        ],
+        "type": "string"
+      },
+      "supersedesId": {
+        "description": "Strategy this one replaces (it is closed). For create/store.",
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context). op='create'/'store' only.",
+        "format": "uuid",
+        "type": "string"
+      },
+      "trigger": {
+        "description": "Required for create.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "validAt": {
+        "description": "For list: only strategies valid at this instant.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "validFrom": {
+        "description": "When it starts to apply. For create and store.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "validTo": {
+        "description": "When it stops applying. For patch.",
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "required": [
+      "op"
+    ],
+    "type": "object"
+  }
+}

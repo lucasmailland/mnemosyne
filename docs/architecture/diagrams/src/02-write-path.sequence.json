@@ -1,0 +1,271 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Mnemosyne — Camino de escritura (memory_remember)",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      1080,
+      640
+    ],
+    "views": [
+      {
+        "id": "entrada",
+        "label": "Entrada y procedencia",
+        "focus": [
+          "agent",
+          "mcp",
+          "api",
+          "core"
+        ],
+        "note": "La API fija actorId/userId con resolveProvenance antes de tocar el core."
+      },
+      {
+        "id": "atomico",
+        "label": "Escritura atómica",
+        "focus": [
+          "core",
+          "embed",
+          "pg"
+        ],
+        "note": "Solo el INSERT del fact y su fila vector_upsert comparten transacción."
+      },
+      {
+        "id": "asincrono",
+        "label": "Relevo asíncrono",
+        "focus": [
+          "worker",
+          "pg",
+          "embed"
+        ],
+        "note": "El OutboxWorker es la red de seguridad del índice vectorial."
+      }
+    ]
+  },
+  "participants": [
+    {
+      "id": "agent",
+      "type": "external",
+      "label": "Agente",
+      "sublabel": "tool call"
+    },
+    {
+      "id": "mcp",
+      "type": "frontend",
+      "label": "MCP + client-ts",
+      "sublabel": "stdio → HTTP"
+    },
+    {
+      "id": "api",
+      "type": "security",
+      "label": "POST /remember",
+      "sublabel": "Hono route"
+    },
+    {
+      "id": "core",
+      "type": "backend",
+      "label": "remember()",
+      "sublabel": "core/cognitive"
+    },
+    {
+      "id": "embed",
+      "type": "external",
+      "label": "Embedder",
+      "sublabel": "EmbedAdapter"
+    },
+    {
+      "id": "pg",
+      "type": "database",
+      "label": "Postgres",
+      "sublabel": "pgvector + RLS"
+    },
+    {
+      "id": "worker",
+      "type": "messagebus",
+      "label": "OutboxWorker",
+      "sublabel": "poll 1s"
+    }
+  ],
+  "segments": [
+    {
+      "from": 160,
+      "to": 262,
+      "label": "Entrada"
+    },
+    {
+      "from": 268,
+      "to": 330,
+      "label": "Guardas"
+    },
+    {
+      "from": 336,
+      "to": 484,
+      "label": "Persistencia"
+    },
+    {
+      "from": 490,
+      "to": 560,
+      "label": "Asíncrono"
+    }
+  ],
+  "messages": [
+    {
+      "id": "call-tool",
+      "from": "agent",
+      "to": "mcp",
+      "y": 188,
+      "label": "memory_remember"
+    },
+    {
+      "id": "http-post",
+      "from": "mcp",
+      "to": "api",
+      "y": 216,
+      "label": "POST /remember · Bearer",
+      "variant": "emphasis"
+    },
+    {
+      "id": "provenance",
+      "from": "api",
+      "to": "core",
+      "y": 244,
+      "label": "resolveProvenance → remember()",
+      "variant": "security"
+    },
+    {
+      "id": "embed-call",
+      "from": "core",
+      "to": "embed",
+      "y": 292,
+      "label": "embedSingle → vector (en la request)"
+    },
+    {
+      "id": "neighbours",
+      "from": "core",
+      "to": "pg",
+      "y": 320,
+      "label": "vecinos + hash dedup"
+    },
+    {
+      "id": "insert-tx",
+      "from": "core",
+      "to": "pg",
+      "y": 360,
+      "label": "TX: INSERT fact + outbox vector_upsert",
+      "variant": "emphasis"
+    },
+    {
+      "id": "side-effects",
+      "from": "core",
+      "to": "pg",
+      "y": 388,
+      "label": "conflicts_with · vector.upsert · lsh",
+      "variant": "dashed"
+    },
+    {
+      "id": "audit",
+      "from": "core",
+      "to": "pg",
+      "y": 416,
+      "label": "audit create (cadena Merkle)",
+      "variant": "security"
+    },
+    {
+      "id": "core-return",
+      "from": "core",
+      "to": "api",
+      "y": 444,
+      "label": "MnemoFact",
+      "variant": "return"
+    },
+    {
+      "id": "http-201",
+      "from": "api",
+      "to": "mcp",
+      "y": 472,
+      "label": "201 + id del fact",
+      "variant": "return"
+    },
+    {
+      "id": "claim",
+      "from": "worker",
+      "to": "pg",
+      "y": 516,
+      "label": "claim SKIP LOCKED",
+      "variant": "dashed"
+    },
+    {
+      "id": "vector-upsert",
+      "from": "worker",
+      "to": "pg",
+      "y": 544,
+      "label": "embed si falta · upsert pgvector",
+      "variant": "dashed"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "mcp",
+      "from": 188,
+      "to": 472,
+      "type": "frontend"
+    },
+    {
+      "participant": "api",
+      "from": 216,
+      "to": 472,
+      "type": "security"
+    },
+    {
+      "participant": "core",
+      "from": 244,
+      "to": 444,
+      "type": "backend"
+    },
+    {
+      "participant": "embed",
+      "from": 286,
+      "to": 298,
+      "type": "external"
+    },
+    {
+      "participant": "pg",
+      "from": 320,
+      "to": 416,
+      "type": "database"
+    },
+    {
+      "participant": "worker",
+      "from": 516,
+      "to": 544,
+      "type": "messagebus"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Atómico",
+      "items": [
+        "INSERT fact + outbox en una TX",
+        "Audit: TX propia + advisory lock"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Guardas",
+      "items": [
+        "Poisoning rechaza · PII redactada",
+        "confidential+ → AES-GCM DEK/actor"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "Outbox",
+      "items": [
+        "Facts: upsert síncrono + respaldo",
+        "Backoff 10s→30m · 5 intentos"
+      ]
+    }
+  ]
+}

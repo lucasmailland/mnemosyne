@@ -1,0 +1,63 @@
+name: Feature request
+description: Propose a capability that would make Mnemosyne remember better.
+title: "[feat]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas welcome. Concrete API sketches help us evaluate fit against
+        Mnemosyne's design principles (core has no I/O, bitemporal by default,
+        RLS + FORCE, no silent failures).
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Target package
+      description: Where would this land?
+      options:
+        - "@mnemo-ai/core"
+        - "@mnemo-ai/server"
+        - "@mnemo-ai/mcp"
+        - "@mnemo-ai/client-ts"
+        - "@mnemo-ai/llm-providers"
+        - "docker / stack"
+        - "New package / cross-cutting"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What can't you do today? Who hits this and how often?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API or behavior
+      description: Sketch the function signature, HTTP route, MCP tool, or config you imagine.
+      render: typescript
+      placeholder: |
+        // e.g.
+        recall(query, { strategy: "graph-first", maxHops: 2 })
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you've tried or other designs you weighed.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmations
+      options:
+        - label: I searched existing issues and discussions for this idea.
+          required: true

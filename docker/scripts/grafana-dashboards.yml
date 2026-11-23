@@ -1,0 +1,15 @@
+# Grafana dashboard provisioning config.
+# Loads JSON dashboards from /etc/grafana/provisioning/dashboards/.
+
+apiVersion: 1
+
+providers:
+  - name: Mnemosyne
+    orgId: 1
+    folder: Mnemosyne
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards

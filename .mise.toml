@@ -1,0 +1,5 @@
+[tools]
+node = "22"
+pnpm = "9.15.0"
+go = "1.21"
+k6 = "latest"

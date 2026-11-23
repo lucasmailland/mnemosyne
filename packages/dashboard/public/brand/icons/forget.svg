@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36"
+  viewBox="0 0 36 36" role="img">
+  <style>
+    .hueca{fill:none;stroke:#F5ECDE;stroke-width:1.5}
+  </style>
+  <path d="M4 13 q4.5 -4 9 0 t9 0 t9 0" class="hueca"/>
+      <path d="M4 20 q4.5 -4 9 0 t9 0 t9 0" class="hueca" opacity=".6"/>
+      <path d="M4 27 q4.5 -4 9 0 t9 0 t9 0" class="hueca" opacity=".3"/>
+</svg>

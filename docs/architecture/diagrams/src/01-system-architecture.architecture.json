@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Mnemosyne — Arquitectura del sistema",
+    "quality_profile": "showcase",
+    "viewBox": [1170, 640],
+    "views": [
+      {
+        "id": "entrada",
+        "label": "Cómo entran los agentes",
+        "focus": ["agents", "mcp", "hooks", "clients", "api"],
+        "note": "MCP stdio, hooks del plugin y SDKs convergen en la misma API HTTP autenticada."
+      },
+      {
+        "id": "nucleo-datos",
+        "label": "Núcleo hexagonal y datos",
+        "focus": ["api", "core", "postgres", "redis", "llm"],
+        "note": "El core solo ve puertos; Postgres es la fuente de verdad y Redis es opcional."
+      },
+      {
+        "id": "segundo-plano",
+        "label": "Trabajo en segundo plano",
+        "focus": ["workers", "postgres"],
+        "note": "Outbox, consolidación y crons corren dentro del mismo proceso del servidor."
+      }
+    ]
+  },
+  "components": [
+    { "id": "agents", "type": "external", "label": "Agente host", "sublabel": "Claude Code · Codex · OpenCode", "pos": [40, 160], "size": [150, 62] },
+    { "id": "mcp", "type": "frontend", "label": "@mnemo-ai/mcp", "sublabel": "37 tools · stdio", "pos": [250, 90], "size": [140, 62] },
+    { "id": "hooks", "type": "frontend", "label": "Plugin hooks", "sublabel": "auto-recall · harness", "pos": [250, 230], "size": [140, 62] },
+    { "id": "clients", "type": "frontend", "label": "CLI · SDKs · Dashboard", "sublabel": "client-ts · Go · Python", "pos": [250, 380], "size": [150, 62] },
+    { "id": "api", "type": "security", "label": "API Hono :3939", "sublabel": "auth · scopes · RBAC · rate limit", "tag": "+ gRPC Connect · WS", "pos": [480, 230], "size": [160, 72] },
+    { "id": "core", "type": "backend", "label": "core/cognitive", "sublabel": "remember · recall · forget", "tag": "solo puertos de types", "pos": [720, 230], "size": [150, 72] },
+    { "id": "workers", "type": "backend", "label": "Workers en proceso", "sublabel": "outbox 1s · consolidación 60s", "tag": "~30 crons · usan LLM", "pos": [720, 500], "size": [150, 72] },
+    { "id": "redis", "type": "database", "label": "Redis", "sublabel": "hot tier · rate limit", "tag": "opcional", "pos": [960, 50], "size": [140, 72] },
+    { "id": "postgres", "type": "database", "label": "Postgres + pgvector", "sublabel": "bitemporal · RLS FORCE", "tag": "fuente de verdad", "pos": [960, 230], "size": [150, 72] },
+    { "id": "llm", "type": "external", "label": "LLM + embeddings", "sublabel": "OpenAI · Ollama · Voyage…", "pos": [960, 390], "size": [150, 62] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Máquina del agente", "wraps": ["agents", "mcp", "hooks"], "pad": 18 },
+    { "kind": "region", "label": "Proceso mnemosyne-server (Node 20)", "wraps": ["api", "core", "workers"], "pad": 20 },
+    { "kind": "security-group", "label": "RLS por workspace", "wraps": ["postgres"], "pad": 12 }
+  ],
+  "connections": [
+    { "from": "agents", "to": "mcp", "label": "stdio" },
+    { "from": "agents", "to": "hooks", "label": "eventos" },
+    { "from": "mcp", "to": "api", "label": "HTTP + API key", "variant": "emphasis", "fromSide": "right", "toSide": "top" },
+    { "from": "hooks", "to": "api", "label": "curl /recall", "variant": "emphasis" },
+    { "from": "clients", "to": "api", "label": "HTTP · gRPC", "fromSide": "right", "toSide": "bottom" },
+    { "from": "api", "to": "core", "label": "CoreContext", "variant": "emphasis" },
+    { "from": "core", "to": "postgres", "label": "withMnemoTx", "variant": "security" },
+    { "from": "core", "to": "redis", "label": "hot tier", "variant": "dashed", "fromSide": "top", "toSide": "bottom", "via": [[795, 160], [1030, 160]] },
+    { "from": "core", "to": "llm", "label": "embed síncrono", "variant": "dashed", "fromSide": "bottom", "toSide": "left" },
+    { "from": "workers", "to": "postgres", "label": "claim outbox", "variant": "dashed", "fromSide": "right", "toSide": "right", "via": [[1150, 536], [1150, 266]], "labelSegment": 0 }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Entrada", "items": ["MCP → client-ts → HTTP (sin /v1)", "gRPC Connect salta middleware Hono"] },
+    { "dot": "emerald", "title": "Hexagonal", "items": ["core solo importa puertos (types)", "RLS por query vía withMnemoTx"] },
+    { "dot": "amber", "title": "Segundo plano", "items": ["Outbox: 50 por lote, 5 intentos", "Collapse 5 min · consolidación 60s"] }
+  ]
+}

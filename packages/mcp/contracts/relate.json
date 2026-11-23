@@ -1,0 +1,102 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_relate",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "default": "create",
+        "description": "'create', 'list', 'history' (supersedes/derived_from lineage) or 'retract' (bitemporal close by relation id).",
+        "enum": [
+          "create",
+          "list",
+          "history",
+          "retract"
+        ],
+        "type": "string"
+      },
+      "confidence": {
+        "description": "[0, 1]. Default set by the server.",
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "from": {
+        "description": "action='create'/'history'. Source id (episodes: mepi_...).",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "judgmentStatus": {
+        "description": "action='list'. Filter by judgment status.",
+        "enum": [
+          "pending",
+          "judged",
+          "dismissed"
+        ],
+        "type": "string"
+      },
+      "limit": {
+        "description": "action='list'. Limit of relations to return.",
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "maxDepth": {
+        "description": "action='history'. Lineage depth. Default and maximum 5.",
+        "maximum": 5,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "reason": {
+        "description": "Optional: why this relation exists.",
+        "type": "string"
+      },
+      "relationId": {
+        "description": "action='retract'. ID of the relation itself, not of its endpoints.",
+        "type": "string"
+      },
+      "sourceKind": {
+        "description": "action='create'/'history'. Type of the source primitive.",
+        "enum": [
+          "fact",
+          "decision",
+          "entity",
+          "episode"
+        ],
+        "type": "string"
+      },
+      "targetKind": {
+        "description": "action='create'. Type of the target primitive.",
+        "enum": [
+          "fact",
+          "decision",
+          "entity",
+          "episode"
+        ],
+        "type": "string"
+      },
+      "to": {
+        "description": "action='create'. ID of the target primitive.",
+        "type": "string"
+      },
+      "verb": {
+        "description": "action='create'. One of the 9 fixed verbs.",
+        "enum": [
+          "related",
+          "compatible",
+          "scoped",
+          "conflicts_with",
+          "supersedes",
+          "not_conflict",
+          "derived_from",
+          "part_of",
+          "member_of"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

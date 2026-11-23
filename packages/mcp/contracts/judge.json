@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_judge",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "'list' unresolved conflict pairs or 'resolve' one.",
+        "enum": [
+          "list",
+          "resolve"
+        ],
+        "type": "string"
+      },
+      "limit": {
+        "description": "action='list' only. Default 5, max 20.",
+        "maximum": 20,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "mergedStatement": {
+        "description": "resolution='merge' only: the merged fact that replaces both.",
+        "type": "string"
+      },
+      "relationId": {
+        "description": "action='resolve' only. The pair's relationId, from action='list'.",
+        "type": "string"
+      },
+      "resolution": {
+        "description": "action='resolve' only. supersede_a: factA is wrong (forgotten); supersede_b: factB is wrong; keep_both: no real conflict; merge: send mergedStatement.",
+        "enum": [
+          "supersede_a",
+          "supersede_b",
+          "keep_both",
+          "merge"
+        ],
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

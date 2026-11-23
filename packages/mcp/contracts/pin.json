@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_pin",
+  "inputSchema": {
+    "properties": {
+      "factId": {
+        "description": "ID of the fact to pin.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "unpin": {
+        "description": "true unpins instead. Default false.",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "factId"
+    ],
+    "type": "object"
+  }
+}

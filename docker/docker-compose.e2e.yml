@@ -1,0 +1,115 @@
+# Dashboard end-to-end stack: the production topology (postgres, redis,
+# migrate, server, dashboard) built from this checkout, for the Playwright
+# specs in packages/dashboard/e2e. Driven by scripts/e2e-dashboard.sh.
+#
+# Every value below is a throwaway test value: the stack is created fresh for
+# a run and removed with its volume afterwards. Never reuse them anywhere.
+#
+# Mirrors the production compose on purpose (rol mnemo_app for the server,
+# superuser only for migrate, Redis-backed rate limits, Secure cookies), so a
+# pass here says something about a deploy. No container_name: the project name
+# (-p) keeps it from colliding with any other stack on the machine.
+
+name: mnemosyne-e2e
+
+x-e2e-env: &e2e-db
+  POSTGRES_USER: mnemo_admin
+  POSTGRES_PASSWORD: e2e-postgres-password
+  POSTGRES_DB: mnemosyne
+
+services:
+  redis:
+    image: redis:7-alpine
+    command: redis-server --save "" --loglevel warning
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment: *e2e-db
+    tmpfs: [/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mnemo_admin -d mnemosyne"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  migrate:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.migrate
+    image: mnemosyne-migrate:e2e
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://mnemo_admin:e2e-postgres-password@postgres:5432/mnemosyne
+      MNEMO_MIGRATION_DATABASE_URL: postgres://mnemo_admin:e2e-postgres-password@postgres:5432/mnemosyne
+      MNEMO_APP_DB_USER: mnemo_app
+      MNEMO_APP_DB_PASSWORD: e2e-app-password
+
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    image: mnemosyne-server:e2e
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://mnemo_app:e2e-app-password@postgres:5432/mnemosyne
+      MNEMO_REDIS_URL: redis://redis:6379
+      MNEMO_EMBED_STUB: "true"
+      MNEMO_DASHBOARD_SECRET: e2e-dashboard-secret-at-least-32-bytes-long
+      # The first key is registered only with a setup token; the specs cannot read
+      # the server log, so this stack is given a fixed one (e2e/global-setup.ts).
+      MNEMO_SETUP_TOKEN: e2e-setup-token-0123456789
+      MNEMO_MASTER_KEY: 0000000000000000000000000000000000000000000000000000000000000e2e
+      MNEMO_KEY_PEPPER: e2e-key-pepper-not-a-secret-padded-to-32-plus
+      # Links shown in Members point at the published dashboard, not at the
+      # internal server address the Next.js bridge reaches this container by.
+      MNEMO_PUBLIC_BASE_URL: http://localhost:${MNEMO_E2E_PORT:-3300}
+      # The suite signs in far more often than a person would; the per-address
+      # sign-in budget (default 30 per 15 minutes) is raised for it. The
+      # per-email budget (10) is untouched, so lockout specs still behave.
+      MNEMO_DASHBOARD_LOGIN_IP_BURST: "300"
+      PORT: "3939"
+      NODE_ENV: production
+      LOG_LEVEL: warn
+    networks:
+      default:
+        # The dashboard image bakes http://mnemosyne-server:3939 into its
+        # rewrites at build time (see Dockerfile.dashboard).
+        aliases: [mnemosyne-server]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3939/health/live"]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+
+  dashboard:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dashboard
+      args:
+        MNEMO_SERVER_URL: http://mnemosyne-server:3939
+    image: mnemosyne-dashboard:e2e
+    depends_on:
+      server:
+        condition: service_healthy
+    environment:
+      MNEMO_SERVER_URL: http://mnemosyne-server:3939
+      NODE_ENV: production
+    ports:
+      - "127.0.0.1:${MNEMO_E2E_PORT:-3300}:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3000/dashboard/login"]
+      interval: 3s
+      timeout: 5s
+      retries: 40

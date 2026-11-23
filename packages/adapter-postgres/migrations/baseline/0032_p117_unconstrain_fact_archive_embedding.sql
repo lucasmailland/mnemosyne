@@ -1,0 +1,37 @@
+-- migrate:allow-type-change reason=unconstrain_fact_archive_embedding_for_multi_dimension_support
+--
+-- P117 — `mnemo_fact_archive.embedding` is the one embedding column migration
+-- 0009 did not reach, and it silently re-imposed the constraint 0009 exists to
+-- remove.
+--
+-- The sequence:
+--   * 0009 unconstrained EVERY embedding column ("multi-dimension support —
+--     Bedrock/Titan 1024, OpenAI text-embedding-3-small 1536, future
+--     2048/4096"), and 0010 restored dimension-scoped HNSW indexes on top.
+--   * 0011 then ADDED this column, brand new, as `public.halfvec(1536)`.
+--     It came after 0009, so nothing unconstrained it.
+--
+-- The consequence is asymmetric in the worst direction. `mnemo_fact.embedding`
+-- accepts any width, so a workspace configured at 1024 (a width the schema
+-- explicitly declares: idx_fact_emb_1024_hnsw, mnemo_fact_embeddings_1024,
+-- MNEMO_EMBED_DIMENSIONS) WRITES facts perfectly — and can never soft-delete
+-- them. archiveFact() copies the row into mnemo_fact_archive, the copy is
+-- rejected with "expected 1536 dimensions, not 1024", and DELETE /facts/:id
+-- returns 500 forever. Data you can create and cannot forget.
+--
+-- Measured, not deduced: a live stack on a 768-dim model and then a 1024-dim
+-- model both wrote facts and both 500'd on soft delete; DELETE /facts/purge
+-- succeeded on the same rows, because a physical delete never touches the
+-- archive. The hard path worked and the recoverable one did not.
+--
+-- Safe to relax: this column carries NO vector index. The only indexes on
+-- mnemo_fact_archive are btree (pkey, archived_at, merged_into_id, workspace_id)
+-- — verified against a live database — so the ALTER cannot hit the partial/
+-- opclass rebuild failures that made 0009 complicated. There is no ANN search
+-- over archived facts; the column is an audit copy. Widening keeps every
+-- existing 1536-dim row valid.
+--
+-- This makes the archive column match its source, `mnemo_fact.embedding`, which
+-- is what an archive copy should have been all along.
+
+ALTER TABLE mnemosyne.mnemo_fact_archive ALTER COLUMN embedding TYPE public.halfvec;

@@ -1,0 +1,465 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  # ── Documentation consistency guard (fast, no build needed) ─────────
+  doc-lint:
+    name: doc-lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run doc-lint
+        run: bash scripts/doc-lint.sh
+
+  determinism:
+    name: test-determinism
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Scan tests for unseeded nondeterminism
+        run: bash scripts/check-test-determinism.sh
+
+  # ── Build, lint, typecheck, and Docker-free unit tests ──────────────
+  build-and-test:
+    name: build · lint · typecheck · test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        # @mnemo-ai/server's DTS emit runs in a tsup worker heavy enough to
+        # OOM this runner (ERR_WORKER_OUT_OF_MEMORY) — same issue already
+        # worked around in docker/Dockerfile.server. Nothing in the
+        # monorepo depends on @mnemo-ai/server's .d.ts (it's an
+        # application, not a consumed library), and `Typecheck` below runs
+        # `tsc --noEmit` on source directly, independent of tsup's DTS
+        # output, so skipping emission here is a no-op for correctness.
+        run: pnpm turbo run build
+        env:
+          MNEMO_BUILD_NO_DTS: "1"
+
+      - name: Lint
+        run: pnpm turbo run lint
+
+      - name: Docs translation guard
+        run: |
+          pnpm test:scripts
+          pnpm docs:check-translations
+
+      - name: Typecheck
+        run: pnpm turbo run typecheck
+
+      - name: Test (unit, no Docker)
+        run: pnpm turbo run test --force
+
+      # A qualification record authorises host capture. Re-validating it against
+      # the packed artifact is what stops a stale record — one recorded from an
+      # older host, platform or build — from silently granting capture it never
+      # proved. Records for other platforms are reported and skipped; only a
+      # stale record FOR THIS platform fails the job.
+      # The hook launcher stands between the host's JSON channel and the harness.
+      # A regression there breaks somebody's editor session rather than losing a
+      # memory, so these run in the blocking gate like any other test.
+      - name: Test host hook scripts
+        run: pnpm test:hooks
+
+      - name: Validate harness host qualifications
+        run: node scripts/qualify-harness-host.mjs validate-all
+
+  # ── Real Postgres + pgvector isolation tests (blocking) ─────────────
+  # Tests spin up their own pgvector containers via testcontainers
+  # (random ports, hermetic). No service container needed — each test
+  # suite manages its own DB lifecycle. CI-blocking: a red integration
+  # test reds the PR.
+  integration:
+    name: integration (pgvector · blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      # Node 22, like every job (tsup 9 needs ≥22.18). Integration needed it first:
+      # testcontainers' undici@8 calls webidl.util.markAsUncloneable, which Node 20
+      # lacks ("is not a function" at import).
+      - name: Setup Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        # See build-and-test's Build step for why MNEMO_BUILD_NO_DTS is set.
+        run: pnpm turbo run build
+        env:
+          MNEMO_BUILD_NO_DTS: "1"
+
+      - name: Integration tests (RLS isolation, recall, CRUD)
+        run: pnpm turbo run test:integration
+
+  # ── Dashboard end-to-end (Playwright against the production topology) ──────
+  # Builds server, migrate and dashboard images from this checkout, starts them
+  # with Postgres and Redis (docker/docker-compose.e2e.yml), and drives the
+  # dashboard in Chromium: email login, workspace choice, lockout, password
+  # change, API key login, logout, mobile menu. CI-blocking.
+  e2e-dashboard:
+    name: e2e dashboard (playwright · blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium for Playwright
+        run: pnpm --filter @mnemo-ai/dashboard exec playwright install --with-deps chromium
+
+      - name: Dashboard e2e (fresh stack, run, teardown)
+        run: pnpm test:e2e:dashboard
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            packages/dashboard/playwright-report/
+            packages/dashboard/test-results/
+          retention-days: 14
+
+  # ── Benchmark regression gate (non-blocking: perf varies on shared runners) ──
+  bench:
+    name: bench regression gate
+    runs-on: ubuntu-latest
+    # Non-blocking: absolute hz/p99 vary widely on shared GitHub runners, so a
+    # baseline captured on one runner routinely trips the 30% gate on another.
+    # The job still runs and reports regressions, but does not red the PR.
+    continue-on-error: true
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build dependencies
+        run: pnpm turbo run build --filter=@mnemo-ai/core^...
+
+      - name: Run benchmarks
+        env:
+          BENCH_OUT: bench-results.json
+        run: pnpm --filter @mnemo-ai/core exec tsx src/benchmark/bench.ts
+
+      - name: Check regression vs baseline
+        env:
+          BENCH_TOLERANCE: "0.30"
+        run: pnpm --filter @mnemo-ai/core exec tsx src/benchmark/check-regression.ts || true
+
+      - name: Quality gate (§29 absolute targets)
+        run: pnpm --filter @mnemo-ai/core run bench:quality || true
+
+  # ── Load smoke (k6 · 30 s · 5 rps · gates main) ──────────────────────
+  load-smoke:
+    name: load smoke (k6 · 30s · 5 rps)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: mnemo
+          POSTGRES_PASSWORD: mnemo
+          POSTGRES_DB: mnemo
+        options: >-
+          --health-cmd "pg_isready -U mnemo"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 20
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 10
+        ports:
+          - 6379:6379
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # Grafana's own installer: the k6 apt repo's signing key rotated, so a
+      # hard-coded key stopped verifying (apt-get update exited 100).
+      - name: Install k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        # See build-and-test's Build step for why MNEMO_BUILD_NO_DTS is set.
+        run: pnpm turbo run build
+        env:
+          MNEMO_BUILD_NO_DTS: "1"
+
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgresql://mnemo:mnemo@localhost:5432/mnemo
+        run: |
+          # Core migrations: server-specific tables (mnemo_api_keys, mnemo_meter_event, etc.)
+          pnpm --filter @mnemo-ai/core migrate
+          # Adapter-postgres migrations: full mnemosyne schema (mnemo_fact, composition rules,
+          # mnemo_seed_builtin_rules function, etc.) needed by DrizzleStorageAdapter.
+          pnpm --filter @mnemo-ai/adapter-postgres migrate
+
+      - name: Insert smoke test API key
+        # verifyApiKeyToken in auth.ts calls bcrypt.compare() directly for mns_* keys,
+        # so key_hash MUST be a bcrypt $2b$ hash (not argon2 — argon2 is only for mk_* scoped keys).
+        env:
+          DATABASE_URL: postgresql://mnemo:mnemo@localhost:5432/mnemo
+        run: |
+          KEY_HASH=$(cd packages/server && node --input-type=module <<'NODESCRIPT'
+          import { createRequire } from "module";
+          const require = createRequire(import.meta.url);
+          const bcrypt = require("bcrypt");
+          const h = await bcrypt.hash("mns_test_cismoke2026cikey12345", 12);
+          process.stdout.write(h + "\n");
+          NODESCRIPT
+          )
+          # workspace_id must be a valid UUID: DrizzleStorageAdapter calls
+          # mnemosyne.mnemo_seed_builtin_rules(workspaceId::uuid) which requires
+          # a valid UUID cast. The TEXT column accepts any string at INSERT time,
+          # but the ::uuid cast in the function call fails on non-UUID values.
+          # plan=enterprise: the smoke seed sends 20-concurrent writes; free-plan burst (20)
+          # and concurrency (10) caps would rate-limit the seed. Enterprise raises both to
+          # enterprise-tier values (burst 2000, concurrency 100) so the seed completes cleanly.
+          psql "$DATABASE_URL" -c "INSERT INTO mnemosyne.mnemo_api_keys (id, workspace_id, key_hash, name, label, plan) VALUES ('key_ci_smoke_2026', '00000000-0000-0000-0000-000000000001', '$KEY_HASH', 'CI smoke test key', 'CI smoke test key', 'enterprise')"
+
+      - name: Start server
+        env:
+          DATABASE_URL: postgresql://mnemo:mnemo@localhost:5432/mnemo
+          REDIS_URL: redis://localhost:6379
+          # Server reads MNEMO_REDIS_URL for hot-tier/rate-limit/idempotency.
+          MNEMO_REDIS_URL: redis://localhost:6379
+          PORT: 3000
+          MNEMO_MASTER_KEY: ci-smoke-ephemeral-not-for-prod
+          NODE_ENV: test
+          # CI Postgres container uses a superuser role (POSTGRES_USER=mnemo). RLS
+          # workspace isolation is validated in the integration job via testcontainers
+          # with a restricted role. Suppress the superuser-boot guard here.
+          MNEMO_ALLOW_UNSAFE_DB_ROLE: "true"
+          # CI smoke key is inserted with empty scopes (legacy default). Allow it.
+          MNEMO_ALLOW_LEGACY_FULL_SCOPE: "true"
+          # No real LLM/embedding provider in CI. Use a deterministic hash-based
+          # stub so remember+recall both work without external API calls.
+          MNEMO_EMBED_STUB: "true"
+        run: |
+          node packages/server/dist/index.js > /tmp/server.log 2>&1 &
+          SERVER_PID=$!
+          echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000/healthz > /dev/null 2>&1; then
+              echo "Server ready (attempt $i)"
+              break
+            fi
+            [ $i -eq 30 ] && { echo "Server did not start"; exit 1; }
+            sleep 1
+          done
+
+      - name: Seed smoke dataset (200 facts)
+        env:
+          MNEMO_BASE_URL: http://localhost:3000
+          MNEMO_TEST_API_KEY: mns_test_cismoke2026cikey12345
+        run: node load/scripts/seed.mjs --count 200 --batch 20
+
+      - name: Run k6 recall smoke (30 s · 5 rps)
+        env:
+          MNEMO_BASE_URL: http://localhost:3000
+          MNEMO_TEST_API_KEY: mns_test_cismoke2026cikey12345
+        run: |
+          k6 run \
+            --env MNEMO_BASE_URL=$MNEMO_BASE_URL \
+            --env MNEMO_TEST_API_KEY=$MNEMO_TEST_API_KEY \
+            --env MNEMO_RECALL_RPS=5 \
+            --env MNEMO_DURATION=30s \
+            --summary-export=load/k6-smoke-results.json \
+            load/k6/recall.js
+
+      - name: Upload k6 results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: k6-smoke-results
+          path: load/k6-smoke-results.json
+
+      - name: Stop server
+        if: always()
+        run: kill "$SERVER_PID" 2>/dev/null || true
+
+      - name: Show server logs
+        if: always()
+        run: cat /tmp/server.log 2>/dev/null || echo "(no server log)"
+
+  # ── Grafana dashboard provisioning validation ────────────────────────
+  validate-dashboards:
+    name: validate grafana dashboards
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Validate dashboard JSONs and provisioning config
+        run: bash docker/scripts/dashboards/validate.sh
+
+  # ── Contract tests (MCP tool snapshots + server route schemas) — gates main ─────
+  contracts:
+    name: contract-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build MCP + server deps
+        # See build-and-test's Build step for why MNEMO_BUILD_NO_DTS is set.
+        run: pnpm --filter @mnemo-ai/mcp... --filter @mnemo-ai/server... build
+        env:
+          MNEMO_BUILD_NO_DTS: "1"
+
+      - name: MCP contracts (33 schemas + 95 outputs + stdio)
+        run: pnpm --filter @mnemo-ai/mcp run test:contracts
+
+      - name: Server contract tests
+        run: pnpm --filter @mnemo-ai/server run test:contracts
+
+  # ── Go SDK unit tests (path-filtered to packages/sdk-go/**) ──────────
+  sdk-go:
+    name: sdk-go test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Filter — only run when the Go SDK changes
+        id: filter
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            sdkgo:
+              - 'packages/sdk-go/**'
+
+      - name: Setup Go 1.21
+        if: steps.filter.outputs.sdkgo == 'true'
+        uses: actions/setup-go@v7
+        with:
+          go-version: "1.21"
+
+      - name: go vet
+        if: steps.filter.outputs.sdkgo == 'true'
+        working-directory: packages/sdk-go
+        run: go vet ./...
+
+      - name: gofmt check
+        if: steps.filter.outputs.sdkgo == 'true'
+        working-directory: packages/sdk-go
+        run: test -z "$(gofmt -l mnemo/)"
+
+      - name: go test
+        if: steps.filter.outputs.sdkgo == 'true'
+        working-directory: packages/sdk-go
+        run: go test ./mnemo/ -count=1

@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_update",
+  "inputSchema": {
+    "properties": {
+      "factId": {
+        "description": "ID of the fact to correct.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "reason": {
+        "description": "Optional; context for the edit policy.",
+        "type": "string"
+      },
+      "sessionId": {
+        "description": "From memory_session/episode_start: uses its budget; else 5 edits/day.",
+        "type": "string"
+      },
+      "statement": {
+        "description": "The corrected statement.",
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "required": [
+      "factId",
+      "statement"
+    ],
+    "type": "object"
+  }
+}

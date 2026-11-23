@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_forget",
+  "inputSchema": {
+    "properties": {
+      "factId": {
+        "description": "Fact to archive (alias of primitiveId for kind='fact').",
+        "minLength": 1,
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "kind": {
+        "default": "fact",
+        "description": "Type of primitive to archive. Default: 'fact'.",
+        "enum": [
+          "fact",
+          "decision",
+          "episode",
+          "entity",
+          "strategy",
+          "workflow",
+          "skill",
+          "task",
+          "event",
+          "reasoning",
+          "hyperedge"
+        ],
+        "type": "string"
+      },
+      "primitiveId": {
+        "description": "Required when kind is not 'fact'.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "reason": {
+        "description": "Optional reason (recorded in the audit log).",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

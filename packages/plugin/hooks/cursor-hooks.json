@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "description": "Mnemosyne persistent memory hooks for Cursor — context injection at session start, episodic collapse at session end. TEMPLATE: `mnemo install` replaces ${MNEMO_PLUGIN_ROOT} with an absolute path before writing ~/.cursor/hooks.json, because Cursor does not document variable expansion in hook commands and betting on it would fail silently. Event names are camelCase here and PascalCase in hooks.json; they are NOT interchangeable — a copied manifest subscribes to nothing. beforeSubmitPrompt is deliberately absent: Cursor documents `additional_context` on sessionStart and postToolUse only, so a per-prompt nudge would run and inject nothing.",
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "bash \"${MNEMO_PLUGIN_ROOT}/scripts/cursor-session-start.sh\""
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "bash \"${MNEMO_PLUGIN_ROOT}/scripts/cursor-session-end.sh\""
+      }
+    ]
+  }
+}

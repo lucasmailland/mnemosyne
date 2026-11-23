@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "mnemosyne",
+  "description": "Persistent memory for AI coding agents — remembers decisions, bugs, and context across sessions.",
+  "owner": {
+    "name": "Lucas Mailland"
+  },
+  "plugins": [
+    {
+      "name": "mnemosyne",
+      "description": "Persistent memory with session tracking, compaction recovery, and MCP tools: all 37 memory tools (MNEMO_MCP_TOOLS=core trims to 9). Gives Claude a brain that survives across sessions — remembers decisions, bug fixes, preferences, and context.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Lucas Mailland"
+      },
+      "source": "./packages/plugin",
+      "category": "productivity",
+      "homepage": "https://getmnemosyne.ai"
+    }
+  ]
+}

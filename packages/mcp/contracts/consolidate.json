@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_consolidate",
+  "inputSchema": {
+    "properties": {
+      "dryRun": {
+        "default": false,
+        "description": "Must be false: `dryRun: true` returns HTTP 422.",
+        "type": "boolean"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "mode": {
+        "default": "fast",
+        "description": "`fast` (default) or `deep` (a manual deep returns HTTP 422).",
+        "enum": [
+          "fast",
+          "deep"
+        ],
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

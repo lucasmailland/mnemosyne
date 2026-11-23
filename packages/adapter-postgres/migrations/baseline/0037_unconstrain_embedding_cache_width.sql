@@ -1,0 +1,58 @@
+-- migrate:allow-type-change reason=unconstrain_halfvec_column_missed_by_0009
+--
+-- Unconstrain mnemo_embedding_cache.embedding — the one table migration 0009 missed.
+--
+-- 0009 widened every `mnemo_*` embedding column from `halfvec(1536)` to a bare
+-- `halfvec`, so a workspace can choose its own embedding model width
+-- ("multi-dimension support — Bedrock/Titan 1024, OpenAI 1536, future
+-- 2048/4096"). `mnemo_embedding_cache.embedding` kept the shape 0001 gave it:
+--
+--     embedding public.halfvec(1536) NOT NULL
+--
+-- Every other embedding column in the schema is dimensionless today. This one
+-- has been silently rejecting every write from any model that is not 1536-wide.
+--
+-- Why nobody noticed: `putCachedEmbedding` is called behind
+-- `.catch(reportCacheFailure)` in `cognitive/index.ts`, precisely so a cache
+-- fault degrades instead of failing a recall. It worked as designed — the
+-- dimension error was swallowed, logged once as "cache operation failed —
+-- degrading to uncached path", and the L3 embedding LRU simply never stored a
+-- row. Recall stayed correct and got slower, which is the hardest kind of bug
+-- to see. Measured on a live bge-m3 (1024) stack: `mnemo_embedding_cache` held
+-- 0 rows after hundreds of recalls, each paying a full embed round-trip that
+-- the cache existed to avoid.
+--
+-- The conversion is width-preserving: `halfvec(1536) -> halfvec` keeps every
+-- stored vector byte-identical and only drops the typmod check, so existing
+-- 1536 rows survive and the table starts accepting the other widths too. There
+-- is no index on this column to rebuild — it is looked up by
+-- `(workspace_id, text_hash)`, never by similarity — so this cannot degrade a
+-- query plan the way an unconstrained *searchable* column would.
+--
+-- The `allow-type-change` marker on line 1 carries the same justification 0009
+-- used for the identical operation on the other eleven columns, and the safety
+-- linter's stated concern ("ALTER COLUMN ... TYPE rewrites the table") does not
+-- apply to RELAXING a typmod on a binary-coercible type. Measured on
+-- pgvector/pgvector:pg17, 500 rows of halfvec(1536):
+--
+--   relfilenode before  19485
+--   relfilenode after   19485      -- unchanged: catalog-only, no rewrite
+--   rows / dims after   500 / 1536 -- data untouched
+--   then accepted a 1024-wide insert alongside the 1536 rows
+--
+-- An unchanged relfilenode is the definition of "no table rewrite", so this
+-- takes an ACCESS EXCLUSIVE lock only for the catalog update, not for the
+-- duration of a copy. The 5-phase additive pattern the linter recommends
+-- exists to avoid a long lock there is no way to avoid — here there is none.
+--
+-- Mixed widths inside one table are safe HERE and nowhere else in the schema:
+-- nothing ever compares two rows of this table to each other. The rows are
+-- fetched by exact key and handed back as a query vector. What is NOT safe is
+-- returning a cached vector produced by a different model than the caller is
+-- about to search with — that ships the wrong-width vector into a cosine query
+-- downstream and raises `different halfvec dimensions`. That is a read-path
+-- concern, fixed alongside this migration in `FactRepository.getCachedEmbedding`
+-- (match on `model`) rather than papered over with a schema constraint.
+
+ALTER TABLE mnemosyne.mnemo_embedding_cache
+  ALTER COLUMN embedding TYPE public.halfvec;

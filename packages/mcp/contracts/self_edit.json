@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_self_edit",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "append/replace text, strengthen/weaken worth, reflect, or link (hyperedge with the comma-separated ids in content).",
+        "enum": [
+          "append",
+          "replace",
+          "strengthen",
+          "weaken",
+          "reflect",
+          "link"
+        ],
+        "type": "string"
+      },
+      "content": {
+        "description": "New text (for append/replace).",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "reason": {
+        "description": "Required reason, used to evaluate the edit policy.",
+        "maxLength": 2000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "sessionId": {
+        "description": "From memory_session/episode_start: uses its budget; else 5 edits/day.",
+        "type": "string"
+      },
+      "target": {
+        "description": "fact_id, \"profile\", or \"strategy:{id}\".",
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "required": [
+      "action",
+      "reason",
+      "target"
+    ],
+    "type": "object"
+  }
+}

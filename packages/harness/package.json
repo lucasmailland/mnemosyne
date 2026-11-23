@@ -1,0 +1,61 @@
+{
+  "name": "@mnemo-ai/harness",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dependency-light local transcript harness for Mnemosyne hosts.",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/harness"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "fixtures",
+    "qualifications"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "prepack": "cp ../../LICENSE LICENSE",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run && tsc -p tsconfig.type-tests.json",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@mnemo-ai/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/fs-ext": "^2.0.3",
+    "@types/node": "^26.6.5",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "tsup": "^9.0.0",
+    "tsx": "^4.23.12",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "optionalDependencies": {
+    "fs-ext": "^2.1.1"
+  }
+}

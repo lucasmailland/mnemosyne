@@ -1,0 +1,69 @@
+# Dashboard web de Mnemosyne — Next.js standalone.
+#
+# El server (Dockerfile.server) NO incluye esta app: su etapa runtime copia
+# solamente `packages/server/dist`. El `GET /dashboard` que sirve el server es
+# otra cosa — la página inline de operador (routes/dashboard.ts, P22). Esta
+# imagen es el dashboard completo: 9 páginas, sesión por cookie y login.
+#
+# BUILD:
+#   docker build -f docker/Dockerfile.dashboard \
+#     --build-arg MNEMO_SERVER_URL=http://mnemosyne-server:3939 \
+#     -t mnemosyne-dashboard:local .
+#
+# MNEMO_SERVER_URL es un ARG y no sólo un env de runtime a propósito: los
+# `rewrites()` de next.config.ts se evalúan en build time y quedan escritos en
+# .next/routes-manifest.json. Si se pasa sólo al `docker run`, las rewrites
+# quedan con el valor por defecto de abajo (http://mnemosyne-server:3939) y el
+# login falla sin un error que lo explique salvo que algo responda con ese
+# nombre. Tiene que estar acá.
+
+ARG NODE_VERSION=node:22-alpine
+
+# ---------- Stage 1: build ----------
+FROM ${NODE_VERSION} AS build
+WORKDIR /app
+
+RUN corepack enable
+
+# Manifests primero: capa cacheable mientras no cambien las dependencias.
+COPY pnpm-lock.yaml pnpm-workspace.yaml .npmrc* ./
+# pnpm.patchedDependencies (picomatch, next): sin los parches la instalación falla.
+COPY patches patches
+COPY package.json tsconfig.base.json turbo.json ./
+COPY packages packages
+
+RUN pnpm install --frozen-lockfile
+
+# El dashboard importa tipos de @mnemo-ai/types, así que ese paquete tiene que
+# estar construido antes. `...` arrastra las dependencias del workspace.
+ARG MNEMO_SERVER_URL=http://mnemosyne-server:3939
+ENV MNEMO_SERVER_URL=${MNEMO_SERVER_URL}
+RUN pnpm --filter @mnemo-ai/dashboard... build
+
+# ---------- Stage 2: runtime ----------
+FROM ${NODE_VERSION} AS runtime
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+
+RUN apk add --no-cache wget && \
+    addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+# Salida standalone: server.js + el node_modules mínimo que Next calcula.
+COPY --from=build --chown=nextjs:nodejs /app/packages/dashboard/.next/standalone ./
+COPY --from=build --chown=nextjs:nodejs /app/packages/dashboard/.next/static ./packages/dashboard/.next/static
+COPY --from=build --chown=nextjs:nodejs /app/packages/dashboard/public ./packages/dashboard/public
+
+USER nextjs
+EXPOSE 3000
+
+# basePath es /dashboard, así que la raíz del server devuelve 404 por diseño.
+# El healthcheck tiene que pegarle a una ruta real.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=25s --retries=3 \
+  CMD wget -q --spider http://localhost:3000/dashboard/login || exit 1
+
+CMD ["node", "packages/dashboard/server.js"]

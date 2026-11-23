@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    // The SDK targets Node 20+ (native fetch, AbortController, AbortSignal.timeout).
+    // We deliberately do NOT add "dom" to libs — browsers have these globals too,
+    // but typing them via @types/node keeps the surface honest about our target.
+    "lib": ["ES2023"],
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "**/__tests__/**", "**/*.test.ts"]
+}

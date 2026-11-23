@@ -1,0 +1,32 @@
+# Local development overrides — auto-merged by `docker compose up` when run
+# from the docker/ directory (Compose v2 auto-merges docker-compose.override.yml).
+# DO NOT use in production: these flags relax the v3 production guard suite for a
+# single-workspace local stack (no Redis, no master key, superuser `mnemo` role).
+#
+# PORT is NOT overridden here. The main compose.yml sets PORT from the host env
+# (docker/.env: PORT=3939) and uses it in both the environment block and the
+# ports mapping (${PORT}:${PORT}). Setting PORT here to a different value would
+# make the app listen on one port while Docker maps another → unreachable.
+services:
+  server:
+    environment:
+      NODE_ENV: "development" # disables MNEMO_MASTER_KEY + §19 RBAC guards
+      MNEMO_ALLOW_UNSAFE_DB_ROLE: "true" # allow superuser `mnemo` role (RLS bypassed locally)
+      MNEMO_REQUIRE_RBAC_LIMITS: "false" # don't require Redis limiter at boot
+      MNEMO_ALLOW_LEGACY_FULL_SCOPE: "true" # accept empty-scope mns_live_ keys
+      MNEMO_DASHBOARD_INSECURE_COOKIE: "true" # the dashboard cookie works over plain http://localhost
+
+      # No model API is chosen here: the server reads MNEMO_LLM_* / MNEMO_EMBED_*
+      # from docker/.env like the base file (blocks in docker/.env.example). The
+      # Ollama service is opt-in, `--profile local`; its tuning (bge-m3 width,
+      # reminder threshold, threads, timeout, warm-up) lives in the Ollama block
+      # of .env.example, since it is wrong for a hosted provider.
+
+  # Only with `--profile local`. P134 — half the fix. Warming at boot is undone
+  # by ollama's default five-minute `keep_alive`: `ollama ps` showed `UNTIL 3 minutes from now`
+  # while the host used 1.1 GB of 30.5 GB, so nothing was under memory
+  # pressure — the models simply timed out and the next request after an idle
+  # gap paid the cold start again. -1 keeps them resident.
+  ollama:
+    environment:
+      OLLAMA_KEEP_ALIVE: "-1"

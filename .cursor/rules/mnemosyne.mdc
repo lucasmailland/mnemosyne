@@ -1,0 +1,71 @@
+---
+description: Mnemosyne monorepo rules for Cursor
+globs: ["**/*.ts", "**/*.tsx", "**/*.sql"]
+alwaysApply: true
+---
+
+# Mnemosyne — Cursor Rules
+
+**Read [`CLAUDE.md`](../../CLAUDE.md) before editing any code.** It is the canonical guide with verified facts about primitives, verbs, security invariants, and CI commands.
+
+**Check [`docs/STATUS.md`](../../docs/STATUS.md)** for what is actually implemented vs. stubbed.
+
+---
+
+## 5 non-negotiable rules
+
+### 1 — `packages/core/src/v3/` has zero infrastructure imports
+
+No `drizzle-orm`, `postgres`, `pg`, `ioredis`, `redis`, or `@neondatabase` inside `packages/core/src/v3/`. Enforced by vitest purity tests (NOT lint):
+- `packages/types/src/__tests__/purity.test.ts`
+- `packages/core/src/__tests__/v3-purity.test.ts`
+
+Run: `pnpm --filter @mnemosyne/core test`
+
+### 2 — All `mnemo_*` queries MUST go through `withMnemoTx(workspaceId, fn)`
+
+Bypassing it silently disables RLS → cross-workspace data leak. Source: `packages/core/src/tx.ts`
+
+### 3 — Sensitivity comparison uses `SENSITIVITY_ORDER` numeric map — NEVER string equality (MED-23)
+
+`"confidential" > "internal"` is alphabetically true but semantically wrong. Always use `SENSITIVITY_ORDER[tier]` from `packages/types/src/security.ts`.
+
+### 4 — Sensitivity ceiling violations return 404, not 403
+
+404 prevents an attacker from confirming that the resource exists (anti-probing).
+
+### 5 — The 9 relation verbs are locked
+
+```
+related | compatible | scoped | conflicts_with | supersedes
+not_conflict | derived_from | part_of | member_of
+```
+
+SQL CHECK constraint in `packages/adapter-postgres/migrations/v3/0001_baseline.sql` enforces this. Do not invent new verbs.
+
+### 6 — Bitemporal model: `validFrom/validTo` ≠ `createdAt`
+
+`validFrom/validTo` = when the fact was **true in the world** (domain time — used by `?asOf=` queries and recall).
+`createdAt` = when Mnemosyne **recorded** it (system time).
+
+A decision made last year but recorded today: `validFrom: <last year>`, `createdAt: <today>`. Never store discovery time in `validFrom`, and never use `createdAt` for time-travel queries.
+
+---
+
+## Verified primitive list (10 total)
+
+`fact | decision | episode | entity | strategy | workflow | skill | task | event | reasoning`
+
+See `packages/types/src/primitives.ts` and `CLAUDE.md §The 10 cognitive primitives` for kind enums.
+
+---
+
+## CI gate
+
+```bash
+pnpm typecheck
+pnpm build
+pnpm test
+```
+
+There is NO `pnpm lint:hexagonal` or `pnpm lint:migrations` — these are vitest tests inside `pnpm test`.

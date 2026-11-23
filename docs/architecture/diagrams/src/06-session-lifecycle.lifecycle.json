@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Mnemosyne — Ciclo de vida de una sesión",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1040,
+      620
+    ],
+    "views": [
+      {
+        "id": "principal",
+        "label": "Camino principal",
+        "focus": [
+          "created",
+          "active",
+          "pending",
+          "gates",
+          "collapsed"
+        ],
+        "note": "De POST /session/start a facts + episodio vinculados por episode_id."
+      },
+      {
+        "id": "gates",
+        "label": "Gates que archivan",
+        "focus": [
+          "gates",
+          "archived",
+          "pending"
+        ],
+        "note": "Pocos turnos, sin pin o baja recurrencia archivan en vez de extraer."
+      },
+      {
+        "id": "recuperacion",
+        "label": "Recuperación",
+        "focus": [
+          "gates",
+          "llmfail",
+          "pending",
+          "active"
+        ],
+        "note": "Sin LLM la sesión no se pierde: queda pendiente para reintento."
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Estados (SessionStatus)"
+    },
+    {
+      "id": "recovery",
+      "label": "Recuperación"
+    },
+    {
+      "id": "terminal",
+      "label": "Salidas"
+    }
+  ],
+  "states": [
+    {
+      "id": "created",
+      "type": "start",
+      "label": "POST /session/start",
+      "sublabel": "audit session_open",
+      "lane": "main",
+      "col": 0,
+      "step": "01",
+      "tag": "entrada"
+    },
+    {
+      "id": "active",
+      "type": "active",
+      "label": "active",
+      "sublabel": "turnos Redis + PG",
+      "lane": "main",
+      "col": 1,
+      "step": "02",
+      "tag": "captura"
+    },
+    {
+      "id": "pending",
+      "type": "waiting",
+      "label": "collapse_pending",
+      "sublabel": "claim + lease 120s",
+      "lane": "main",
+      "col": 2,
+      "step": "03",
+      "tag": "managed"
+    },
+    {
+      "id": "gates",
+      "type": "decision",
+      "label": "Collapse",
+      "sublabel": "gates + extracción LLM",
+      "lane": "main",
+      "col": 3,
+      "step": "04",
+      "tag": "collapse.ts"
+    },
+    {
+      "id": "collapsed",
+      "type": "success",
+      "label": "collapsed",
+      "sublabel": "facts + episodio",
+      "lane": "main",
+      "col": 4,
+      "step": "05",
+      "tag": "terminal"
+    },
+    {
+      "id": "llmfail",
+      "type": "failure",
+      "label": "LLM no disponible",
+      "sublabel": "MNEMO_004 degradado",
+      "lane": "recovery",
+      "col": 0,
+      "tag": "reintentable"
+    },
+    {
+      "id": "archived",
+      "type": "neutral",
+      "label": "archived",
+      "sublabel": "skipReason o discard",
+      "lane": "terminal",
+      "col": 1,
+      "tag": "terminal",
+      "yOffset": -40
+    },
+    {
+      "id": "purged",
+      "type": "neutral",
+      "label": "Turnos purgados",
+      "sublabel": "retención 30d · tombstone",
+      "lane": "terminal",
+      "col": 2,
+      "tag": "managed",
+      "yOffset": -40
+    }
+  ],
+  "transitions": [
+    {
+      "id": "manual-collapse",
+      "from": "active",
+      "to": "gates",
+      "label": "POST /collapse · sweep 5 min",
+      "variant": "emphasis",
+      "route": "top-channel"
+    },
+    {
+      "id": "gate-archive",
+      "from": "gates",
+      "to": "archived",
+      "label": "<3 turnos · sin pin · baja recurrencia",
+      "variant": "dashed",
+      "route": "drop",
+      "labelAt": [
+        556,
+        350
+      ]
+    },
+    {
+      "id": "llm-unavailable",
+      "from": "gates",
+      "to": "llmfail",
+      "variant": "security"
+    },
+    {
+      "id": "llm-retry",
+      "from": "llmfail",
+      "to": "pending",
+      "label": "reintento managed",
+      "variant": "emphasis"
+    },
+    {
+      "id": "collapsed-purge",
+      "from": "collapsed",
+      "to": "purged",
+      "variant": "dashed",
+      "route": "drop"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Dos caminos",
+      "items": [
+        "Manual: POST /collapse o sweep",
+        "Managed: session.end → lease"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Gates",
+      "items": [
+        "≥3 turnos · pin · recurrencia 0.6",
+        "Surprise 0.15 (header dice 0.3)"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Fallos",
+      "items": [
+        "LLM caído: la sesión no se pierde",
+        "Throw inesperado cierra la sesión"
+      ]
+    }
+  ]
+}

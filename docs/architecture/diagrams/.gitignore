@@ -1,0 +1,4 @@
+# Archify visual-check evidence (screenshots, receipts, contact sheets) — regenerable, not docs.
+*.visual-check.*
+# Archify deliver's private same-directory snapshots.
+.archify-*

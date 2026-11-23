@@ -1,0 +1,274 @@
+{
+  "completion": [],
+  "config": [],
+  "consolidate": [
+    {
+      "method": "POST",
+      "path": "/consolidation/trigger"
+    }
+  ],
+  "decide": [
+    {
+      "method": "POST",
+      "path": "/decisions"
+    }
+  ],
+  "doctor": [
+    {
+      "method": "GET",
+      "path": "/doctor"
+    }
+  ],
+  "entity": [
+    {
+      "method": "POST",
+      "path": "/entities"
+    }
+  ],
+  "episode": [
+    {
+      "method": "POST",
+      "path": "/session/start"
+    }
+  ],
+  "erase": [
+    {
+      "method": "POST",
+      "path": "/admin/erasure"
+    }
+  ],
+  "events": [
+    {
+      "method": "GET",
+      "path": "/events"
+    }
+  ],
+  "export": [
+    {
+      "method": "GET",
+      "path": "/export/jsonl"
+    }
+  ],
+  "forget": [
+    {
+      "method": "DELETE",
+      "path": "/facts/fact-id-abc123"
+    }
+  ],
+  "health": [
+    {
+      "method": "GET",
+      "path": "/health/ready"
+    },
+    {
+      "method": "GET",
+      "path": "/health"
+    }
+  ],
+  "help": [],
+  "hyperedge": [
+    {
+      "method": "POST",
+      "path": "/hyperedges"
+    }
+  ],
+  "import": [
+    {
+      "method": "POST",
+      "path": "/import"
+    }
+  ],
+  "info": [
+    {
+      "method": "GET",
+      "path": "/me"
+    },
+    {
+      "method": "GET",
+      "path": "/health/ready"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/stats"
+    },
+    {
+      "method": "GET",
+      "path": "/me"
+    }
+  ],
+  "judge": [
+    {
+      "method": "GET",
+      "path": "/conflicts"
+    }
+  ],
+  "keys": [
+    {
+      "method": "GET",
+      "path": "/admin/keys"
+    }
+  ],
+  "list": [
+    {
+      "method": "GET",
+      "path": "/facts"
+    }
+  ],
+  "pin": [
+    {
+      "method": "POST",
+      "path": "/facts/f1/pin"
+    }
+  ],
+  "policy": [
+    {
+      "method": "GET",
+      "path": "/admin/agent-policies"
+    }
+  ],
+  "purge": [
+    {
+      "method": "DELETE",
+      "path": "/facts/f1/hard"
+    }
+  ],
+  "reasoning": [
+    {
+      "method": "POST",
+      "path": "/reasoning"
+    }
+  ],
+  "recall": [
+    {
+      "method": "POST",
+      "path": "/recall"
+    }
+  ],
+  "relate": [
+    {
+      "method": "POST",
+      "path": "/relations"
+    }
+  ],
+  "remember": [
+    {
+      "method": "POST",
+      "path": "/remember"
+    }
+  ],
+  "remind": [
+    {
+      "method": "POST",
+      "path": "/reminders"
+    }
+  ],
+  "reset": [
+    {
+      "method": "POST",
+      "path": "/admin/embedding-migrations"
+    }
+  ],
+  "search": [
+    {
+      "method": "POST",
+      "path": "/recall"
+    }
+  ],
+  "sessions": [
+    {
+      "method": "GET",
+      "path": "/session/list"
+    }
+  ],
+  "show": [
+    {
+      "method": "GET",
+      "path": "/facts/fact-003"
+    }
+  ],
+  "skill": [
+    {
+      "method": "POST",
+      "path": "/skills"
+    }
+  ],
+  "status": [],
+  "strategy": [
+    {
+      "method": "POST",
+      "path": "/strategies"
+    }
+  ],
+  "tasks": [
+    {
+      "method": "GET",
+      "path": "/tasks"
+    }
+  ],
+  "tenant": [
+    {
+      "method": "GET",
+      "path": "/tenants/t1"
+    }
+  ],
+  "timeline": [
+    {
+      "method": "GET",
+      "path": "/timeline"
+    }
+  ],
+  "token": [
+    {
+      "method": "GET",
+      "path": "/tenants/t1/users/u2/tokens"
+    }
+  ],
+  "unpin": [
+    {
+      "method": "POST",
+      "path": "/facts/f1/pin"
+    }
+  ],
+  "user": [
+    {
+      "method": "POST",
+      "path": "/users"
+    }
+  ],
+  "version": [],
+  "whoami": [
+    {
+      "method": "GET",
+      "path": "/me"
+    },
+    {
+      "method": "GET",
+      "path": "/health/ready"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/stats"
+    },
+    {
+      "method": "GET",
+      "path": "/me"
+    }
+  ],
+  "workflow": [
+    {
+      "method": "POST",
+      "path": "/workflows"
+    }
+  ],
+  "workspace": [
+    {
+      "method": "GET",
+      "path": "/workspaces/mine"
+    }
+  ],
+  "harness (skipped)": "reads and mutates the real local capture queue under ~/.mnemo — host side effect",
+  "init (skipped)": "spawns docker, prompts on stdin, or hits a real cloud setup endpoint",
+  "install (skipped)": "detects and mutates real installed-agent config directories on this host",
+  "link (skipped)": "writes .mnemo.json into process.cwd() — real host side effect",
+  "login (skipped)": "writes ~/.mnemo/config.json — real host side effect"
+}

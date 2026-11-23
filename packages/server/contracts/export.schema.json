@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/export",
+  "title": "ExportResponse",
+  "description": "GET/POST /export — full workspace memory dump (facts/decisions/relations/citations), embeddings excluded. packages/server/src/routes/export.ts.",
+  "type": "object",
+  "required": ["meta", "facts", "decisions", "relations", "citations"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["workspaceId", "exportedAt", "rowCapPerResource", "embeddingsExcluded"],
+      "properties": {
+        "workspaceId": { "type": "string" },
+        "exportedAt": { "type": "string" },
+        "rowCapPerResource": { "type": "integer" },
+        "embeddingsExcluded": { "type": "boolean", "enum": [true] }
+      }
+    },
+    "facts": { "type": "array" },
+    "decisions": { "type": "array" },
+    "relations": { "type": "array" },
+    "citations": { "type": "array" }
+  },
+  "additionalProperties": true
+}

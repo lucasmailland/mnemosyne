@@ -1,0 +1,28 @@
+{
+  "name": "mnemosyne",
+  "version": "0.1.0",
+  "description": "Persistent memory for AI coding agents — remembers decisions, bugs, and context across sessions.",
+  "author": {
+    "name": "Lucas Mailland",
+    "url": "https://github.com/lucasmailland"
+  },
+  "homepage": "https://getmnemosyne.ai",
+  "repository": "https://github.com/lucasmailland/mnemosyne",
+  "license": "Apache-2.0",
+  "keywords": ["memory", "context", "persistence", "decisions", "coding-agent"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Mnemosyne",
+    "shortDescription": "Persistent memory for AI coding agents",
+    "longDescription": "Mnemosyne gives your coding agent a persistent memory. It remembers architectural decisions, bug fixes, user preferences, and session context across every session — so you never have to repeat yourself.",
+    "developerName": "Lucas Mailland",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "defaultPrompt": [
+      "What do you remember about this project?",
+      "Remember this decision for future sessions."
+    ],
+    "websiteURL": "https://getmnemosyne.ai",
+    "termsOfServiceURL": "https://github.com/lucasmailland/mnemosyne/blob/main/LICENSE"
+  }
+}

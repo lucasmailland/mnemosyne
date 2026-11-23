@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/doctor",
+  "title": "DoctorReport",
+  "description": "GET /doctor's response body — worst-of status across the 6 operational preflight checks (packages/server/src/routes/doctor.ts).",
+  "type": "object",
+  "required": ["status", "checks", "timestamp"],
+  "properties": {
+    "status": { "type": "string", "enum": ["ok", "warn", "error", "unknown"] },
+    "checks": { "type": "array" },
+    "timestamp": { "type": "string" }
+  },
+  "additionalProperties": true
+}

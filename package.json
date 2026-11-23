@@ -1,0 +1,88 @@
+{
+  "name": "mnemosyne",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Multi-tenant cognitive memory for AI agents — bitemporal, provider-agnostic, RLS-isolated.",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmailland/mnemosyne/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "prepare": "husky",
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "test": "turbo run test",
+    "test:integration": "turbo run test:integration",
+    "test:e2e:dashboard": "bash scripts/e2e-dashboard.sh",
+    "lint": "turbo run lint",
+    "docs:check-translations": "node scripts/check-doc-translations.mjs",
+    "test:scripts": "node --test scripts/__tests__/*.test.mjs",
+    "lint:migrations": "node scripts/lint-migrations.mjs --per-file packages/adapter-postgres/migrations/baseline/*.sql",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write .",
+    "docker:build": "docker compose -f docker/docker-compose.yml build",
+    "docker:up": "docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up -d",
+    "docker:down": "docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml --profile local down",
+    "verify:all": "bash scripts/full-sweep.sh",
+    "perf:smoke": "k6 run --env MNEMO_BASE_URL=${MNEMO_BASE_URL:-http://localhost:3939} --env MNEMO_TEST_API_KEY=${MNEMO_TEST_API_KEY:-mk_test_localdev} --env MNEMO_RECALL_RPS=5 --env MNEMO_DURATION=30s load/k6/recall.js",
+    "perf:baseline": "k6 run --env MNEMO_BASE_URL=${MNEMO_BASE_URL:-http://localhost:3939} --env MNEMO_TEST_API_KEY=${MNEMO_TEST_API_KEY:-mk_test_localdev} --env MNEMO_TARGET_RPS=20 --env MNEMO_DURATION=5m load/k6/mixed.js",
+    "perf:seed": "node load/scripts/seed.mjs",
+    "test:hooks": "for t in packages/plugin/scripts/__tests__/*.test.sh; do bash \"$t\" || exit 1; done",
+    "bench:tokens": "pnpm --filter @mnemo-ai/core exec tsx src/benchmark/tokens.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "husky": "^9.1.7",
+    "picomatch": "4.0.7",
+    "prettier": "^3.9.6",
+    "turbo": "^2.10.8",
+    "typescript": "npm:@typescript/typescript6@6.0.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@bufbuild/buf",
+      "bcrypt",
+      "esbuild",
+      "fs-ext"
+    ],
+    "overrides": {
+      "vite": "^6.4.6",
+      "picomatch": "4.0.7",
+      "hyperid>uuid": "^11.1.1",
+      "archiver-utils>glob": "^14.0.6",
+      "rimraf>glob": "^14.0.6",
+      "@types/react": "^19.0.0",
+      "@types/react-dom": "^19.0.0"
+    },
+    "auditConfig": {
+      "ignoreGhsas": [
+        "GHSA-fc5q-39xc-vjpf"
+      ]
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@types/react": "19",
+        "@types/react-dom": "19",
+        "react": "18 || 19"
+      }
+    },
+    "patchedDependencies": {
+      "picomatch@4.0.7": "patches/picomatch@4.0.7.patch",
+      "next@16.4.6": "patches/next@16.4.6.patch"
+    }
+  }
+}

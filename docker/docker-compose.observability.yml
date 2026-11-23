@@ -1,0 +1,127 @@
+# Mnemosyne Observability Stack — Task 11
+#
+# Starts Prometheus, Grafana, Tempo (traces), Loki (logs), Promtail (log shipper),
+# and an OpenTelemetry Collector alongside the main Mnemosyne stack.
+#
+# Mount alongside docker-compose.yml:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.observability.yml up -d
+#
+# Endpoints:
+#   Grafana:    http://localhost:3001  (admin/admin)
+#   Prometheus: http://localhost:9090
+#   Tempo:      http://localhost:3200
+#   Loki:       http://localhost:3100
+#   OTel:       grpc://localhost:4317  (from server)
+#
+# Security: none of these are hardened for the public internet.
+# Put them behind a reverse proxy with auth before exposing externally.
+
+services:
+  prometheus:
+    image: prom/prometheus:v3.4.1
+    container_name: mnemosyne-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./scripts/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./scripts/prometheus-rules.yml:/etc/prometheus/rules/mnemosyne-rules.yml:ro
+      - mnemosyne-prometheus-data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"
+    # Re-audit 2 (APP-032 sibling): loopback only by default; Grafana ships
+    # with admin/admin. Set OBSERVABILITY_BIND=0.0.0.0 only behind auth.
+    ports:
+      - "${OBSERVABILITY_BIND:-127.0.0.1}:${PROMETHEUS_PORT:-9090}:9090"
+    networks:
+      - mnemosyne-internal
+    depends_on:
+      - server
+
+  tempo:
+    image: grafana/tempo:2.7.2
+    container_name: mnemosyne-tempo
+    restart: unless-stopped
+    command: ["-config.file=/etc/tempo/config.yaml"]
+    volumes:
+      - ./scripts/tempo.yml:/etc/tempo/config.yaml:ro
+      - mnemosyne-tempo-data:/var/tempo
+    ports:
+      - "${OBSERVABILITY_BIND:-127.0.0.1}:${TEMPO_PORT:-3200}:3200"
+    networks:
+      - mnemosyne-internal
+
+  loki:
+    image: grafana/loki:3.5.0
+    container_name: mnemosyne-loki
+    restart: unless-stopped
+    command: ["-config.file=/etc/loki/config.yaml"]
+    volumes:
+      - ./scripts/loki.yml:/etc/loki/config.yaml:ro
+      - mnemosyne-loki-data:/var/loki
+    ports:
+      - "${OBSERVABILITY_BIND:-127.0.0.1}:${LOKI_PORT:-3100}:3100"
+    networks:
+      - mnemosyne-internal
+
+  promtail:
+    image: grafana/promtail:3.5.0
+    container_name: mnemosyne-promtail
+    restart: unless-stopped
+    command: ["-config.file=/etc/promtail/config.yaml"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./scripts/promtail.yml:/etc/promtail/config.yaml:ro
+    depends_on:
+      - loki
+    networks:
+      - mnemosyne-internal
+
+  grafana:
+    image: grafana/grafana:11.6.1
+    container_name: mnemosyne-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_FEATURE_TOGGLES_ENABLE: "traceqlEditor"
+    volumes:
+      - mnemosyne-grafana-data:/var/lib/grafana
+      - ./scripts/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+      - ./scripts/dashboards:/etc/grafana/provisioning/dashboards:ro
+    ports:
+      - "${OBSERVABILITY_BIND:-127.0.0.1}:${GRAFANA_PORT:-3001}:3000"
+    networks:
+      - mnemosyne-internal
+    depends_on:
+      - prometheus
+      - tempo
+      - loki
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.127.0
+    container_name: mnemosyne-otel-collector
+    restart: unless-stopped
+    volumes:
+      - ./scripts/otel-collector.yml:/etc/otelcol-contrib/config.yaml:ro
+    ports:
+      - "${OBSERVABILITY_BIND:-127.0.0.1}:${OTEL_GRPC_PORT:-4317}:4317"
+      - "${OBSERVABILITY_BIND:-127.0.0.1}:${OTEL_HTTP_PORT:-4318}:4318"
+      - "${OBSERVABILITY_BIND:-127.0.0.1}:${OTEL_PROM_PORT:-8888}:8888"
+    depends_on:
+      - tempo
+    networks:
+      - mnemosyne-internal
+
+volumes:
+  mnemosyne-prometheus-data:
+  mnemosyne-grafana-data:
+  mnemosyne-tempo-data:
+  mnemosyne-loki-data:
+
+networks:
+  mnemosyne-internal:
+    external: true
+    name: mnemosyne_default
