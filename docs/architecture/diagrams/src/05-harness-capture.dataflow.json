@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Mnemosyne — Harness de captura (estado en main)",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ],
+    "views": [
+      {
+        "id": "cliente",
+        "label": "Captura local",
+        "focus": [
+          "hooks",
+          "opencode",
+          "consent",
+          "outbox"
+        ],
+        "note": "Consentimiento por host y outbox JSON local con flock y capacidad acotada."
+      },
+      {
+        "id": "brecha",
+        "label": "Brecha actual",
+        "focus": [
+          "consent",
+          "outbox",
+          "delivery"
+        ],
+        "note": "captureHook es un stub y flushOutbox no tiene caller: nada llega al servidor."
+      },
+      {
+        "id": "servidor",
+        "label": "Ingesta y collapse",
+        "focus": [
+          "delivery",
+          "ingest",
+          "worker",
+          "collapse",
+          "memory"
+        ],
+        "note": "El lado servidor está completo: ingesta transaccional, lease y commit atómico."
+      }
+    ]
+  },
+  "stages": [
+    {
+      "label": "Host"
+    },
+    {
+      "label": "Captura local"
+    },
+    {
+      "label": "Entrega"
+    },
+    {
+      "label": "Ingesta servidor"
+    },
+    {
+      "label": "Memoria"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "hooks",
+      "type": "frontend",
+      "label": "Hooks Claude/Codex",
+      "sublabel": "harness-hook.sh",
+      "stage": 0,
+      "row": 0,
+      "tag": "SessionEnd"
+    },
+    {
+      "id": "opencode",
+      "type": "frontend",
+      "label": "Plugin OpenCode",
+      "sublabel": "mensajes visibles",
+      "stage": 0,
+      "row": 2,
+      "tag": "user-only"
+    },
+    {
+      "id": "consent",
+      "type": "security",
+      "label": "Consent + modo",
+      "sublabel": "capture/<host>.json",
+      "stage": 1,
+      "row": 0,
+      "tag": "qualification"
+    },
+    {
+      "id": "outbox",
+      "type": "database",
+      "label": "Outbox local",
+      "sublabel": "JSON por evento",
+      "stage": 1,
+      "row": 2,
+      "tag": "flock · 32 MB"
+    },
+    {
+      "id": "delivery",
+      "type": "messagebus",
+      "label": "flushOutbox",
+      "sublabel": "POST /harness/v1/events",
+      "stage": 2,
+      "row": 1,
+      "tag": "sin caller"
+    },
+    {
+      "id": "ingest",
+      "type": "backend",
+      "label": "ingestHarnessEvent",
+      "sublabel": "TX + control row",
+      "stage": 3,
+      "row": 1,
+      "tag": "dedup por id"
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "Worker managed",
+      "sublabel": "claim · lease 120s",
+      "stage": 3,
+      "row": 3,
+      "tag": "cron 5 min"
+    },
+    {
+      "id": "collapse",
+      "type": "backend",
+      "label": "Collapse atómico",
+      "sublabel": "prepare → commit",
+      "stage": 4,
+      "row": 3,
+      "tag": "fence por workspace"
+    },
+    {
+      "id": "memory",
+      "type": "database",
+      "label": "Facts + episodio",
+      "sublabel": "linkSessionFacts",
+      "stage": 4,
+      "row": 1,
+      "tag": "retención 30d"
+    }
+  ],
+  "flows": [
+    {
+      "id": "hook-gate",
+      "from": "hooks",
+      "to": "consent",
+      "label": "evento",
+      "classification": "gate",
+      "variant": "security"
+    },
+    {
+      "id": "gate-stub",
+      "from": "consent",
+      "to": "outbox",
+      "label": "stub: no encola",
+      "classification": "brecha",
+      "variant": "dashed",
+      "labelDy": 93
+    },
+    {
+      "id": "opencode-enqueue",
+      "from": "opencode",
+      "to": "outbox",
+      "label": "turn.append",
+      "classification": "redactado",
+      "variant": "emphasis"
+    },
+    {
+      "id": "outbox-flush",
+      "from": "outbox",
+      "to": "delivery",
+      "label": "sin sender",
+      "classification": "brecha",
+      "variant": "dashed"
+    },
+    {
+      "id": "delivery-ingest",
+      "from": "delivery",
+      "to": "ingest",
+      "label": "events + acks",
+      "classification": "idempotente",
+      "variant": "emphasis"
+    },
+    {
+      "id": "ingest-worker",
+      "from": "ingest",
+      "to": "worker",
+      "label": "collapse_pending",
+      "classification": "session.end / 30 min",
+      "variant": "default",
+      "labelDy": 93
+    },
+    {
+      "id": "worker-collapse",
+      "from": "worker",
+      "to": "collapse",
+      "label": "prepare + commit",
+      "classification": "lease vivo",
+      "variant": "emphasis"
+    },
+    {
+      "id": "collapse-memory",
+      "from": "collapse",
+      "to": "memory",
+      "label": "facts · episodio",
+      "classification": "una TX",
+      "variant": "emphasis",
+      "labelDy": -77
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Funciona",
+      "items": [
+        "Consent, modo y hash de artefactos",
+        "Servidor: ingesta + commit atómico"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Brecha en main",
+      "items": [
+        "captureHook → stub",
+        "flushOutbox sin caller"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Gobernanza",
+      "items": [
+        "Retención de turnos: 30 días",
+        "forget borra transcript managed"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  ".": "3.6.1-alpha.0",
+  "packages/core": "3.6.0-alpha.0",
+  "packages/server": "3.6.0-alpha.0",
+  "packages/client-ts": "3.6.3",
+  "packages/types": "3.6.2",
+  "packages/harness": "3.6.2",
+  "packages/adapter-postgres": "3.6.0-alpha.0",
+  "packages/adapter-redis": "3.6.0-alpha.0",
+  "packages/adapter-vector": "3.5.0-alpha.0",
+  "packages/adapter-llm": "3.1.5-alpha.0",
+  "packages/llm-providers": "3.4.0-alpha.0",
+  "packages/mcp": "3.6.4",
+  "packages/cli": "3.6.5",
+  "packages/consolidation": "3.5.0-alpha.0",
+  "packages/cup": "3.1.5-alpha.0",
+  "packages/federation": "3.5.0-alpha.0",
+  "packages/plugins": "3.6.0-alpha.0",
+  "packages/mock-server": "3.0.0-alpha.0"
+}

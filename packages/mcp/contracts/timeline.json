@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_timeline",
+  "inputSchema": {
+    "properties": {
+      "limit": {
+        "description": "Default 20, max 100.",
+        "maximum": 100,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "sinceIso": {
+        "description": "Only events after this ISO date.",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

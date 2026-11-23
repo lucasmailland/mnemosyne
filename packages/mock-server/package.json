@@ -1,0 +1,63 @@
+{
+  "name": "@mnemo-ai/mock-server",
+  "version": "3.0.0-alpha.0",
+  "private": true,
+  "description": "Offline mock server for Mnemosyne — deterministic in-memory fixtures for local dev & testing (no DB required).",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/mock-server"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmailland/mnemosyne/issues"
+  },
+  "keywords": [
+    "mnemosyne",
+    "mock",
+    "testing",
+    "fixture"
+  ],
+  "type": "module",
+  "main": "./dist/app.js",
+  "types": "./dist/app.d.ts",
+  "bin": {
+    "mnemo-mock": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/app.d.ts",
+      "import": "./dist/app.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "cp ../../LICENSE LICENSE",
+    "build": "tsup src/app.ts src/index.ts --format esm --dts --clean",
+    "dev": "tsup --watch",
+    "start": "node dist/index.js",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist .turbo",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.13.19"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsup": "^9.0.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

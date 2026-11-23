@@ -1,0 +1,38 @@
+# Prometheus scrape configuration for Mnemosyne observability stack.
+# Reference: https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+
+rule_files:
+  - "/etc/prometheus/rules/*.yml"
+
+scrape_configs:
+  # Mnemosyne server. Open without a token outside production (the dev stack).
+  # With NODE_ENV=production the server answers 404 unless MNEMO_METRICS_TOKEN
+  # is set; then uncomment `authorization` and put the same token in the file
+  # it names (mount it into this container).
+  - job_name: mnemosyne
+    static_configs:
+      - targets:
+          # 3939 in the base stack; the production overlay runs the server on 3000.
+          - server:3939
+    metrics_path: /metrics/prometheus
+    scheme: http
+    # authorization:
+    #   type: Bearer
+    #   credentials_file: /etc/prometheus/secrets/mnemo-metrics-token
+
+  # OTel Collector self-metrics
+  - job_name: otel-collector
+    static_configs:
+      - targets:
+          - otel-collector:8888
+
+  # Prometheus self-scrape
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - localhost:9090

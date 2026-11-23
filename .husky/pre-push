@@ -1,0 +1,4 @@
+echo "pre-push: running build + lint + typecheck + test (COVERAGE=1) — mirrors CI's build-and-test gate"
+echo "(skip with 'git push --no-verify' if you really need to; integration tests are NOT run here, see pnpm test:integration)"
+
+FULL=0 COVERAGE=1 bash scripts/full-sweep.sh

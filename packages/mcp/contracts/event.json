@@ -1,0 +1,133 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_event",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "create (type, name, description, occurredAt, source) | get | list | archive = NO-OP {archived:false, immutable:true} | annotate | sensitivity (raise only; lowering is 422).",
+        "enum": [
+          "create",
+          "get",
+          "list",
+          "archive",
+          "annotate",
+          "sensitivity"
+        ],
+        "type": "string"
+      },
+      "after": {
+        "description": "For list: only events after this instant.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "at": {
+        "description": "Optional timestamp for annotate.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "author": {
+        "description": "Required for annotate.",
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string"
+      },
+      "before": {
+        "description": "For list: only events before this instant.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "content": {
+        "description": "Annotation content. Required for annotate.",
+        "maxLength": 20000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "description": {
+        "description": "Required for create.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "durationS": {
+        "description": "Duration in seconds. For create.",
+        "minimum": 0,
+        "type": "integer"
+      },
+      "id": {
+        "description": "Required for get/archive/annotate/sensitivity.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "limit": {
+        "description": "For list.",
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "metadata": {
+        "description": "Free-form JSON. For create.",
+        "type": "object"
+      },
+      "name": {
+        "description": "Required for create.",
+        "maxLength": 500,
+        "minLength": 1,
+        "type": "string"
+      },
+      "occurredAt": {
+        "description": "When it happened. Required for create.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "relatedEntities": {
+        "description": "Entity ids involved. For create.",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "sensitivity": {
+        "description": "create: initial tier (default 'internal'); sensitivity: the new tier, never lower.",
+        "enum": [
+          "public",
+          "internal",
+          "confidential",
+          "restricted"
+        ],
+        "type": "string"
+      },
+      "source": {
+        "description": "Where the event came from. Required for create.",
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string"
+      },
+      "sourceFilter": {
+        "description": "For list: only events from this source.",
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context). action='create' only.",
+        "format": "uuid",
+        "type": "string"
+      },
+      "type": {
+        "description": "Required for create.",
+        "enum": [
+          "system",
+          "external",
+          "user",
+          "agent",
+          "scheduled"
+        ],
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

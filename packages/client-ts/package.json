@@ -1,0 +1,79 @@
+{
+  "name": "@mnemo-ai/client-ts",
+  "version": "3.6.3",
+  "description": "Typed TypeScript client for the Mnemosyne HTTP API. No runtime dependencies; Node 20+, Bun, Deno, Workers and browsers.",
+  "keywords": [
+    "mnemosyne",
+    "memory",
+    "sdk",
+    "client",
+    "ai",
+    "rag",
+    "vector",
+    "typescript",
+    "agent-memory",
+    "ai-agents"
+  ],
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/client-ts"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmailland/mnemosyne/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "prepack": "cp ../../LICENSE LICENSE",
+    "build": "tsup",
+    "typecheck": "tsc -p tsconfig.test.json",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist .turbo",
+    "lint": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "@mnemo-ai/core": "workspace:*"
+  },
+  "peerDependenciesMeta": {
+    "@mnemo-ai/core": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@mnemo-ai/core": "workspace:*",
+    "@types/node": "^26.6.5",
+    "msw": "^2.15.0",
+    "tsup": "^9.0.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}

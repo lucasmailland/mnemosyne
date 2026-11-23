@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use Mnemosyne in your research or software, please cite it as below."
+title: "Mnemosyne: a multi-tenant cognitive memory layer for AI agents"
+abstract: >-
+  Mnemosyne is a bitemporal, provider-agnostic, RLS-isolated memory layer for
+  AI agents, offering hybrid recall (Postgres full-text and dense vectors with
+  graph context and an optional rerank) over Postgres and pgvector, consumable
+  through an HTTP API, an MCP server, a CLI and typed SDKs.
+type: software
+authors:
+  - given-names: Lucas
+    family-names: Mailland
+repository-code: "https://github.com/lucasmailland/mnemosyne"
+url: "https://getmnemosyne.ai"
+license: Apache-2.0
+version: 3.6.4
+date-released: "2026-07-27"
+keywords:
+  - memory
+  - ai-agents
+  - retrieval
+  - pgvector
+  - bitemporal
+  - multi-tenant
+  - rls
+  - mcp
+  - rag

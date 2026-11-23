@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "mcpServers": {
+    "mnemosyne": {
+      "command": "node",
+      "args": [
+        "./packages/mcp/dist/index.js"
+      ],
+      "env": {
+        "MNEMO_URL": "http://localhost:3939",
+        "MNEMO_KEY": "mns_live_0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  }
+}

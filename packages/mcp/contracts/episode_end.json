@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_episode_end",
+  "inputSchema": {
+    "properties": {
+      "collapseHint": {
+        "description": "Optional extraction hint (e.g. 'prioritize user decisions').",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "sessionId": {
+        "description": "ID of the episode/session to close. Returned by `memory_episode_start`. Pure MCP only: under 'Episode: open' or 'mnemo-managed-v1:' the host closes it; compaction does not.",
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "required": [
+      "sessionId"
+    ],
+    "type": "object"
+  }
+}

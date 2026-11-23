@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Mnemosyne — Cascada de recall",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "tiers", "label": "Tiers rápidos", "focus": ["route", "budget", "hot", "pointer", "response"], "note": "Cada tier responde solo si trae al menos 3 hits con score > 0.7." },
+      { "id": "cold", "label": "Pipeline cold", "focus": ["pointer", "candidates", "score", "response"], "note": "Candidatos en paralelo, luego filtros, ACT-R y armado de hits." },
+      { "id": "degradacion", "label": "Degradación", "focus": ["budget", "fts", "response"], "note": "Sin embedder o con el proveedor caído, el recall cae a FTS en vez de fallar." }
+    ]
+  },
+  "lanes": [
+    { "id": "http", "label": "Entrada HTTP (routes/recall.ts)" },
+    { "id": "tiers", "label": "recallWithCaches — tiers rápidos" },
+    { "id": "cold", "label": "recallCold — pipeline completo" },
+    { "id": "fallback", "label": "Degradación", "variant": "exception" }
+  ],
+  "phases": [
+    { "id": "ingreso", "label": "Ingreso", "fromCol": 0, "toCol": 1 },
+    { "id": "cascada", "label": "Cascada", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "ranking", "label": "Ranking + respuesta", "fromCol": 4, "toCol": 5 }
+  ],
+  "groups": [
+    { "id": "fast_tiers", "label": "≥3 hits > 0.7 corta", "lane": "tiers", "fromCol": 2, "toCol": 3, "variant": "emphasis" }
+  ],
+  "mainPath": ["route", "budget", "hot", "pointer", "candidates", "score", "response"],
+  "nodes": [
+    { "id": "route", "lane": "http", "col": 0, "type": "security", "label": "POST /recall", "sublabel": "techo de sensitivity", "width": 140 },
+    { "id": "response", "lane": "http", "col": 5, "type": "frontend", "label": "RecallHit[]", "sublabel": "compact 300 chars (MCP)", "width": 150 },
+    { "id": "budget", "lane": "tiers", "col": 1, "type": "backend", "label": "Token budget", "sublabel": "embed + cache sha256", "tag": "<500 no busca", "width": 140 },
+    { "id": "hot", "lane": "tiers", "col": 2, "type": "database", "label": "Hot tier", "sublabel": "ZSet Redis · Petrov", "width": 140 },
+    { "id": "pointer", "lane": "tiers", "col": 3, "type": "database", "label": "Pointer tier", "sublabel": "LSH · coseno × worth", "width": 140 },
+    { "id": "candidates", "lane": "cold", "col": 4, "type": "backend", "label": "Candidatos", "sublabel": "vector 1000 · entidades", "tag": "otros kinds ×0.85", "width": 150 },
+    { "id": "score", "lane": "cold", "col": 5, "type": "backend", "label": "Filtrar + puntuar", "sublabel": "worth · sensitivity · ACT-R", "tag": "+ recall_log", "width": 150 },
+    { "id": "fts", "lane": "fallback", "col": 2, "type": "security", "label": "FTS fallback", "sublabel": "rank × worth", "width": 140 }
+  ],
+  "edges": [
+    { "id": "route-budget", "from": "route", "to": "budget", "variant": "emphasis", "toSide": "top" },
+    { "id": "budget-hot", "from": "budget", "to": "hot", "variant": "emphasis" },
+    { "id": "hot-pointer", "from": "hot", "to": "pointer", "label": "insuficiente" },
+    { "id": "pointer-candidates", "from": "pointer", "to": "candidates", "label": "insuficiente" },
+    { "id": "candidates-score", "from": "candidates", "to": "score", "variant": "emphasis" },
+    { "id": "score-response", "from": "score", "to": "response", "variant": "emphasis" },
+    { "id": "pointer-response", "from": "pointer", "to": "response", "label": "suficiente", "variant": "dashed", "role": "return" },
+    { "id": "budget-fts", "from": "budget", "to": "fts", "label": "sin embedder", "variant": "security", "role": "error" },
+    { "id": "fts-response", "from": "fts", "to": "response", "variant": "dashed", "role": "branch", "fromSide": "right", "toSide": "right", "route": "outside-right" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Cascada", "items": ["≥3 hits > 0.7 corta el tier", "budget < 2000: solo hot tier"] },
+    { "dot": "emerald", "title": "Score cold", "items": ["(tanh(A)·0.4 + cos·0.6) × worth", "dedupe > 0.88 · top-3 a hot"] },
+    { "dot": "rose", "title": "Brechas", "items": ["asOf aceptado, nunca leído", "contested siempre false"] }
+  ]
+}

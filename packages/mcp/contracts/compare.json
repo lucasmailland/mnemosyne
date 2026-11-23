@@ -1,0 +1,23 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_compare",
+  "inputSchema": {
+    "properties": {
+      "factIdA": {
+        "description": "ID of the first fact (a UUID).",
+        "minLength": 1,
+        "type": "string"
+      },
+      "factIdB": {
+        "description": "ID of the second fact (a UUID).",
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "required": [
+      "factIdA",
+      "factIdB"
+    ],
+    "type": "object"
+  }
+}

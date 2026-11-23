@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36"
+  viewBox="0 0 36 36" role="img">
+  <defs>
+    <pattern id="trama-icono" width="2.6" height="2.6"
+      patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="2.6" stroke="#F5ECDE" stroke-width="0.55"/>
+    </pattern>
+  </defs>
+  <style>
+    .hueca{fill:none;stroke:#F5ECDE;stroke-width:1.5}
+    .fina{fill:none;stroke:#F5ECDE;stroke-width:0.675;opacity:.55}
+  </style>
+  <path d="M9 30 L9 15 A9 9 0 0 1 27 15 L27 30" class="hueca"/>
+      <path d="M13 30 L13 17 A5 5 0 0 1 23 17 L23 30" fill="url(#trama-icono)" class="hueca"/>
+      <line x1="18" y1="6" x2="18" y2="1" class="fina"/>
+      <line x1="26" y1="8" x2="30" y2="4" class="fina"/>
+      <line x1="10" y1="8" x2="6" y2="4" class="fina"/>
+</svg>

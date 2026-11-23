@@ -1,0 +1,332 @@
+# Mnemosyne Production Stack — Wave V §26
+#
+# Production configuration with:
+#   - server replicas behind the edge proxy (one by default; see the server service)
+#   - Redis: one master the server uses, plus 2 replicas kept in sync for a manual
+#     failover. The server's Redis client connects to one URL and does not follow
+#     Sentinel, so this file runs no Sentinel: an automatic failover would leave
+#     the server writing to a demoted, read-only node.
+#   - pgBouncer connection pooler in front of Postgres, for the app role
+#   - the Next.js dashboard, which needs MNEMO_DASHBOARD_SECRET on the server
+#   - Postgres, Redis, pgBouncer, Ollama and the collector published on 127.0.0.1 only
+#   - terminationGracePeriodSeconds-friendly healthchecks
+#
+# Usage (override base docker-compose.yml), with the required variables set
+# (docs/guides/PRODUCTION_DEPLOY.md):
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# NOTE: The repository ships no Helm chart or Kubernetes manifest; the other
+# supported targets are Fly.io (fly.toml) and Railway (deploy/railway.json), see
+# docs/deploy/SERVICES.md. This file is for bare-metal / Docker Swarm deployments.
+
+services:
+  # ─── migrate — role-provisioning override ───────────────────────────────────
+  # Extends the base migrate service with the MNEMO_APP_DB_PASSWORD secret so
+  # provision-app-role.mjs creates the non-superuser LOGIN role after migrations.
+  migrate:
+    environment:
+      MNEMO_MIGRATION_DATABASE_URL: ${MNEMO_MIGRATION_DATABASE_URL:?MNEMO_MIGRATION_DATABASE_URL must point directly to PostgreSQL in production}
+      MNEMO_APP_DB_PASSWORD: ${MNEMO_APP_DB_PASSWORD:?MNEMO_APP_DB_PASSWORD must be set in production}
+      MNEMO_APP_DB_USER: ${MNEMO_APP_DB_USER:-mnemo_app}
+      # Session limits provision-app-role.mjs sets on the app role (pgBouncer
+      # drops the server's own startup parameters). The server gets the same
+      # values below, so one setting in .env applies on both paths.
+      MNEMO_PG_STATEMENT_TIMEOUT_MS: ${MNEMO_PG_STATEMENT_TIMEOUT_MS:-60000}
+      MNEMO_PG_LOCK_TIMEOUT_MS: ${MNEMO_PG_LOCK_TIMEOUT_MS:-15000}
+      MNEMO_PG_IDLE_IN_TRANSACTION_TIMEOUT_MS: ${MNEMO_PG_IDLE_IN_TRANSACTION_TIMEOUT_MS:-60000}
+
+  # ─── Postgres and Redis from the base file: no default password, loopback ──
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in production}
+    ports: !override
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+
+  redis:
+    command:
+      [
+        "redis-server",
+        "--requirepass",
+        "${REDIS_PASSWORD:?REDIS_PASSWORD must be set in production (openssl rand -hex 32)}",
+      ]
+    environment:
+      REDISCLI_AUTH: ${REDIS_PASSWORD}
+    ports: !override
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+
+  # The base file's local model server: no auth, so loopback only like the rest.
+  ollama:
+    ports: !override
+      - "127.0.0.1:${OLLAMA_PORT:-11434}:11434"
+
+  # ─── pgBouncer — connection pooler ──────────────────────────────────────────
+  # Pools the app role only: it signs in to Postgres as MNEMO_APP_DB_USER with
+  # MNEMO_APP_DB_PASSWORD, and the server signs in to it with the same pair
+  # (DATABASE_URL_PROD). Migrations connect to Postgres directly. Transaction
+  # pooling is safe here: the server scopes its workspace setting to the
+  # transaction (set_config(..., true)); MAX_PREPARED_STATEMENTS keeps the
+  # driver's prepared statements working across pooled connections.
+  # pgBouncer cannot carry the server's startup parameters (search_path and
+  # the MNEMO_PG_*_TIMEOUT_MS limits) to pooled sessions, so it drops them and
+  # the session takes the same values from the role: the migrate step sets
+  # them with ALTER ROLE ... IN DATABASE (docker/scripts/provision-app-role.mjs).
+  pgbouncer:
+    image: edoburu/pgbouncer:v1.26.1-p0
+    container_name: mnemosyne-pgbouncer
+    restart: unless-stopped
+    environment:
+      DB_HOST: ${POSTGRESQL_HOST:-postgres}
+      DB_PORT: ${POSTGRESQL_PORT:-5432}
+      DB_NAME: ${POSTGRES_DB:-mnemo}
+      DB_USER: ${MNEMO_APP_DB_USER:-mnemo_app}
+      DB_PASSWORD: ${MNEMO_APP_DB_PASSWORD:?MNEMO_APP_DB_PASSWORD must be set in production}
+      AUTH_TYPE: scram-sha-256
+      LISTEN_PORT: 5435
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 1000
+      DEFAULT_POOL_SIZE: 20
+      SERVER_IDLE_TIMEOUT: 600
+      MAX_PREPARED_STATEMENTS: 200
+      IGNORE_STARTUP_PARAMETERS: extra_float_digits,search_path,statement_timeout,lock_timeout,idle_in_transaction_session_timeout
+    # Loopback only: the server reaches it on the compose network.
+    ports:
+      - "127.0.0.1:${PGBOUNCER_PORT:-5435}:5435"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-p", "5435"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    # NOTE: deploy.resources limits are enforced under Swarm / `docker stack`;
+    # for plain `docker compose` they are advisory only.
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 512M }
+        reservations: { cpus: "0.25", memory: 128M }
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ─── Redis ──────────────────────────────────────────────────────────────────
+  # The server uses redis-master (MNEMO_REDIS_URL_PROD). The replicas follow it;
+  # to fail over by hand, promote one (REPLICAOF NO ONE) and point
+  # MNEMO_REDIS_URL_PROD at it. Every node asks for REDIS_PASSWORD (requirepass,
+  # and masterauth on the replicas); REDISCLI_AUTH lets the healthcheck's
+  # redis-cli sign in. Use a URL-safe value: it goes into the redis:// URL.
+  redis-master:
+    image: redis:7.4-alpine
+    container_name: mnemosyne-redis-master
+    restart: unless-stopped
+    command:
+      [
+        "redis-server",
+        "--save",
+        "60",
+        "1",
+        "--loglevel",
+        "warning",
+        "--requirepass",
+        "${REDIS_PASSWORD:?REDIS_PASSWORD must be set in production (openssl rand -hex 32)}",
+      ]
+    environment:
+      REDISCLI_AUTH: ${REDIS_PASSWORD}
+    volumes:
+      - mnemosyne-redis-master-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    # NOTE: deploy.resources limits are enforced under Swarm / `docker stack`;
+    # for plain `docker compose` they are advisory only.
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 768M }
+        reservations: { cpus: "0.25", memory: 256M }
+
+  redis-replica-1:
+    image: redis:7.4-alpine
+    container_name: mnemosyne-redis-replica-1
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --replicaof
+      - redis-master
+      - "6379"
+      - --loglevel
+      - warning
+      - --requirepass
+      - "${REDIS_PASSWORD:?REDIS_PASSWORD must be set in production (openssl rand -hex 32)}"
+      - --masterauth
+      - "${REDIS_PASSWORD}"
+    environment:
+      REDISCLI_AUTH: ${REDIS_PASSWORD}
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    # NOTE: deploy.resources limits are enforced under Swarm / `docker stack`;
+    # for plain `docker compose` they are advisory only.
+    deploy:
+      resources:
+        limits: { cpus: "0.5", memory: 512M }
+        reservations: { cpus: "0.1", memory: 128M }
+
+  redis-replica-2:
+    image: redis:7.4-alpine
+    container_name: mnemosyne-redis-replica-2
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --replicaof
+      - redis-master
+      - "6379"
+      - --loglevel
+      - warning
+      - --requirepass
+      - "${REDIS_PASSWORD:?REDIS_PASSWORD must be set in production (openssl rand -hex 32)}"
+      - --masterauth
+      - "${REDIS_PASSWORD}"
+    environment:
+      REDISCLI_AUTH: ${REDIS_PASSWORD}
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    # NOTE: deploy.resources limits are enforced under Swarm / `docker stack`;
+    # for plain `docker compose` they are advisory only.
+    deploy:
+      resources:
+        limits: { cpus: "0.5", memory: 512M }
+        reservations: { cpus: "0.1", memory: 128M }
+
+  # ─── Server replicas ─────────────────────────────────────────────────────────
+  # Each replica uses pgBouncer and redis-master instead of the base services.
+  # One replica by default: plain `docker compose` publishes every replica on the
+  # host, and a host port can serve only one of them. For N replicas set
+  # MNEMO_SERVER_REPLICAS=N and PORT to a range of N host ports (3939-3941 for
+  # three) and point the edge proxy at all of them. Under Docker Swarm
+  # (`docker stack deploy`) the ingress publishes one PORT for every replica.
+  # NOTE: container_name from base compose is incompatible with deploy.replicas.
+  # When using this overlay, Docker Compose will auto-generate unique names per replica.
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    image: mnemosyne/server:${MNEMO_IMAGE_TAG:-latest}
+    # !override replaces the base file's "${PORT}:${PORT}" mapping instead of
+    # appending to it: here the server listens on 3000, so the published host
+    # port (PORT, 3939 in .env.example; a range with several replicas) must
+    # point at 3000.
+    ports: !override
+      - "${PORT:-3000}:3000"
+      # With MNEMO_GRPC_PORT set (h2c, bidirectional gRPC), publish it too:
+      # - "${MNEMO_GRPC_PORT}:${MNEMO_GRPC_PORT}"
+    deploy:
+      replicas: ${MNEMO_SERVER_REPLICAS:-1}
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first # zero-downtime rolling deploy
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      # NOTE: deploy.resources limits are enforced under Swarm / `docker stack`;
+      # for plain `docker compose` they are advisory only.
+      resources:
+        limits: { cpus: "2.0", memory: 1G }
+        reservations: { cpus: "0.5", memory: 512M }
+    environment:
+      # postgres://mnemo_app:<MNEMO_APP_DB_PASSWORD>@pgbouncer:5435/mnemo
+      DATABASE_URL: ${DATABASE_URL_PROD:?DATABASE_URL_PROD must be set in production (postgres://mnemo_app:<MNEMO_APP_DB_PASSWORD>@pgbouncer:5435/mnemo)}
+      # One plain redis:// URL: the client does not speak Sentinel (see the top of this file).
+      # The default carries REDIS_PASSWORD; a custom MNEMO_REDIS_URL_PROD must too.
+      MNEMO_REDIS_URL: ${MNEMO_REDIS_URL_PROD:-redis://:${REDIS_PASSWORD}@redis-master:6379/0}
+      NODE_ENV: production
+      MNEMO_PG_STATEMENT_TIMEOUT_MS: ${MNEMO_PG_STATEMENT_TIMEOUT_MS:-60000}
+      MNEMO_PG_LOCK_TIMEOUT_MS: ${MNEMO_PG_LOCK_TIMEOUT_MS:-15000}
+      MNEMO_PG_IDLE_IN_TRANSACTION_TIMEOUT_MS: ${MNEMO_PG_IDLE_IN_TRANSACTION_TIMEOUT_MS:-60000}
+      # NODE_ENV=production makes both mandatory: the server refuses to boot
+      # without them. 64 hex characters each: openssl rand -hex 32
+      MNEMO_MASTER_KEY: ${MNEMO_MASTER_KEY:?MNEMO_MASTER_KEY must be set in production (openssl rand -hex 32)}
+      MNEMO_KEY_PEPPER: ${MNEMO_KEY_PEPPER:?MNEMO_KEY_PEPPER must be set in production (openssl rand -hex 32)}
+      PORT: 3000
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      # Dashboard sign-in. Unset, the server boots with dashboard auth disabled
+      # (one info log line) and nobody can sign in; under 32 bytes it refuses to
+      # boot. Generate one with: openssl rand -hex 32
+      MNEMO_DASHBOARD_SECRET: ${MNEMO_DASHBOARD_SECRET:?MNEMO_DASHBOARD_SECRET must be set (at least 32 bytes) in production}
+      # Public origin of the dashboard, for the links shown in Members and in
+      # invitations (a value saved in Installation > Settings wins over it).
+      MNEMO_PUBLIC_BASE_URL: ${MNEMO_PUBLIC_BASE_URL:-}
+      # Bearer token for /metrics and /metrics/prometheus. Unset, both answer 404
+      # here (NODE_ENV=production). Generate one with: openssl rand -hex 32
+      MNEMO_METRICS_TOKEN: ${MNEMO_METRICS_TOKEN:-}
+    stop_grace_period: "60s"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/health/live"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+    depends_on:
+      pgbouncer:
+        condition: service_healthy
+      redis-master:
+        condition: service_healthy
+
+  # ─── Dashboard (Next.js) ─────────────────────────────────────────────────────
+  # Wired like docker-compose.e2e.yml. The server image does not contain this
+  # app. MNEMO_SERVER_URL is a build arg AND a runtime variable: the rewrites
+  # of /dashboard/auth/*, /dashboard/api/* and /dashboard/bootstrap* to the
+  # server are written into the image at build time, while server-rendered
+  # pages read it at run time. Rebuild the image if the server address changes.
+  # Put both containers behind one HTTPS origin: the edge proxy sends
+  # /dashboard and /dashboard/* here and everything else to the server
+  # (docs/guides/PRODUCTION_DEPLOY.md).
+  dashboard:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dashboard
+      args:
+        MNEMO_SERVER_URL: http://server:3000
+    image: mnemosyne/dashboard:${MNEMO_IMAGE_TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      server:
+        condition: service_healthy
+    environment:
+      MNEMO_SERVER_URL: http://server:3000
+      NODE_ENV: production
+    # Loopback only, like the e2e stack: the edge proxy on this host is the
+    # way in (one HTTPS origin for server and dashboard).
+    ports:
+      - "127.0.0.1:${MNEMO_DASHBOARD_PORT:-3300}:3000"
+    healthcheck:
+      # basePath is /dashboard, so / answers 404 by design.
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/dashboard/login"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
+
+  # ─── OpenTelemetry Collector ─────────────────────────────────────────────────
+  # Receives OTLP traces/metrics from server replicas and forwards to backends.
+  # Config path is relative to docker/ (same as docker-compose.observability.yml).
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.127.0
+    container_name: mnemosyne-otel-collector
+    restart: unless-stopped
+    volumes:
+      - ./scripts/otel-collector.yml:/etc/otelcol-contrib/config.yaml:ro
+    # Loopback only: the server reaches it on the compose network.
+    ports:
+      - "127.0.0.1:${OTEL_GRPC_PORT:-4317}:4317"
+      - "127.0.0.1:${OTEL_HTTP_PORT:-4318}:4318"
+      - "127.0.0.1:${OTEL_PROM_PORT:-8888}:8888"
+    # NOTE: deploy.resources limits are enforced under Swarm / `docker stack`;
+    # for plain `docker compose` they are advisory only.
+    deploy:
+      resources:
+        limits: { cpus: "0.5", memory: 256M }
+        reservations: { cpus: "0.1", memory: 64M }
+
+volumes:
+  mnemosyne-redis-master-data:

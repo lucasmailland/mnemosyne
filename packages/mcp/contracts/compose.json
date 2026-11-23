@@ -1,0 +1,116 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_compose",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "list | create | get | patch | dry_run (persists nothing) | inferences (derivation log; filter by derivedId).",
+        "enum": [
+          "list",
+          "create",
+          "get",
+          "patch",
+          "dry_run",
+          "inferences"
+        ],
+        "type": "string"
+      },
+      "actionDsl": {
+        "description": "[create | patch | dry_run] Action DSL (op: 'derive_fact', ...)."
+      },
+      "conditionDsl": {
+        "description": "[create | patch | dry_run] Condition DSL object (all: [...])."
+      },
+      "derivedId": {
+        "description": "[inferences] Only derivations that produced this primitive.",
+        "type": "string"
+      },
+      "description": {
+        "description": "[create | patch] Rule description.",
+        "type": "string"
+      },
+      "hits": {
+        "description": "[dry_run] Recall hits to evaluate the rule against.",
+        "items": {
+          "properties": {
+            "content": {
+              "type": "string"
+            },
+            "factKind": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "primitive": {
+              "type": "string"
+            },
+            "score": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            "tags": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "worth": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "content",
+            "id",
+            "primitive",
+            "score"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "isActive": {
+        "description": "[list] Filter by active status.",
+        "type": "boolean"
+      },
+      "isActiveOnCreate": {
+        "description": "[create] Activate at once. Default true.",
+        "type": "boolean"
+      },
+      "limit": {
+        "description": "[list/dry_run] Page size / max hits.",
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "name": {
+        "description": "[create | patch] Rule name.",
+        "type": "string"
+      },
+      "offset": {
+        "description": "[list] Pagination offset.",
+        "minimum": 0,
+        "type": "integer"
+      },
+      "priority": {
+        "description": "[create | patch] Rule priority.",
+        "maximum": 10000,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "ruleId": {
+        "description": "[get | patch | dry_run] ID of the target rule.",
+        "type": "string"
+      },
+      "since": {
+        "description": "[inferences] Only derivations after this date.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

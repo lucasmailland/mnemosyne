@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "host": "opencode",
+  "hostVersion": "1.19.5",
+  "pluginPackage": {
+    "name": "@opencode-ai/plugin",
+    "version": "1.19.5"
+  },
+  "platform": "darwin-arm64",
+  "packageHash": "6e1bf08df1032ca67158377a34e676686382ce9b5a9148d8d7c4bb312e9bec36",
+  "fixtureHash": "12ef589e576cc2e065d5cb9f5d01cd0d40dd3a74d8b6d70f30dd3ba8725b8df5",
+  "observedEvents": [
+    "session.compact",
+    "session.compacted",
+    "session.created",
+    "session.deleted",
+    "session.diff",
+    "session.error",
+    "session.first",
+    "session.idle",
+    "session.interrupt",
+    "session.last",
+    "session.list",
+    "session.new",
+    "session.share",
+    "session.status",
+    "session.updated"
+  ],
+  "sources": [
+    "~/.config/opencode/node_modules/@opencode-ai/plugin/dist/index.d.ts",
+    "~/.config/opencode/node_modules/@opencode-ai/sdk/dist/gen/types.gen.d.ts"
+  ],
+  "proofs": {
+    "transcript": false,
+    "compaction": false,
+    "deletion": false
+  },
+  "qualifiedAt": "2026-11-22T22:36:34.043Z",
+  "mode": "user-only"
+}

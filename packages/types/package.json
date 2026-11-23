@@ -1,0 +1,76 @@
+{
+  "name": "@mnemo-ai/types",
+  "version": "3.6.2",
+  "description": "Shared domain types and port interfaces for Mnemosyne, cognitive memory for AI agents.",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/types"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmailland/mnemosyne/issues"
+  },
+  "keywords": [
+    "mnemosyne",
+    "types",
+    "memory",
+    "ai",
+    "llm",
+    "interfaces",
+    "agent-memory"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./testing": {
+      "types": "./dist/testing/index.d.ts",
+      "import": "./dist/testing/index.js"
+    },
+    "./harness-runtime": {
+      "types": "./dist/harness-runtime.d.ts",
+      "import": "./dist/harness-runtime.js",
+      "require": "./dist/harness-runtime.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "cp ../../LICENSE LICENSE",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist .turbo",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsup": "^9.0.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  }
+}

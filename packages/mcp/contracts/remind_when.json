@@ -1,0 +1,63 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_remind_when",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "default": "create",
+        "description": "Operation to perform: 'create', 'list' or 'dismiss'.",
+        "enum": [
+          "create",
+          "list",
+          "dismiss"
+        ],
+        "type": "string"
+      },
+      "condition": {
+        "description": "action='create'. Semantic condition checked on each memory_recall; needed without triggerAt.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "content": {
+        "description": "action='create'. Text shown when it fires.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "id": {
+        "description": "action='dismiss'. Reminder id.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "limit": {
+        "description": "action='list'.",
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "status": {
+        "description": "action='list'. Default 'pending'; 'triggered' = fired, unreviewed (content kept).",
+        "enum": [
+          "pending",
+          "triggered",
+          "dismissed",
+          "all"
+        ],
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context). action='create' only.",
+        "format": "uuid",
+        "type": "string"
+      },
+      "triggerAt": {
+        "description": "action='create'. ISO 8601 earliest fire time (checked every 30s); needed without condition. With both, a later memory_recall must match condition.",
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

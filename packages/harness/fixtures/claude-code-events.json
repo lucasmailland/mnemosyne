@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "recordedFrom": {
+    "host": "claude-code",
+    "note": "Hook event names are pinned against the plugin's own contract test allowlist, which cites the official hook reference; payload fields are the ones the shipped scripts read.",
+    "hostBinaryVersion": "2.1.267",
+    "platform": "darwin-arm64"
+  },
+  "sources": [
+    "packages/plugin/scripts/__tests__/hook-event-contract.test.sh",
+    "packages/plugin/hooks/hooks.json",
+    "docs/internals/host-hook-contracts.md#claude-code--full-hooks"
+  ],
+  "hookEvents": [
+    "Notification",
+    "PostToolUse",
+    "PreCompact",
+    "PreToolUse",
+    "SessionEnd",
+    "SessionStart",
+    "Stop",
+    "SubagentStart",
+    "SubagentStop",
+    "UserPromptSubmit"
+  ],
+  "subscribed": ["SessionStart", "Stop", "SubagentStop", "UserPromptSubmit"],
+  "payloadFields": ["session_id", "transcript_path", "prompt", "cwd", "hook_event_name"],
+  "subagentStopEvidence": {
+    "hostBinaryVersion": "2.1.325",
+    "platform": "linux-aarch64",
+    "event": "SubagentStop",
+    "observedFields": [
+      "agent_id",
+      "agent_transcript_path",
+      "agent_type",
+      "background_tasks",
+      "cwd",
+      "effort",
+      "hook_event_name",
+      "last_assistant_message",
+      "permission_mode",
+      "prompt_id",
+      "session_crons",
+      "session_id",
+      "stop_hook_active",
+      "transcript_path"
+    ],
+    "resumeSessionIdPreserved": true,
+    "contractCitation": "docs/internals/host-hook-contracts.md#claude-code--full-hooks",
+    "fixture": "claude-code-subagent-stop.json"
+  },
+  "channels": {
+    "context": "stdout-as-additionalContext",
+    "compaction": "PreCompact",
+    "close": "SessionEnd"
+  }
+}

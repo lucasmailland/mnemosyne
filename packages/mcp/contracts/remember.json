@@ -1,0 +1,81 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_remember",
+  "inputSchema": {
+    "properties": {
+      "agentId": {
+        "description": "Optional: the agent or conversation it came from.",
+        "type": "string"
+      },
+      "confidence": {
+        "description": "[0, 1]. Omit to use the server default.",
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "conversationId": {
+        "description": "Optional: conversation id, for cite-back.",
+        "type": "string"
+      },
+      "episodeId": {
+        "description": "Only for an existing episode (correction, import); never guess it. Normally send sessionId.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "kind": {
+        "description": "'fact' (default), 'decision', 'episode', 'entity', 'strategy', 'workflow', 'skill', 'task', 'event' or 'reasoning'; unknown returns 400. Category goes in subtype.",
+        "type": "string"
+      },
+      "scope": {
+        "description": "Default 'global'. 'personal' = your personal workspace, across projects; needs a user-bound key (mns_live_ keys fail: 'scope personal requires a user-bound key').",
+        "enum": [
+          "global",
+          "conversation",
+          "personal"
+        ],
+        "type": "string"
+      },
+      "scopeOwner": {
+        "description": "'workspace:<id>' (default), 'user:<userId>' or 'tenant:<tenantId>'; IDs: memory_context.",
+        "type": "string"
+      },
+      "scopeRef": {
+        "description": "Project ref (e.g. 'mnemosyne'), filterable at recall; entity names and aliases are canonicalized (warnings scope_ref_canonicalized, scope_ref_unrecognized).",
+        "type": "string"
+      },
+      "sessionId": {
+        "description": "The session id returned by memory_episode_start (or 'Episode: open'). Always pass it: memory_episode_end links its facts to the episode; without it, no origin context ever.",
+        "type": "string"
+      },
+      "statement": {
+        "description": "One self-contained claim (e.g. 'Client Acme prefers communication in Spanish.').",
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "subject": {
+        "description": "What the fact is about (e.g. 'acme', 'user:dana@example.com'). Default 'workspace'.",
+        "type": "string"
+      },
+      "subtype": {
+        "description": "fact: 'preference' | 'trait' | 'event' | 'relationship' | 'skill' | 'concern' | 'architecture' | 'bugfix' | 'config' | 'discovery' | 'policy' | 'process' | 'other' (default). A choice with rationale is a decision: use memory_decide. Other kinds: see memory_decide, memory_entity. Unknown values fall back, with a warning.",
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context).",
+        "type": "string"
+      },
+      "topicKey": {
+        "description": "An active fact or decision with this key is updated, not duplicated (e.g. 'auth-strategy'). See memory_suggest_topic_key.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "statement"
+    ],
+    "type": "object"
+  }
+}

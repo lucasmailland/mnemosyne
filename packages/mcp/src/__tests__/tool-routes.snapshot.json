@@ -1,0 +1,698 @@
+{
+  "memory_anticipate": [
+    {
+      "method": "GET",
+      "path": "/anticipation"
+    }
+  ],
+  "memory_compare": [
+    {
+      "method": "POST",
+      "path": "/facts/compare"
+    }
+  ],
+  "memory_compose:create": [
+    {
+      "method": "POST",
+      "path": "/composition/rules"
+    }
+  ],
+  "memory_compose:dry_run": [
+    {
+      "method": "POST",
+      "path": "/composition/dry-run"
+    }
+  ],
+  "memory_compose:get": [
+    {
+      "method": "GET",
+      "path": "/composition/rules/rule_1"
+    }
+  ],
+  "memory_compose:list": [
+    {
+      "method": "GET",
+      "path": "/composition/rules"
+    }
+  ],
+  "memory_compose:patch": [
+    {
+      "method": "PATCH",
+      "path": "/composition/rules/rule_1"
+    }
+  ],
+  "memory_consolidate": [
+    {
+      "method": "POST",
+      "path": "/consolidation/trigger"
+    }
+  ],
+  "memory_context": [
+    {
+      "method": "GET",
+      "path": "/me"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/stats"
+    },
+    {
+      "method": "GET",
+      "path": "/workspaces/mine"
+    },
+    {
+      "method": "GET",
+      "path": "/me"
+    },
+    {
+      "method": "GET",
+      "path": "/tenants/tenant_1/workspaces"
+    }
+  ],
+  "memory_decide": [
+    {
+      "method": "POST",
+      "path": "/decisions"
+    }
+  ],
+  "memory_doctor": [
+    {
+      "method": "GET",
+      "path": "/doctor"
+    }
+  ],
+  "memory_entity:create": [
+    {
+      "method": "POST",
+      "path": "/entities"
+    }
+  ],
+  "memory_entity:get": [
+    {
+      "method": "GET",
+      "path": "/entities/entity_1"
+    }
+  ],
+  "memory_entity:link_user": [
+    {
+      "method": "POST",
+      "path": "/entities/entity_1/link-user"
+    }
+  ],
+  "memory_entity:linked_facts": [
+    {
+      "method": "GET",
+      "path": "/entities/entity_1/facts"
+    }
+  ],
+  "memory_entity:list": [
+    {
+      "method": "GET",
+      "path": "/entities"
+    }
+  ],
+  "memory_entity:unlink_user": [
+    {
+      "method": "DELETE",
+      "path": "/entities/entity_1/link-user"
+    }
+  ],
+  "memory_entity:update": [
+    {
+      "method": "PATCH",
+      "path": "/entities/entity_1"
+    }
+  ],
+  "memory_episode_end": [
+    {
+      "method": "POST",
+      "path": "/session/x/collapse"
+    }
+  ],
+  "memory_episode_start": [
+    {
+      "method": "POST",
+      "path": "/session/start"
+    }
+  ],
+  "memory_event:annotate": [
+    {
+      "method": "POST",
+      "path": "/events/event_1/annotations"
+    }
+  ],
+  "memory_event:archive": [
+    {
+      "method": "DELETE",
+      "path": "/events/event_1"
+    }
+  ],
+  "memory_event:create": [
+    {
+      "method": "POST",
+      "path": "/events"
+    }
+  ],
+  "memory_event:get": [
+    {
+      "method": "GET",
+      "path": "/events/event_1"
+    }
+  ],
+  "memory_event:list": [
+    {
+      "method": "GET",
+      "path": "/events"
+    }
+  ],
+  "memory_event:sensitivity": [
+    {
+      "method": "PATCH",
+      "path": "/events/event_1/sensitivity"
+    }
+  ],
+  "memory_fact": [
+    {
+      "method": "GET",
+      "path": "/facts/x"
+    }
+  ],
+  "memory_forget:fact": [
+    {
+      "method": "DELETE",
+      "path": "/facts/fact_1"
+    }
+  ],
+  "memory_forget:task": [
+    {
+      "method": "DELETE",
+      "path": "/forget/task/task_1"
+    }
+  ],
+  "memory_hyperedge:archive": [
+    {
+      "method": "DELETE",
+      "path": "/hyperedges/hyperedge_1"
+    }
+  ],
+  "memory_hyperedge:create": [
+    {
+      "method": "POST",
+      "path": "/hyperedges"
+    }
+  ],
+  "memory_hyperedge:get": [
+    {
+      "method": "GET",
+      "path": "/hyperedges/hyperedge_1"
+    }
+  ],
+  "memory_hyperedge:list": [
+    {
+      "method": "GET",
+      "path": "/hyperedges"
+    }
+  ],
+  "memory_hyperedge:patch": [
+    {
+      "method": "PATCH",
+      "path": "/hyperedges/hyperedge_1"
+    }
+  ],
+  "memory_introspect": [
+    {
+      "method": "GET",
+      "path": "/metacognition"
+    }
+  ],
+  "memory_judge:list": [
+    {
+      "method": "GET",
+      "path": "/conflicts"
+    }
+  ],
+  "memory_judge:resolve": [
+    {
+      "method": "POST",
+      "path": "/conflicts/relation_1/resolve"
+    }
+  ],
+  "memory_pin": [
+    {
+      "method": "POST",
+      "path": "/facts/x/pin"
+    }
+  ],
+  "memory_purge:closed": [
+    {
+      "method": "DELETE",
+      "path": "/facts/purge"
+    }
+  ],
+  "memory_purge:fact": [
+    {
+      "method": "DELETE",
+      "path": "/facts/fact_1/hard"
+    }
+  ],
+  "memory_reasoning:archive": [
+    {
+      "method": "DELETE",
+      "path": "/reasoning/reasoning_1"
+    }
+  ],
+  "memory_reasoning:create": [
+    {
+      "method": "POST",
+      "path": "/reasoning"
+    }
+  ],
+  "memory_reasoning:feedback": [
+    {
+      "method": "POST",
+      "path": "/reasoning/feedback"
+    }
+  ],
+  "memory_reasoning:get": [
+    {
+      "method": "GET",
+      "path": "/reasoning/reasoning_1"
+    }
+  ],
+  "memory_reasoning:list": [
+    {
+      "method": "GET",
+      "path": "/reasoning"
+    }
+  ],
+  "memory_reasoning:patch": [
+    {
+      "method": "PATCH",
+      "path": "/reasoning/reasoning_1"
+    }
+  ],
+  "memory_reasoning:record": [
+    {
+      "method": "POST",
+      "path": "/reasoning/record"
+    }
+  ],
+  "memory_reasoning:resolve": [
+    {
+      "method": "POST",
+      "path": "/reasoning/resolve"
+    }
+  ],
+  "memory_recall": [
+    {
+      "method": "POST",
+      "path": "/recall"
+    }
+  ],
+  "memory_relate:create": [
+    {
+      "method": "POST",
+      "path": "/relations"
+    }
+  ],
+  "memory_relate:history": [
+    {
+      "method": "POST",
+      "path": "/relations/traverse"
+    }
+  ],
+  "memory_relate:list": [
+    {
+      "method": "GET",
+      "path": "/relations"
+    }
+  ],
+  "memory_relocate": [
+    {
+      "method": "POST",
+      "path": "/facts/x/relocate"
+    }
+  ],
+  "memory_remember": [
+    {
+      "method": "POST",
+      "path": "/remember"
+    }
+  ],
+  "memory_remind_when:create": [
+    {
+      "method": "POST",
+      "path": "/reminders"
+    }
+  ],
+  "memory_remind_when:dismiss": [
+    {
+      "method": "DELETE",
+      "path": "/reminders/reminder_1"
+    }
+  ],
+  "memory_remind_when:list": [
+    {
+      "method": "GET",
+      "path": "/reminders"
+    }
+  ],
+  "memory_search": [
+    {
+      "method": "POST",
+      "path": "/recall"
+    }
+  ],
+  "memory_self_edit:append": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "memory_self_edit:forget": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "memory_self_edit:link": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "memory_self_edit:reflect": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "memory_self_edit:replace": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "memory_self_edit:strengthen": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "memory_self_edit:weaken": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "memory_session:collapse": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/collapse"
+    }
+  ],
+  "memory_session:discard": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/discard"
+    }
+  ],
+  "memory_session:feedback": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/feedback"
+    }
+  ],
+  "memory_session:get": [
+    {
+      "method": "GET",
+      "path": "/session/session_1"
+    }
+  ],
+  "memory_session:list": [
+    {
+      "method": "GET",
+      "path": "/session/list"
+    }
+  ],
+  "memory_session:pin": [
+    {
+      "method": "POST",
+      "path": "/facts/fact_1/pin"
+    }
+  ],
+  "memory_session:pin_turn": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/pin"
+    }
+  ],
+  "memory_session:scratch": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/scratch"
+    }
+  ],
+  "memory_session:start": [
+    {
+      "method": "POST",
+      "path": "/session/start"
+    }
+  ],
+  "memory_session:turn": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/turn"
+    }
+  ],
+  "memory_skill:create": [
+    {
+      "method": "POST",
+      "path": "/skills"
+    }
+  ],
+  "memory_skill:forget": [
+    {
+      "method": "DELETE",
+      "path": "/forget/skill/skill_1"
+    }
+  ],
+  "memory_skill:get": [
+    {
+      "method": "GET",
+      "path": "/skills/skill_1"
+    }
+  ],
+  "memory_skill:list": [
+    {
+      "method": "GET",
+      "path": "/skills"
+    }
+  ],
+  "memory_stats": [
+    {
+      "method": "GET",
+      "path": "/admin/stats"
+    }
+  ],
+  "memory_status": [
+    {
+      "method": "GET",
+      "path": "/health"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/stats"
+    },
+    {
+      "method": "GET",
+      "path": "/me"
+    },
+    {
+      "method": "GET",
+      "path": "/health/ready"
+    }
+  ],
+  "memory_strategy:archive": [
+    {
+      "method": "DELETE",
+      "path": "/strategies/strategy_1"
+    }
+  ],
+  "memory_strategy:create": [
+    {
+      "method": "POST",
+      "path": "/strategies"
+    }
+  ],
+  "memory_strategy:get": [
+    {
+      "method": "GET",
+      "path": "/strategies/strategy_1"
+    }
+  ],
+  "memory_strategy:list": [
+    {
+      "method": "GET",
+      "path": "/strategies"
+    }
+  ],
+  "memory_strategy:patch": [
+    {
+      "method": "PATCH",
+      "path": "/strategies/strategy_1"
+    }
+  ],
+  "memory_strategy:rate": [
+    {
+      "method": "POST",
+      "path": "/strategies/strategy_1/rate"
+    }
+  ],
+  "memory_strategy:recall": [
+    {
+      "method": "GET",
+      "path": "/strategies"
+    }
+  ],
+  "memory_strategy:store": [
+    {
+      "method": "POST",
+      "path": "/strategies"
+    }
+  ],
+  "memory_suggest_topic_key": [
+    {
+      "method": "POST",
+      "path": "/topic-key/suggest"
+    }
+  ],
+  "memory_task:archive": [
+    {
+      "method": "DELETE",
+      "path": "/tasks/task_1"
+    }
+  ],
+  "memory_task:complete": [
+    {
+      "method": "PATCH",
+      "path": "/tasks/task_1"
+    }
+  ],
+  "memory_task:create": [
+    {
+      "method": "POST",
+      "path": "/tasks"
+    }
+  ],
+  "memory_task:delegate": [
+    {
+      "method": "POST",
+      "path": "/tasks/task_1/delegate"
+    }
+  ],
+  "memory_task:get": [
+    {
+      "method": "GET",
+      "path": "/tasks/task_1"
+    }
+  ],
+  "memory_task:list": [
+    {
+      "method": "GET",
+      "path": "/tasks"
+    }
+  ],
+  "memory_task:patch": [
+    {
+      "method": "PATCH",
+      "path": "/tasks/task_1"
+    }
+  ],
+  "memory_timeline": [
+    {
+      "method": "GET",
+      "path": "/timeline"
+    }
+  ],
+  "memory_update": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "memory_workflow:create": [
+    {
+      "method": "POST",
+      "path": "/workflows"
+    }
+  ],
+  "memory_workflow:get": [
+    {
+      "method": "GET",
+      "path": "/workflows/workflow_1"
+    }
+  ],
+  "memory_workflow:list": [
+    {
+      "method": "GET",
+      "path": "/workflows"
+    }
+  ],
+  "memory_workspace:create": [
+    {
+      "method": "POST",
+      "path": "/tenants/tenant_1/workspaces"
+    }
+  ],
+  "memory_workspace:current": [
+    {
+      "method": "GET",
+      "path": "/me"
+    }
+  ],
+  "memory_workspace:describe": [
+    {
+      "method": "GET",
+      "path": "/workspaces/ws_1"
+    }
+  ],
+  "memory_workspace:invite": [
+    {
+      "method": "POST",
+      "path": "/workspaces/ws_1/members"
+    }
+  ],
+  "memory_workspace:list": [
+    {
+      "method": "GET",
+      "path": "/workspaces/mine"
+    },
+    {
+      "method": "GET",
+      "path": "/me"
+    },
+    {
+      "method": "GET",
+      "path": "/tenants/tenant_1/workspaces"
+    }
+  ],
+  "memory_workspace:members": [
+    {
+      "method": "GET",
+      "path": "/workspaces/ws_1/members"
+    }
+  ],
+  "memory_workspace:remove": [
+    {
+      "method": "DELETE",
+      "path": "/workspaces/ws_1/members/user_1"
+    }
+  ],
+  "memory_workspace:set_role": [
+    {
+      "method": "PATCH",
+      "path": "/workspaces/ws_1/members/user_1"
+    }
+  ]
+}

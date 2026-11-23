@@ -1,0 +1,62 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_hyperedge",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "enum": [
+          "create",
+          "get",
+          "list",
+          "patch",
+          "archive"
+        ],
+        "type": "string"
+      },
+      "contextQuery": {
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "description": {
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "label": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string"
+      },
+      "labelFilter": {
+        "type": "string"
+      },
+      "limit": {
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "memberIdFilter": {
+        "type": "string"
+      },
+      "memberIds": {
+        "description": "Required for create. At least 3 primitive IDs.",
+        "items": {
+          "type": "string"
+        },
+        "maxItems": 50,
+        "minItems": 3,
+        "type": "array"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

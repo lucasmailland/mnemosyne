@@ -1,0 +1,101 @@
+# Publish multi-arch Docker images for the Mnemosyne server + migrate
+# containers to GitHub Container Registry (GHCR) on every release tag
+# (`v*`) cut by release-please, and on every push to `main` (as `:edge`).
+#
+# Consumers can pull:
+#
+#   docker pull ghcr.io/lucasmailland/mnemosyne-server:latest      # last release
+#   docker pull ghcr.io/lucasmailland/mnemosyne-server:v2.0.0      # pinned
+#   docker pull ghcr.io/lucasmailland/mnemosyne-server:edge        # main HEAD
+#
+# Same tag set exists for `mnemosyne-migrate`. The compose file in
+# `docker/docker-compose.yml` builds locally; this workflow gives
+# everyone a one-command `docker run` path without building.
+#
+# Why multi-arch: most prod hosts are linux/amd64, but Mac M-series
+# devs run linux/arm64 locally. One manifest, two platforms keeps
+# `docker pull` transparent everywhere.
+#
+# Security notes:
+#   - All `uses:` entries are pinned to the immutable major version
+#     (`@v4`, `@v5`, etc.). For a stricter supply-chain stance, swap
+#     to commit SHAs once Dependabot is configured.
+#   - We never interpolate untrusted inputs (PR titles, commit
+#     messages, issue bodies) into `run:` blocks. The only `${{ … }}`
+#     interpolations read GitHub-controlled values (repository owner,
+#     actor, and the auto-issued `GITHUB_TOKEN`).
+name: docker-publish
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAMESPACE: ${{ github.repository_owner }}
+
+jobs:
+  publish:
+    name: build · push · ${{ matrix.image }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: mnemosyne-server
+            dockerfile: docker/Dockerfile.server
+          - image: mnemosyne-migrate
+            dockerfile: docker/Dockerfile.migrate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Generates standard OCI labels + the tag set:
+      #   - `latest` on tag push
+      #   - `vMAJOR.MINOR.PATCH` + `vMAJOR.MINOR` + `vMAJOR` on tag push
+      #   - `edge` on main push
+      #   - `sha-<short>` always
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/${{ matrix.image }}
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=edge,branch=main
+            type=sha,prefix=sha-
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # GitHub Actions cache so the second image (migrate) reuses
+          # any common layers — saves ~3min per run.
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}

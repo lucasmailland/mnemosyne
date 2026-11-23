@@ -1,0 +1,177 @@
+name: Canary Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Docker image tag to deploy (e.g. sha-abc1234)"
+        required: true
+        type: string
+      slo_observe_seconds:
+        description: "Seconds to observe each canary stage before SLO check"
+        required: false
+        default: "600"
+        type: string
+
+# Secrets required:
+#   FLY_API_TOKEN       — fly.io deploy token (scope: mnemosyne app)
+#   PROMETHEUS_URL      — e.g. https://prometheus.internal/api/v1. Required: the
+#                         workflow stops before touching any machine without it.
+
+env:
+  FLY_APP: mnemosyne
+  NEW_IMAGE: registry.fly.io/mnemosyne:${{ inputs.image_tag }}
+
+# ── Canary by machine share: 1 machine → half the machines → all ───────────────
+# Fly's proxy spreads requests across the app's started machines with no
+# weighted routing, so the share of traffic on the new image is the share of
+# machines running it (1 of 2 machines is 50%). `fly deploy --strategy canary`
+# is not used: it only health-checks one throwaway machine and then rolls the
+# whole app.
+#
+# Each job runs one stage of scripts/canary-rollout.mjs, which holds all the
+# logic so it runs without Fly in scripts/__tests__/canary-rollout.test.mjs (a
+# fake `fly` on PATH and a fake Prometheus). Without PROMETHEUS_URL it stops
+# before calling fly. Stage one records the rollback target: the image most
+# started machines run that is not the new one (none stops it; a target equal to
+# the new image is refused). After moving machines and waiting, the stage asks
+# scripts/canary-slo-check.mjs to compare the machines on the new image with the
+# others (series split by mnemo_build_info{image}). Only "promote" lets the next
+# stage run; "rollback", "hold" (not enough data) or any error put every machine
+# back on the image that was running before stage 1.
+# ──────────────────────────────────────────────────────────────────────────────
+
+jobs:
+  # ── Stage 1: one machine ────────────────────────────────────────────────────
+  canary-one:
+    name: "Canary: 1 machine"
+    runs-on: ubuntu-latest
+    outputs:
+      previous_image: ${{ steps.stage.outputs.previous_image }}
+      decision: ${{ steps.stage.outputs.decision }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # Through turbo so @mnemo-ai/types is built too: core's dist imports it.
+      - name: Build packages (need @mnemo-ai/core for evaluateCanary)
+        run: pnpm turbo run build --filter=@mnemo-ai/core
+
+      - name: Install flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: "Move 1 machine, observe, judge, roll back unless promoted"
+        id: stage
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          PROMETHEUS_URL: ${{ secrets.PROMETHEUS_URL }}
+          CANARY_IMAGE_TAG: ${{ inputs.image_tag }}
+          OBSERVE_SECS: ${{ inputs.slo_observe_seconds }}
+        run: node scripts/canary-rollout.mjs one
+      - name: "Safety net: roll back a stage that died before its own rollback"
+        if: failure() && steps.stage.outputs.moved == 'true' && steps.stage.outputs.rolled_back != 'true'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          PREVIOUS_IMAGE: ${{ steps.stage.outputs.previous_image }}
+        run: node scripts/canary-rollout.mjs rollback
+
+  # ── Stage 2: half the machines ──────────────────────────────────────────────
+  canary-half:
+    name: "Canary: half the machines"
+    needs: [canary-one]
+    if: needs.canary-one.outputs.decision == 'promote'
+    runs-on: ubuntu-latest
+    outputs:
+      decision: ${{ steps.stage.outputs.decision }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # Through turbo so @mnemo-ai/types is built too: core's dist imports it.
+      - name: Build packages (need @mnemo-ai/core for evaluateCanary)
+        run: pnpm turbo run build --filter=@mnemo-ai/core
+
+      - name: Install flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: "Move half the machines, observe, judge, roll back unless promoted"
+        id: stage
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          PROMETHEUS_URL: ${{ secrets.PROMETHEUS_URL }}
+          CANARY_IMAGE_TAG: ${{ inputs.image_tag }}
+          OBSERVE_SECS: ${{ inputs.slo_observe_seconds }}
+          PREVIOUS_IMAGE: ${{ needs.canary-one.outputs.previous_image }}
+        run: node scripts/canary-rollout.mjs half
+      - name: "Safety net: roll back a stage that died before its own rollback"
+        if: failure() && steps.stage.outputs.moved == 'true' && steps.stage.outputs.rolled_back != 'true'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          PREVIOUS_IMAGE: ${{ needs.canary-one.outputs.previous_image }}
+        run: node scripts/canary-rollout.mjs rollback
+
+  # ── Stage 3: every machine ──────────────────────────────────────────────────
+  full-rollout:
+    name: "Full rollout"
+    needs: [canary-one, canary-half]
+    if: needs.canary-one.outputs.decision == 'promote' && needs.canary-half.outputs.decision == 'promote'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # Through turbo so @mnemo-ai/types is built too: core's dist imports it.
+      - name: Build packages (need @mnemo-ai/core for evaluateCanary)
+        run: pnpm turbo run build --filter=@mnemo-ai/core
+
+      - name: Install flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: "Rolling deploy to every machine, observe, judge, roll back unless promoted"
+        id: stage
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          PROMETHEUS_URL: ${{ secrets.PROMETHEUS_URL }}
+          CANARY_IMAGE_TAG: ${{ inputs.image_tag }}
+          OBSERVE_SECS: ${{ inputs.slo_observe_seconds }}
+          PREVIOUS_IMAGE: ${{ needs.canary-one.outputs.previous_image }}
+        run: node scripts/canary-rollout.mjs full
+      - name: "Safety net: roll back a stage that died before its own rollback"
+        if: failure() && steps.stage.outputs.moved == 'true' && steps.stage.outputs.rolled_back != 'true'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          PREVIOUS_IMAGE: ${{ needs.canary-one.outputs.previous_image }}
+        run: node scripts/canary-rollout.mjs rollback

@@ -1,0 +1,34 @@
+# packages/mcp/contracts/*.json are generated artifacts (scripts/generate-contracts.ts)
+# byte-compared in schema-contracts.test.ts against plain Node
+# JSON.stringify(x, null, 2) output. Prettier's JSON printer collapses
+# short arrays onto one line (JSON.stringify never does), so letting
+# the pre-commit hook run prettier on these breaks that exact-match test the
+# next time any of them gets staged in a commit.
+packages/mcp/contracts/*.json
+
+# Same collapse hazard as above, hit for real by coverage-guard.test.ts
+# (B3.2, Req 13): coverage-pending.snapshot.json is regenerated via
+# `JSON.stringify(pending, null, 2) + "\n"` (always multi-line), but
+# prettier's JSON printer collapses a short flat array of strings onto one
+# line — which happened the first time this file held more than one key.
+packages/mcp/src/__tests__/coverage-guard/coverage-pending.snapshot.json
+
+# Frozen Tier 3 historical-record docs (flatten-version-docs, Req 9): each
+# gets exactly one added clarifying banner line and MUST otherwise stay
+# byte-identical. None of these were prettier-formatted before, so letting
+# the pre-commit hook run prettier on them on next touch would reformat the whole
+# file and violate that "exactly one line" contract.
+CHANGELOG.md
+packages/server/CHANGELOG.md
+docs/archive/audits/AUDIT_SPEC_COVERAGE_2026-06.md
+
+# Same collapse hazard again, this time as pure churn: qualification records are
+# written by scripts/qualify-harness-host.mjs with JSON.stringify(r, null, 2),
+# and prettier collapses their short `observedEvents` array onto one line. Every
+# re-qualification then rewrites what the last commit's prettier run flattened,
+# so the diff never settles. These files are recorded evidence, not source.
+packages/harness/qualifications/*.json
+
+# Archived process docs (plans, specs, audits, finished openspec changes): kept
+# as written, so a rename never turns into a reformatting diff.
+docs/archive/

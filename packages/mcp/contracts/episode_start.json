@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_episode_start",
+  "inputSchema": {
+    "properties": {
+      "agentId": {
+        "description": "Agent starting the episode. Default: the workspace's agent.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "label": {
+        "description": "Readable label (e.g. 'Client meeting 2026-06-12').",
+        "type": "string"
+      },
+      "metadata": {
+        "description": "Metadata for the episode (e.g. { projectId, ticketUrl }).",
+        "type": "object"
+      }
+    },
+    "type": "object"
+  }
+}

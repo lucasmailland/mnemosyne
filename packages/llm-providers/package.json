@@ -1,0 +1,75 @@
+{
+  "name": "@mnemo-ai/llm-providers",
+  "version": "3.4.0-alpha.0",
+  "private": true,
+  "description": "Pluggable LLM adapters for Mnemosyne — OpenAI, Anthropic, Google, Cohere, Mistral, Voyage, AWS Bedrock, Ollama. Bring-your-own-model embeddings and judgments.",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/llm-providers"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "cp ../../LICENSE LICENSE",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc -p tsconfig.test.json",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-bedrock-runtime": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@aws-sdk/client-bedrock-runtime": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsup": "^9.0.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "mnemosyne",
+    "llm",
+    "openai",
+    "anthropic",
+    "google",
+    "gemini",
+    "cohere",
+    "mistral",
+    "voyage",
+    "ollama",
+    "embeddings",
+    "rag",
+    "memory"
+  ],
+  "sideEffects": false
+}

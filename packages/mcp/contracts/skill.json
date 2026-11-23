@@ -1,0 +1,62 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_skill",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "The operation to perform.",
+        "enum": [
+          "create",
+          "get",
+          "list",
+          "update",
+          "forget"
+        ],
+        "type": "string"
+      },
+      "content": {
+        "description": "Fallback for name and promptTemplate.",
+        "maxLength": 20000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "id": {
+        "description": "Required for get/update/forget.",
+        "type": "string"
+      },
+      "limit": {
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "name": {
+        "description": "Skill name. Required for create.",
+        "maxLength": 500,
+        "minLength": 1,
+        "type": "string"
+      },
+      "promptTemplate": {
+        "description": "Prompt/instruction template. Required for create.",
+        "maxLength": 50000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "tags": {
+        "description": "Tags for filtering skills (e.g. ['deploy', 'fly.io']).",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context). action='create' only.",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

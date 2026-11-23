@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/workspace-vitals",
+  "title": "WorkspaceVitals",
+  "description": "GET /health's response body — workspace-scoped cognitive vitals (packages/server/src/routes/health.ts, mountVitals).",
+  "type": "object",
+  "required": [
+    "workspaceId",
+    "factsLive",
+    "factsClosed",
+    "pinnedCount",
+    "lastRecallAt",
+    "lastWriteAt",
+    "embeddings"
+  ],
+  "properties": {
+    "workspaceId": { "type": "string", "minLength": 1 },
+    "factsLive": { "type": "integer" },
+    "factsClosed": { "type": "integer" },
+    "pinnedCount": { "type": "integer" },
+    "lastRecallAt": { "type": ["string", "null"] },
+    "lastWriteAt": { "type": ["string", "null"] },
+    "embeddings": {
+      "type": "object",
+      "required": ["indexed", "pending"],
+      "properties": {
+        "indexed": { "type": "integer" },
+        "pending": { "type": "integer" }
+      }
+    }
+  },
+  "additionalProperties": true
+}

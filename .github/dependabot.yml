@@ -1,0 +1,75 @@
+# Dependabot config for the Mnemosyne monorepo.
+#
+# What we track:
+#   - npm (pnpm workspace) — security + patch + minor bumps for runtime
+#     dependencies. Major bumps still surface as PRs but tend to want a
+#     human read on the upgrade notes.
+#   - GitHub Actions — bumps `uses:` references in our workflows so the
+#     CI pipeline doesn't drift behind upstream. This is what tightens
+#     `@v4` / `@v5` major-pinned actions toward the latest SHA without
+#     manual ceremony.
+#   - Docker — bumps `pgvector/pgvector` and any other FROM lines so
+#     security fixes land automatically.
+#
+# All PRs land on `main` directly (no separate target branch) and are
+# rate-limited so a quiet week doesn't drown us in 30 PRs.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    labels:
+      - dependencies
+      - npm
+    # TypeScript is split on purpose: `typescript` is an alias to
+    # `@typescript/typescript6` (the TS 6 JS API that tsup's d.ts step and the
+    # guard tests load) and `@typescript/native` is an alias to `typescript@7`
+    # (the `tsc` binary). Both aliases (and the dashboard's `typescript`) are
+    # pinned to exact versions, so every bump is a reviewed PR. A major bump of
+    # either rewrites that layout, so majors are moved by hand; minors and
+    # patches still arrive as PRs that move the exact pin.
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@typescript/typescript6"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@typescript/native"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: ci
+      include: scope
+    labels:
+      - dependencies
+      - github-actions
+
+  - package-ecosystem: docker
+    directory: "/docker"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: build
+      include: scope
+    labels:
+      - dependencies
+      - docker

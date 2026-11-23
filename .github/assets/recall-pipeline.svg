@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-label="Recall: a seven-stage cascade">
+  <title>Recall: a seven-stage cascade</title>
+  <desc>A recall runs seven stages in order: parse the query into an embedding and filters; gather candidates from vector search and full-text search; add relation and hyperedge context from the graph; compute ACT-R activation as a tie-break; score by relevance, kind and worth; apply the sensitivity ceiling; assemble ranked hits with provenance. Two steps are opt-in: a HyDE expansion before the first stage and an LLM rerank of the final page.</desc>
+  <rect width="1200" height="360" fill="#fcfbf8"/>
+  <rect x="16.5" y="16.5" width="1167" height="327" fill="none" stroke="#c9c6ee" stroke-width="1"/>
+  <text x="33.0" y="56" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="3" fill="#1a18f0">RECALL</text>
+  <text x="33.0" y="82" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" fill="#0b0a2e">one <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="700" fill="#1a18f0">POST /recall</tspan> · seven stages, in order</text>
+  <g transform="translate(33.0 118)">
+    <rect width="150" height="118" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <rect width="150" height="4" fill="#1a18f0"/>
+    <text x="14" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#1a18f0">01</text>
+    <text x="14" y="60" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#0b0a2e">Parse</text>
+    <text x="14" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">query to embedding</text>
+    <text x="14" y="97" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">and filters</text>
+  </g>
+  <path d="M 185.0 177.0 H 194.0" stroke="#1a18f0" stroke-width="1.5"/><path d="M 191.0 173.0 L 196.0 177.0 L 191.0 181.0 Z" fill="#1a18f0"/>
+  <g transform="translate(197.0 118)">
+    <rect width="150" height="118" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <rect width="150" height="4" fill="#1a18f0"/>
+    <text x="14" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#1a18f0">02</text>
+    <text x="14" y="60" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#0b0a2e">Candidates</text>
+    <text x="14" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">vector search</text>
+    <text x="14" y="97" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">and full-text</text>
+  </g>
+  <path d="M 349.0 177.0 H 358.0" stroke="#1a18f0" stroke-width="1.5"/><path d="M 355.0 173.0 L 360.0 177.0 L 355.0 181.0 Z" fill="#1a18f0"/>
+  <g transform="translate(361.0 118)">
+    <rect width="150" height="118" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <rect width="150" height="4" fill="#1a18f0"/>
+    <text x="14" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#1a18f0">03</text>
+    <text x="14" y="60" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#0b0a2e">Graph context</text>
+    <text x="14" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">relations and</text>
+    <text x="14" y="97" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">hyperedge hints</text>
+  </g>
+  <path d="M 513.0 177.0 H 522.0" stroke="#1a18f0" stroke-width="1.5"/><path d="M 519.0 173.0 L 524.0 177.0 L 519.0 181.0 Z" fill="#1a18f0"/>
+  <g transform="translate(525.0 118)">
+    <rect width="150" height="118" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <rect width="150" height="4" fill="#1a18f0"/>
+    <text x="14" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#1a18f0">04</text>
+    <text x="14" y="60" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#0b0a2e">Activation</text>
+    <text x="14" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">ACT-R recency,</text>
+    <text x="14" y="97" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">a tie-break only</text>
+  </g>
+  <path d="M 677.0 177.0 H 686.0" stroke="#1a18f0" stroke-width="1.5"/><path d="M 683.0 173.0 L 688.0 177.0 L 683.0 181.0 Z" fill="#1a18f0"/>
+  <g transform="translate(689.0 118)">
+    <rect width="150" height="118" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <rect width="150" height="4" fill="#1a18f0"/>
+    <text x="14" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#1a18f0">05</text>
+    <text x="14" y="60" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#0b0a2e">Score</text>
+    <text x="14" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">relevance × kind</text>
+    <text x="14" y="97" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">× worth</text>
+  </g>
+  <path d="M 841.0 177.0 H 850.0" stroke="#1a18f0" stroke-width="1.5"/><path d="M 847.0 173.0 L 852.0 177.0 L 847.0 181.0 Z" fill="#1a18f0"/>
+  <g transform="translate(853.0 118)">
+    <rect width="150" height="118" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <rect width="150" height="4" fill="#1a18f0"/>
+    <text x="14" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#1a18f0">06</text>
+    <text x="14" y="60" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#0b0a2e">Ceiling</text>
+    <text x="14" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">above the key's</text>
+    <text x="14" y="97" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">tier: left out</text>
+  </g>
+  <path d="M 1005.0 177.0 H 1014.0" stroke="#1a18f0" stroke-width="1.5"/><path d="M 1011.0 173.0 L 1016.0 177.0 L 1011.0 181.0 Z" fill="#1a18f0"/>
+  <g transform="translate(1017.0 118)">
+    <rect width="150" height="118" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+    <rect width="150" height="4" fill="#1a18f0"/>
+    <text x="14" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#1a18f0">07</text>
+    <text x="14" y="60" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#0b0a2e">Assemble</text>
+    <text x="14" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">ranked hits with</text>
+    <text x="14" y="97" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">provenance</text>
+  </g>
+  <path d="M 128.0 236 V 262" stroke="#9a98fa" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="33.0" y="262" width="190" height="44" fill="#fcfbf8" stroke="#9a98fa" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="45.0" y="281" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="12.5" font-weight="700" fill="#0b0a2e">HyDE · opt-in</text>
+  <text x="45.0" y="296" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#4b4a72">expand the query first</text>
+  <path d="M 1072.0 236 V 262" stroke="#9a98fa" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="977.0" y="262" width="190" height="44" fill="#fcfbf8" stroke="#9a98fa" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="989.0" y="281" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="12.5" font-weight="700" fill="#0b0a2e">LLM rerank · opt-in</text>
+  <text x="989.0" y="296" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#4b4a72">reorder the final page</text>
+  <text x="600.0" y="290" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">without an LLM provider, recall falls back to full-text only</text>
+</svg>

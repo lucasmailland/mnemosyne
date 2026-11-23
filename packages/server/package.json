@@ -1,0 +1,141 @@
+{
+  "name": "@mnemo-ai/server",
+  "version": "3.6.0-alpha.0",
+  "private": true,
+  "description": "Hono-based HTTP API server for Mnemosyne — wraps @mnemo-ai/core with bearer-auth, OpenAPI docs, and structured logging. Stateless and horizontally scalable.",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/server"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmailland/mnemosyne/issues"
+  },
+  "keywords": [
+    "mnemosyne",
+    "memory",
+    "hono",
+    "api",
+    "server",
+    "openapi",
+    "rag"
+  ],
+  "type": "module",
+  "_notes": {
+    "DEP-1": "@hono/node-ws@1.3.1's peerDependencies still declare @hono/node-server ^1.19.11, but we run @hono/node-server ^2.0.11 (works fine in practice — node-ws only needs the http.Server that node-server's serve() returns). Bump @hono/node-ws off the ^1.x pin once it ships a release with a v2-compatible peer range."
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./app": {
+      "types": "./dist/app.d.ts",
+      "import": "./dist/app.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "mnemosyne-server": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "migrations",
+    "scripts/dashboard-password.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "cp ../../LICENSE LICENSE",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:contracts": "NO_COVERAGE=1 vitest run src/__tests__/unit/contracts.test.ts",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "clean": "rm -rf dist .turbo",
+    "openapi:dump": "node scripts/dump-openapi.mjs",
+    "chaos": "MNEMO_CHAOS_ENABLED=true vitest run src/chaos/__tests__/chaos.test.ts",
+    "loadtest:server": "tsx loadtest/server.ts",
+    "loadtest:run": "tsx loadtest/run.ts"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.14.0",
+    "@connectrpc/connect": "^2.1.2",
+    "@connectrpc/connect-node": "^2.1.2",
+    "@hono/node-server": "^2.1.8",
+    "@hono/node-ws": "^1.3.1",
+    "@hono/zod-openapi": "^1.6.3",
+    "@mnemo-ai/adapter-llm": "workspace:*",
+    "@mnemo-ai/adapter-postgres": "workspace:*",
+    "@mnemo-ai/adapter-redis": "workspace:*",
+    "@mnemo-ai/adapter-vector": "workspace:*",
+    "@mnemo-ai/federation": "workspace:*",
+    "@mnemo-ai/plugins": "workspace:*",
+    "@mnemo-ai/types": "workspace:*",
+    "@node-rs/argon2": "^2.1.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.80.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.222.0",
+    "@opentelemetry/resources": "^2.9.0",
+    "@opentelemetry/sdk-node": "^0.222.0",
+    "@opentelemetry/semantic-conventions": "^1.28.0",
+    "@scalar/hono-api-reference": "^0.11.8",
+    "bcrypt": "^6.0.0",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.13.19",
+    "ioredis": "^6.0.0",
+    "lru-cache": "^11.5.2",
+    "opossum": "^9.0.0",
+    "pino": "^10.3.1",
+    "postgres": "^3.4.9",
+    "ws": "^8.22.0",
+    "zod": "^4.6.7"
+  },
+  "peerDependencies": {
+    "@mnemo-ai/consolidation": "workspace:*",
+    "@mnemo-ai/core": "workspace:*",
+    "@mnemo-ai/llm-providers": "workspace:*"
+  },
+  "peerDependenciesMeta": {
+    "@mnemo-ai/llm-providers": {
+      "optional": true
+    },
+    "@mnemo-ai/consolidation": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.71.0",
+    "@bufbuild/protoc-gen-es": "^2.12.1",
+    "@mnemo-ai/adapter-llm": "workspace:*",
+    "@mnemo-ai/adapter-postgres": "workspace:*",
+    "@mnemo-ai/adapter-vector": "workspace:*",
+    "@mnemo-ai/consolidation": "workspace:*",
+    "@mnemo-ai/federation": "workspace:*",
+    "@mnemo-ai/plugins": "workspace:*",
+    "@types/autocannon": "^7.12.7",
+    "@types/bcrypt": "^6.0.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^26.6.5",
+    "@types/opossum": "^8.1.9",
+    "@types/ws": "^8.18.2",
+    "@vitest/coverage-v8": "^4.1.12",
+    "autocannon": "^8.0.0",
+    "js-yaml": "^5.5.0",
+    "testcontainers": "^12.2.1",
+    "tsup": "^9.0.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

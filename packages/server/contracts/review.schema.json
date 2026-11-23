@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/review-queue-row",
+  "title": "ReviewQueueRow",
+  "type": "object",
+  "required": [
+    "id",
+    "workspaceId",
+    "factId",
+    "decisionId",
+    "reason",
+    "createdAt",
+    "resolvedAt",
+    "resolvedBy",
+    "resolution"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "workspaceId": { "type": "string", "minLength": 1 },
+    "factId": { "type": ["string", "null"] },
+    "decisionId": { "type": ["string", "null"] },
+    "reason": { "type": "string", "enum": ["low_confidence", "contradiction", "manual"] },
+    "createdAt": { "type": "string" },
+    "resolvedAt": { "type": ["string", "null"] },
+    "resolvedBy": { "type": ["string", "null"] },
+    "resolution": {
+      "type": ["string", "null"],
+      "enum": ["kept", "edited", "forgotten", "dismissed", null]
+    }
+  },
+  "additionalProperties": true
+}

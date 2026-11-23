@@ -1,0 +1,113 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_workflow",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "The operation to perform.",
+        "enum": [
+          "create",
+          "get",
+          "list",
+          "update"
+        ],
+        "type": "string"
+      },
+      "description": {
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "id": {
+        "description": "Required for get/update.",
+        "type": "string"
+      },
+      "limit": {
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "metadata": {
+        "type": "object"
+      },
+      "name": {
+        "description": "Required for create.",
+        "maxLength": 500,
+        "minLength": 1,
+        "type": "string"
+      },
+      "offset": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "scopeRef": {
+        "description": "Project, set on create (update refuses it); filters list.",
+        "type": "string"
+      },
+      "sensitivity": {
+        "description": "Set on create only (update refuses it). Default 'internal'.",
+        "enum": [
+          "public",
+          "internal",
+          "confidential",
+          "restricted"
+        ],
+        "type": "string"
+      },
+      "status": {
+        "description": "Filter by workflow status (list only).",
+        "enum": [
+          "active",
+          "deprecated",
+          "draft"
+        ],
+        "type": "string"
+      },
+      "steps": {
+        "description": "Ordered actions. Required for create.",
+        "items": {
+          "properties": {
+            "action": {
+              "maxLength": 20000,
+              "minLength": 1,
+              "type": "string"
+            },
+            "condition": {
+              "maxLength": 20000,
+              "type": "string"
+            },
+            "expectedDurationMs": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "order": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tools": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "action",
+            "order"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context). action='create' only.",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

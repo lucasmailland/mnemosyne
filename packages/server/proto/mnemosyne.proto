@@ -1,0 +1,199 @@
+syntax = "proto3";
+
+package mnemosyne.v1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.mnemosyne.v1";
+option java_multiple_files = true;
+
+service MnemosyneService {
+  // Unary
+  rpc Recall(RecallRequest)                   returns (RecallResponse);
+  rpc Remember(RememberRequest)               returns (RememberResponse);
+  rpc ResolveReasoning(ResolveReasoningRequest) returns (ResolveReasoningResponse);
+  rpc CreateTask(CreateTaskRequest)           returns (Task);
+  rpc UpdateTask(UpdateTaskRequest)           returns (Task);
+  rpc RecordEvent(RecordEventRequest)         returns (Event);
+  rpc Forget(ForgetRequest)                   returns (ForgetResponse);
+  rpc RecordReasoning(RecordReasoningRequest) returns (RecordReasoningResponse);
+  rpc GetHealth(GetHealthRequest)             returns (HealthSnapshot);
+  rpc SelfEdit(SelfEditRequest)               returns (SelfEditResponse);
+
+  // Server-streaming
+  rpc WatchMemory(WatchMemoryRequest)   returns (stream MemoryEvent);
+  rpc WatchTasks(WatchTasksRequest)     returns (stream TaskEvent);
+  rpc StreamHealth(StreamHealthRequest) returns (stream HealthSnapshot);
+
+  // Client-streaming
+  rpc IngestBatch(stream MemoryItem)    returns (IngestSummary);
+  rpc ImportMemory(stream Chunk)        returns (ImportResult);
+
+  // Bidi
+  rpc Session(stream SessionRequest)         returns (stream SessionResponse);
+  rpc FederationSync(stream SyncMessage)     returns (stream SyncMessage);
+}
+
+// ── Messages ──────────────────────────────────────────────────────────────────
+
+message RecallRequest {
+  string query          = 1;
+  int32  limit          = 2;
+  string as_of          = 3;
+  repeated string types = 4;
+}
+
+message MemoryItem {
+  string id              = 1;
+  string type            = 2;
+  string content         = 3;
+  float  confidence      = 4;
+  float  worth           = 5;
+  float  relevance_score = 6;
+  string valid_from      = 7;
+  string valid_to        = 8;
+  string topic_key       = 9;
+  string content_type    = 10;
+}
+
+message RecallResponse {
+  repeated MemoryItem results = 1;
+  string              mode    = 2;
+  uint64              took_ms = 3;
+}
+
+message RememberRequest {
+  string content               = 1;
+  string type                  = 2;
+  string topic_key             = 3;
+  float  confidence            = 4;
+  repeated string related_entities = 5;
+}
+
+message RememberResponse {
+  string id                = 1;
+  bool   conflict_detected = 2;
+  int32  revision          = 3;
+}
+
+message ResolveReasoningRequest { string query = 1; }
+message ResolveReasoningResponse {
+  string reasoning_id = 1;
+  bool   cache_hit    = 2;
+  string chain        = 3;
+  float  confidence   = 4;
+}
+
+message CreateTaskRequest {
+  string title                  = 1;
+  string description            = 2;
+  string priority               = 3;
+  string assigned_to            = 4;
+  repeated string related_facts = 5;
+}
+
+message UpdateTaskRequest {
+  string id          = 1;
+  string title       = 2;
+  string status      = 3;
+  string priority    = 4;
+  string assigned_to = 5;
+}
+
+message Task {
+  string id          = 1;
+  string title       = 2;
+  string description = 3;
+  string status      = 4;
+  string priority    = 5;
+  string assigned_to = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message RecordEventRequest {
+  string type        = 1;
+  string subject     = 2;
+  google.protobuf.Struct payload     = 3;
+  string occurred_at = 4;
+}
+
+message Event {
+  string id      = 1;
+  string type    = 2;
+  string subject = 3;
+  google.protobuf.Timestamp occurred_at = 4;
+}
+
+message ForgetRequest  { string id = 1; string reason = 2; }
+message ForgetResponse { bool success = 1; }
+
+message RecordReasoningRequest {
+  string query      = 1;
+  string chain      = 2;
+  float  confidence = 3;
+}
+message RecordReasoningResponse { string reasoning_id = 1; }
+
+message GetHealthRequest {}
+message HealthSnapshot {
+  string status       = 1;
+  string recall_mode  = 2;
+  map<string, string> checks = 3;
+  google.protobuf.Timestamp snapshot_at = 4;
+}
+
+message SelfEditRequest  { string action = 1; string target_id = 2; string content = 3; string reason = 4; }
+message SelfEditResponse {
+  bool applied = 1;
+  string note = 2;
+  string target_kind = 3;
+  string replacement_id = 4;
+}
+
+message WatchMemoryRequest  { repeated string channels = 1; }
+message MemoryEvent {
+  string id      = 1;
+  string channel = 2;
+  string type    = 3;
+  google.protobuf.Struct payload   = 4;
+  google.protobuf.Timestamp timestamp = 5;
+  string trace_id = 6;
+}
+
+message WatchTasksRequest {}
+message TaskEvent {
+  string task_id         = 1;
+  string previous_status = 2;
+  string new_status      = 3;
+  google.protobuf.Timestamp occurred_at = 4;
+}
+
+message StreamHealthRequest {}
+
+message Chunk { bytes data = 1; }
+message IngestSummary { int32 accepted = 1; int32 rejected = 2; }
+message ImportResult  { int32 imported = 1; int32 skipped  = 2; }
+
+message SessionRequest {
+  oneof payload {
+    string user_turn     = 1;
+    string control_frame = 2;
+  }
+}
+
+message SessionResponse {
+  oneof payload {
+    string assistant_turn = 1;
+    SessionError error    = 2;
+  }
+}
+message SessionError { string message = 1; }
+
+message SyncMessage {
+  string peer_id      = 1;
+  bytes  delta        = 2;
+  string sync_cursor  = 3;
+  bool   end_of_batch = 4;
+}

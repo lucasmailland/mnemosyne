@@ -1,0 +1,2373 @@
+=== plugin / empty-home; exit 0 ===
+PASS: FM-HOOK-05 both plugin trees contain the required hooks and test
+PASS: FM-HOOK-01 shared named budget exists and is <= 6000
+PASS: FM-HOOK-04 identical plugin file sets
+PASS: FM-HOOK-04 identical plugin file bytes
+PASS: FM-HOOK-05 isolated PATH has no mnemo binary
+MEASURE: packages/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh no-mapping clean stderr
+Results: 259 passed, 0 failed
+
+=== cli/plugin / empty-home; exit 0 ===
+PASS: FM-HOOK-05 both plugin trees contain the required hooks and test
+PASS: FM-HOOK-01 shared named budget exists and is <= 6000
+PASS: FM-HOOK-04 identical plugin file sets
+PASS: FM-HOOK-04 identical plugin file bytes
+PASS: FM-HOOK-05 isolated PATH has no mnemo binary
+MEASURE: packages/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh no-mapping clean stderr
+Results: 259 passed, 0 failed
+
+=== plugin / default; exit 0 ===
+PASS: FM-HOOK-05 both plugin trees contain the required hooks and test
+PASS: FM-HOOK-01 shared named budget exists and is <= 6000
+PASS: FM-HOOK-04 identical plugin file sets
+PASS: FM-HOOK-04 identical plugin file bytes
+PASS: FM-HOOK-05 isolated PATH has no mnemo binary
+MEASURE: packages/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh no-mapping clean stderr
+Results: 259 passed, 0 failed
+
+=== cli/plugin / default; exit 0 ===
+PASS: FM-HOOK-05 both plugin trees contain the required hooks and test
+PASS: FM-HOOK-01 shared named budget exists and is <= 6000
+PASS: FM-HOOK-04 identical plugin file sets
+PASS: FM-HOOK-04 identical plugin file bytes
+PASS: FM-HOOK-05 isolated PATH has no mnemo binary
+MEASURE: packages/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh no-mapping clean stderr
+Results: 259 passed, 0 failed
+
+=== suite plugin/assistant-turns.test.sh; exit 0 ===
+PASS: exits 0
+PASS: output is valid JSON
+PASS: visible assistant text of the CURRENT turn is appended, in order
+PASS: thinking is never sent
+PASS: tool calls and tool results are never sent
+PASS: history before the current user prompt is not replayed on first sight
+PASS: repeated Stop: exits 0
+PASS: repeated Stop does not duplicate (still 2 posts)
+PASS: only the new entry is appended afterwards
+PASS: ...and it is the new text
+PASS: failed delivery is not recorded as sent
+PASS: failed delivery still exits 0
+PASS: the undelivered entry is retried on the next Stop
+PASS: no consent: exits 0
+PASS: no consent: nothing is posted
+PASS: replies written while consent was absent are never captured retroactively
+PASS: capture resumes from the moment consent exists
+PASS: transcript outside the Claude config dir: exits 0
+PASS: transcript outside the Claude config dir: never read
+PASS: missing transcript: exits 0
+PASS: no transcript_path in the payload: exits 0
+PASS: garbled transcript: exits 0
+PASS: symlink out of the dir: exits 0
+PASS: symlink out of the dir: nothing posted
+PASS: mode user-only: exits 0
+PASS: mode user-only: assistant text is NOT uploaded
+PASS: mode mcp-only: exits 0
+PASS: mode mcp-only: assistant text is NOT uploaded
+PASS: mode unavailable: exits 0
+PASS: mode unavailable: assistant text is NOT uploaded
+PASS: mode bogus: exits 0
+PASS: mode bogus: assistant text is NOT uploaded
+PASS: mode full: assistant text is uploaded
+PASS: marker without a mode: not uploaded
+PASS: the env override alone does not unlock assistant capture
+PASS: redacted before upload: sk-proj-ABCDEF
+PASS: redacted before upload: ghp_abcdefghij
+PASS: redacted before upload: AKIAABCDEFGH
+PASS: redacted before upload: mns_live_abcdef
+PASS: redacted before upload: abc.def.ghi123
+PASS: redacted before upload: hunter2pass
+PASS: redacted before upload: s3cr3t value
+PASS: redacted before upload: ZZZ999YYY
+PASS: redacted before upload: MIIEvQIBADAN
+PASS: redaction leaves the surrounding text
+PASS: redaction marker present
+PASS: budget exhausted: not everything was sent
+PASS: the rest follows on later Stops, oldest first, none lost or duplicated
+PASS: more than 20 pending: all 25 delivered in order across Stops
+PASS: three overlapping Stops post each turn exactly once
+PASS: the cursor is a plain integer and never behind
+PASS: a stale lock (dead hook) is broken and delivery resumes
+
+Results: 52 passed, 0 failed
+
+=== suite plugin/harness-hook.test.sh; exit 0 ===
+harness-hook.test.sh: 16 passed, 0 failed
+
+=== suite plugin/hook-event-contract.test.sh; exit 0 ===
+PASS: RED proof: renamed event key is detected and named
+PASS: RED proof: missing script path is detected and named
+PASS: hooks.json: every declared event key is in the allowlist
+PASS: hooks.json: every referenced script exists and is executable
+
+Results: 4 passed, 0 failed
+
+=== suite plugin/hook-output-budget.test.sh; exit 0 ===
+PASS: FM-HOOK-05 both plugin trees contain the required hooks and test
+PASS: FM-HOOK-01 shared named budget exists and is <= 6000
+PASS: FM-HOOK-04 identical plugin file sets
+PASS: FM-HOOK-04 identical plugin file bytes
+PASS: FM-HOOK-05 isolated PATH has no mnemo binary
+MEASURE: packages/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh no-mapping clean stderr
+Results: 259 passed, 0 failed
+
+=== suite plugin/protocol-copies.test.sh; exit 0 ===
+PASS: GEMINI.md carries the SKILL.md protocol verbatim
+PASS: SKILL.md has no 120-character limit
+PASS: SKILL.md never asks for conversationId
+PASS: SKILL.md does not end the session on compaction
+PASS: SKILL.md names sessionId
+PASS: AGENTS.md has no 120-character limit
+PASS: AGENTS.md never asks for conversationId
+PASS: AGENTS.md does not end the session on compaction
+PASS: AGENTS.md names sessionId
+PASS: GEMINI.md has no 120-character limit
+PASS: GEMINI.md never asks for conversationId
+PASS: GEMINI.md does not end the session on compaction
+PASS: GEMINI.md names sessionId
+PASS: SKILL.md teaches pure-MCP agents to send turns
+PASS: SKILL.md covers 429
+PASS: SKILL.md states the real MCP limit
+PASS: SKILL.md dropped the stale supersede claim
+
+Results: 17 passed, 0 failed
+
+=== suite plugin/recall-timeout.test.sh; exit 0 ===
+PASS: sin recallTimeoutMs: usa el default 1.5
+PASS: recallTimeoutMs 3000: usa 3 segundos
+PASS: recallTimeoutMs 2500: usa 2.5 segundos (no trunca)
+PASS: recallTimeoutMs no numérico: cae al default 1.5
+PASS: recallTimeoutMs 0: cae al default 1.5
+PASS: recallTimeoutMs 60000: clampea al techo (8)
+
+─────────────────────────────
+PASS: 6  FAIL: 0
+
+=== suite plugin/session-lifecycle.test.sh; exit 0 ===
+PASS: session-start.sh writes the session mapping
+PASS: mapping contains the real Mnemosyne session id
+PASS: session-start.sh still injects SKILL.md content on stdout
+PASS: session-start.sh injects workspaceName from /me
+PASS: session-start.sh injects workspaceRole from /me
+PASS: session-start.sh surfaces a visible warning for role='read'
+PASS: no server configured: no mapping written
+PASS: healthy session: no systemMessage (no gap)
+PASS: healthy session: already collapsed by model — no extra collapse call fired
+PASS: session-stop.sh keeps the mapping (Stop is per-turn, not per-session)
+PASS: session-stop.sh no longer collapses per turn
+PASS: an uncollapsed session mid-conversation is not a gap
+PASS: missing lastRecallAt is reported as a genuine gap
+PASS: unreachable server reports the recall gap, and no longer a false collapse gap
+PASS: session-stop.sh: no mapping means no collapse call
+PASS: session-stop.sh: no mapping means no gap report either
+PASS: post-compaction keeps the session mapping
+PASS: post-compaction does not order memory_episode_end
+PASS: post-compaction tells the agent the session continues
+PASS: a turn written after compaction reaches the same session
+PASS: session-start binds the mapping to the selected workspace
+PASS: post-compaction restores the session when a workspace is selected
+
+Results: 22 passed, 0 failed
+
+=== suite plugin/session-mapping.test.sh; exit 0 ===
+PASS: read_session_mapping returns empty when no mapping exists
+PASS: write_session_mapping then read_session_mapping round-trips
+PASS: mapping file was created
+PASS: mapping file has 0600 perms
+PASS: write_session_mapping no-ops on empty claude_session_id
+PASS: write_session_mapping no-ops on empty mnemo_session_id
+PASS: first mapping still intact after a second, different write
+PASS: second mapping independently readable
+PASS: delete_session_mapping removes the mapping file
+PASS: read_session_mapping returns empty after delete
+PASS: delete_session_mapping on nonexistent mapping did not error
+PASS: cleanup_old_session_mappings deletes a 10-day-old mapping
+PASS: cleanup_old_session_mappings leaves recent mappings alone
+
+Results: 13 passed, 0 failed
+
+=== suite plugin/session-start.test.sh; exit 0 ===
+PASS: get_personal_workspace_id returns empty when workspaces.json absent
+PASS: get_personal_workspace_id returns empty when personalWorkspaceId key absent
+PASS: get_personal_workspace_id returns personalWorkspaceId value
+PASS: MNEMO_PERSONAL_WORKSPACE_ID exported when personalWorkspaceId present
+PASS: MNEMO_PERSONAL_WORKSPACE_ID not set when personalWorkspaceId absent
+PASS: find_project_config reads workspaceId from cwd
+PASS: find_project_config walks up from nested dir to find .mnemo.json
+PASS: find_project_config stops at .git boundary and ignores parent .mnemo.json
+PASS: slow upstreams: hook exits 0
+PASS: slow upstreams: wall time stays near the 2s parallel max, not the 6s sequential sum (2315 < 4000)
+PASS: slow upstreams: SKILL.md protocol heading is emitted
+PASS: slow upstreams: workspace-context section is emitted
+PASS: slow upstreams: workspace identity from /me is present
+PASS: slow upstreams: vitals from /health are present
+PASS: all upstreams fail: hook exits 0
+PASS: all upstreams fail: SKILL.md protocol heading is emitted
+PASS: all upstreams fail: workspace-context section is emitted
+PASS: all upstreams fail: identity section states unreachable, not silence
+PASS: all upstreams fail: stats section states unreachable, not silence
+PASS: all upstreams fail: does NOT claim it responded with nothing (unreachable != empty)
+PASS: reachable-but-empty upstreams: hook exits 0
+PASS: reachable-but-empty upstreams: identity section is distinct from unreachable
+PASS: reachable-but-empty upstreams: stats section is distinct from unreachable
+PASS: reachable-but-empty upstreams: does NOT claim unreachable (reachable != unreachable)
+PASS: episode open: reports the id
+PASS: episode open: no warning
+PASS: episode unreachable: says NOT started
+PASS: episode unreachable: tells the agent what to do instead
+PASS: episode reachable-but-empty: says NOT started, responded without an id
+PASS: episode reachable-but-empty: does NOT claim unreachable
+PASS: no host session id: states the reason plainly
+PASS: no host session id: not flagged as a warning
+
+Results: 32 passed, 0 failed
+
+=== suite plugin/stats-http-status.test.sh; exit 0 ===
+PASS: 200: imprime las stats
+PASS: 200: no dice unavailable
+PASS: 403: NO dice could not be reached
+PASS: 403: nombra el scope que falta
+PASS: 500: NO dice could not be reached
+PASS: 500: nombra el código HTTP
+PASS: sin conexión: sí dice could not be reached
+PASS: 403: el protocolo SKILL.md se sigue inyectando
+PASS: 403: el contexto de workspace se sigue emitiendo
+PASS: sin memory:admin: las stats igual se muestran
+PASS: sin memory:admin: no se pide un permiso que no hace falta
+
+─────────────────────────────
+PASS: 11  FAIL: 0
+
+=== suite plugin/subagent-stop.test.sh; exit 0 ===
+PASS: no consent: exits 0
+PASS: no consent: nothing posted to /capture
+PASS: another host's marker does not authorise claude-code
+PASS: unreadable marker reads as OFF
+PASS: valid marker: exits 0
+PASS: valid marker: output is captured
+PASS: marker removed: capture stops
+PASS: MNEMO_HARNESS_V1_ENABLED=true is an explicit override
+
+Results: 8 passed, 0 failed
+
+=== suite plugin/user-prompt-submit.test.sh; exit 0 ===
+PASS: no server configured: output is valid JSON
+PASS: no server configured: no hookSpecificOutput
+PASS: no server configured: systemMessage mentions calling memory_recall
+PASS: with hits: output is valid JSON
+PASS: with hits: additionalContext carries the recalled content
+PASS: with hits: hookSpecificOutput.hookEventName is UserPromptSubmit
+PASS: with hits: systemMessage tells the model recall ran automatically
+PASS: curl failure: output is still valid JSON
+PASS: curl failure: no hookSpecificOutput
+PASS: curl failure: systemMessage falls back to call-it-yourself
+PASS: curl failure: systemMessage distinctly says unreachable, not 'found nothing'
+PASS: curl failure: does NOT say 'found nothing relevant' (unreachable != empty)
+PASS: empty hits: output is valid JSON
+PASS: empty hits: no hookSpecificOutput
+PASS: empty hits: systemMessage distinctly says reached-but-nothing, not unreachable
+PASS: empty hits: does NOT say 'could not be reached' (reachable != unreachable)
+PASS: session mapping present: systemMessage carries the correlation id
+PASS: CLIENTS-3: guidance asks for sessionId
+PASS: CLIENTS-3: guidance no longer asks for conversationId
+PASS: subsequent message: output is valid JSON
+PASS: subsequent message: nudge fires when lastWriteAt is old
+PASS: subsequent message: reads lastWriteAt from /health
+PASS: subsequent message: does not call /admin/stats
+PASS: rerank body check: output is valid JSON
+PASS: rerank body check: captured recall payload is valid JSON
+PASS: rerank body check: payload requests rerank:false
+PASS: budget exceeded: hook exits 0
+PASS: budget exceeded: output is still valid JSON
+PASS: budget exceeded: no hookSpecificOutput / additionalContext
+PASS: budget exceeded: systemMessage falls back to call-it-yourself
+PASS: budget exceeded: systemMessage uses the unreachable marker (timeout = unreachable)
+PASS: budget exceeded: does NOT say 'found nothing relevant' (timeout != empty)
+PASS: in-budget recall: hook exits 0
+PASS: in-budget recall: output is valid JSON
+PASS: in-budget recall: additionalContext is injected
+PASS: the user prompt is appended to the session buffer
+PASS: the turn is written against the mapped mnemo session id
+PASS: the turn carries the prompt text with role=user
+PASS: turn 2 is written too — the buffer keeps filling past the first message
+PASS: without a mapping there is no session to append to, so nothing is written
+PASS: CLIENTS-1: no consent: hook exits 0
+PASS: CLIENTS-1: no consent: output is valid JSON
+PASS: CLIENTS-1: no consent + existing mapping: prompt is NOT posted
+PASS: CLIENTS-1: another host's marker does not authorise claude-code
+PASS: CLIENTS-1: unreadable marker reads as OFF
+PASS: CLIENTS-1: marker of an unknown version reads as OFF
+PASS: CLIENTS-1: valid marker permits the turn
+PASS: CLIENTS-1: removing the marker stops capture on the very next prompt
+PASS: CLIENTS-1: MNEMO_HARNESS_V1_ENABLED=true is an explicit override
+PASS: CLIENTS-1: auto-recall (read path) works without consent
+PASS: CLIENTS-14: hit id survives
+PASS: CLIENTS-14: hit kind survives
+PASS: CLIENTS-14: hit subject, scopeRef, topicKey, status survive
+PASS: CLIENTS-14: similarity and score survive
+PASS: CLIENTS-14: hit under the similarity floor is dropped even with a high blended score
+PASS: CLIENTS-14: hit with no similarity (older server) is kept
+PASS: CLIENTS-14: the message no longer claims another recall is unnecessary
+PASS: CLIENTS-14: the message says the automatic recall can miss things
+PASS: SEC-3: a stored closing tag cannot close the wrapper
+PASS: SEC-3: a stored <system> tag is not emitted raw
+PASS: SEC-3: stored markup is escaped
+PASS: SEC-3: exactly one opening wrapper per kept hit (3)
+PASS: SEC-3: exactly one closing wrapper per kept hit (3)
+PASS: SEC-3: a multiline body cannot pose as another hit or wrapper line
+PASS: SEC-3: hostile metadata cannot break out of its attribute
+PASS: SEC-3: the surrounding trusted text says the entries are untrusted data
+PASS: SEC-3: ...and not to follow instructions in them
+PASS: V-9: the forged hit is still shown, as data
+PASS: V-9: a _mnemo_label inside stored content is never spelled out
+PASS: V-9: ...it is escaped, not dropped
+PASS: V-9: label-like text in an attribute is escaped too
+PASS: V-9: a label-like field on the hit itself is ignored
+PASS: V-9: an identifier that merely contains mnemo_ stays readable
+PASS: CLIENTS-14: nothingRelevant:true injects nothing
+PASS: CLIENTS-14: nothingRelevant:true is reported as reached-but-nothing
+PASS: CLIENTS-14: when every hit is under the floor nothing is injected
+PASS: CLIENTS-14: recallMinSimilarity in config.json moves the floor
+PASS: WP-3: with nothingRelevant:false the built-in floor does not drop the server's hits
+PASS: WP-3: an explicit recallMinSimilarity still applies on a new server
+
+Results: 79 passed, 0 failed
+
+=== suite plugin/workspace-header.test.sh; exit 0 ===
+PASS: env: every request carries X-Workspace-Id: ws-env
+PASS: env: .mnemo.json does not leak into any request
+PASS: env: the hooks made requests at all (guards the check above)
+PASS: .mnemo.json: every request carries X-Workspace-Id: ws-file
+PASS: no selection: no request carries X-Workspace-Id
+PASS: no selection: requests were made
+PASS: session-start records the destination in the mapping
+PASS: mapping from workspace A is not reused under workspace B (no turn posted)
+PASS: ...nor sent as the recall sessionId
+PASS: legacy mapping (no workspaceId) still receives turns
+PASS: unsafe workspace id: no request at all
+PASS: unsafe workspace id: hook still emits valid JSON
+
+Results: 12 passed, 0 failed
+
+=== suite cli/plugin/assistant-turns.test.sh; exit 0 ===
+PASS: exits 0
+PASS: output is valid JSON
+PASS: visible assistant text of the CURRENT turn is appended, in order
+PASS: thinking is never sent
+PASS: tool calls and tool results are never sent
+PASS: history before the current user prompt is not replayed on first sight
+PASS: repeated Stop: exits 0
+PASS: repeated Stop does not duplicate (still 2 posts)
+PASS: only the new entry is appended afterwards
+PASS: ...and it is the new text
+PASS: failed delivery is not recorded as sent
+PASS: failed delivery still exits 0
+PASS: the undelivered entry is retried on the next Stop
+PASS: no consent: exits 0
+PASS: no consent: nothing is posted
+PASS: replies written while consent was absent are never captured retroactively
+PASS: capture resumes from the moment consent exists
+PASS: transcript outside the Claude config dir: exits 0
+PASS: transcript outside the Claude config dir: never read
+PASS: missing transcript: exits 0
+PASS: no transcript_path in the payload: exits 0
+PASS: garbled transcript: exits 0
+PASS: symlink out of the dir: exits 0
+PASS: symlink out of the dir: nothing posted
+PASS: mode user-only: exits 0
+PASS: mode user-only: assistant text is NOT uploaded
+PASS: mode mcp-only: exits 0
+PASS: mode mcp-only: assistant text is NOT uploaded
+PASS: mode unavailable: exits 0
+PASS: mode unavailable: assistant text is NOT uploaded
+PASS: mode bogus: exits 0
+PASS: mode bogus: assistant text is NOT uploaded
+PASS: mode full: assistant text is uploaded
+PASS: marker without a mode: not uploaded
+PASS: the env override alone does not unlock assistant capture
+PASS: redacted before upload: sk-proj-ABCDEF
+PASS: redacted before upload: ghp_abcdefghij
+PASS: redacted before upload: AKIAABCDEFGH
+PASS: redacted before upload: mns_live_abcdef
+PASS: redacted before upload: abc.def.ghi123
+PASS: redacted before upload: hunter2pass
+PASS: redacted before upload: s3cr3t value
+PASS: redacted before upload: ZZZ999YYY
+PASS: redacted before upload: MIIEvQIBADAN
+PASS: redaction leaves the surrounding text
+PASS: redaction marker present
+PASS: budget exhausted: not everything was sent
+PASS: the rest follows on later Stops, oldest first, none lost or duplicated
+PASS: more than 20 pending: all 25 delivered in order across Stops
+PASS: three overlapping Stops post each turn exactly once
+PASS: the cursor is a plain integer and never behind
+PASS: a stale lock (dead hook) is broken and delivery resumes
+
+Results: 52 passed, 0 failed
+
+=== suite cli/plugin/harness-hook.test.sh; exit 0 ===
+harness-hook.test.sh: 16 passed, 0 failed
+
+=== suite cli/plugin/hook-event-contract.test.sh; exit 0 ===
+PASS: RED proof: renamed event key is detected and named
+PASS: RED proof: missing script path is detected and named
+PASS: hooks.json: every declared event key is in the allowlist
+PASS: hooks.json: every referenced script exists and is executable
+
+Results: 4 passed, 0 failed
+
+=== suite cli/plugin/hook-output-budget.test.sh; exit 0 ===
+PASS: FM-HOOK-05 both plugin trees contain the required hooks and test
+PASS: FM-HOOK-01 shared named budget exists and is <= 6000
+PASS: FM-HOOK-04 identical plugin file sets
+PASS: FM-HOOK-04 identical plugin file bytes
+PASS: FM-HOOK-05 isolated PATH has no mnemo binary
+MEASURE: packages/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/plugin/post-compaction.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/session-start.sh realistic: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh realistic session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh realistic: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh realistic ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh realistic full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh realistic recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized: 4521 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh oversized session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh oversized: 4493 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh long-id: 4743 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh long-id session context before protocol
+MEASURE: packages/cli/plugin/post-compaction.sh long-id: 4585 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh long-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh long-id full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id session context before protocol
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh long-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh oversized-id: 4593 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh oversized-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh oversized-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh oversized-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh oversized-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh oversized-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh unavailable: 4552 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh unavailable no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh unavailable: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh unavailable ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh unavailable no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh unavailable recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh no-host-id: 4520 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-host-id no invented/partial sessionId
+MEASURE: packages/cli/plugin/post-compaction.sh no-host-id: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-host-id ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-host-id no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-host-id recovery preserves session
+MEASURE: packages/cli/plugin/session-start.sh empty-home: 4570 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/post-compaction.sh empty-home: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh empty-home ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh empty-home no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh empty-home recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home clean stderr
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no requests without configuration
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh empty-home no invented managed episode
+MEASURE: packages/cli/plugin/session-start.sh no-mapping: 4559 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/session-start.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/session-start.sh no-mapping full skill reference last
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping sessionId instruction in first 600 bytes
+PASS: FM-HOOK-02 packages/cli/plugin/session-start.sh no-mapping session context before protocol
+PASS: FM-HOOK-05 packages/cli/plugin/session-start.sh no-mapping clean stderr
+MEASURE: packages/cli/plugin/post-compaction.sh no-mapping: 4502 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping exits 0 and fits 6000 bytes
+PASS: FM-HOOK-01 packages/cli/plugin/post-compaction.sh no-mapping ends with newline
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping all save triggers
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping behavioral rules
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping full skill reference last
+PASS: FM-HOOK-03 packages/cli/plugin/post-compaction.sh no-mapping no invented/partial sessionId
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery notice first
+PASS: FM-HOOK-02 packages/cli/plugin/post-compaction.sh no-mapping recovery preserves session
+PASS: FM-HOOK-05 packages/cli/plugin/post-compaction.sh no-mapping clean stderr
+Results: 259 passed, 0 failed
+
+=== suite cli/plugin/protocol-copies.test.sh; exit 0 ===
+PASS: GEMINI.md carries the SKILL.md protocol verbatim
+PASS: SKILL.md has no 120-character limit
+PASS: SKILL.md never asks for conversationId
+PASS: SKILL.md does not end the session on compaction
+PASS: SKILL.md names sessionId
+PASS: AGENTS.md has no 120-character limit
+PASS: AGENTS.md never asks for conversationId
+PASS: AGENTS.md does not end the session on compaction
+PASS: AGENTS.md names sessionId
+PASS: GEMINI.md has no 120-character limit
+PASS: GEMINI.md never asks for conversationId
+PASS: GEMINI.md does not end the session on compaction
+PASS: GEMINI.md names sessionId
+PASS: SKILL.md teaches pure-MCP agents to send turns
+PASS: SKILL.md covers 429
+PASS: SKILL.md states the real MCP limit
+PASS: SKILL.md dropped the stale supersede claim
+
+Results: 17 passed, 0 failed
+
+=== suite cli/plugin/recall-timeout.test.sh; exit 0 ===
+PASS: sin recallTimeoutMs: usa el default 1.5
+PASS: recallTimeoutMs 3000: usa 3 segundos
+PASS: recallTimeoutMs 2500: usa 2.5 segundos (no trunca)
+PASS: recallTimeoutMs no numérico: cae al default 1.5
+PASS: recallTimeoutMs 0: cae al default 1.5
+PASS: recallTimeoutMs 60000: clampea al techo (8)
+
+─────────────────────────────
+PASS: 6  FAIL: 0
+
+=== suite cli/plugin/session-lifecycle.test.sh; exit 0 ===
+PASS: session-start.sh writes the session mapping
+PASS: mapping contains the real Mnemosyne session id
+PASS: session-start.sh still injects SKILL.md content on stdout
+PASS: session-start.sh injects workspaceName from /me
+PASS: session-start.sh injects workspaceRole from /me
+PASS: session-start.sh surfaces a visible warning for role='read'
+PASS: no server configured: no mapping written
+PASS: healthy session: no systemMessage (no gap)
+PASS: healthy session: already collapsed by model — no extra collapse call fired
+PASS: session-stop.sh keeps the mapping (Stop is per-turn, not per-session)
+PASS: session-stop.sh no longer collapses per turn
+PASS: an uncollapsed session mid-conversation is not a gap
+PASS: missing lastRecallAt is reported as a genuine gap
+PASS: unreachable server reports the recall gap, and no longer a false collapse gap
+PASS: session-stop.sh: no mapping means no collapse call
+PASS: session-stop.sh: no mapping means no gap report either
+PASS: post-compaction keeps the session mapping
+PASS: post-compaction does not order memory_episode_end
+PASS: post-compaction tells the agent the session continues
+PASS: a turn written after compaction reaches the same session
+PASS: session-start binds the mapping to the selected workspace
+PASS: post-compaction restores the session when a workspace is selected
+
+Results: 22 passed, 0 failed
+
+=== suite cli/plugin/session-mapping.test.sh; exit 0 ===
+PASS: read_session_mapping returns empty when no mapping exists
+PASS: write_session_mapping then read_session_mapping round-trips
+PASS: mapping file was created
+PASS: mapping file has 0600 perms
+PASS: write_session_mapping no-ops on empty claude_session_id
+PASS: write_session_mapping no-ops on empty mnemo_session_id
+PASS: first mapping still intact after a second, different write
+PASS: second mapping independently readable
+PASS: delete_session_mapping removes the mapping file
+PASS: read_session_mapping returns empty after delete
+PASS: delete_session_mapping on nonexistent mapping did not error
+PASS: cleanup_old_session_mappings deletes a 10-day-old mapping
+PASS: cleanup_old_session_mappings leaves recent mappings alone
+
+Results: 13 passed, 0 failed
+
+=== suite cli/plugin/session-start.test.sh; exit 0 ===
+PASS: get_personal_workspace_id returns empty when workspaces.json absent
+PASS: get_personal_workspace_id returns empty when personalWorkspaceId key absent
+PASS: get_personal_workspace_id returns personalWorkspaceId value
+PASS: MNEMO_PERSONAL_WORKSPACE_ID exported when personalWorkspaceId present
+PASS: MNEMO_PERSONAL_WORKSPACE_ID not set when personalWorkspaceId absent
+PASS: find_project_config reads workspaceId from cwd
+PASS: find_project_config walks up from nested dir to find .mnemo.json
+PASS: find_project_config stops at .git boundary and ignores parent .mnemo.json
+PASS: slow upstreams: hook exits 0
+PASS: slow upstreams: wall time stays near the 2s parallel max, not the 6s sequential sum (2339 < 4000)
+PASS: slow upstreams: SKILL.md protocol heading is emitted
+PASS: slow upstreams: workspace-context section is emitted
+PASS: slow upstreams: workspace identity from /me is present
+PASS: slow upstreams: vitals from /health are present
+PASS: all upstreams fail: hook exits 0
+PASS: all upstreams fail: SKILL.md protocol heading is emitted
+PASS: all upstreams fail: workspace-context section is emitted
+PASS: all upstreams fail: identity section states unreachable, not silence
+PASS: all upstreams fail: stats section states unreachable, not silence
+PASS: all upstreams fail: does NOT claim it responded with nothing (unreachable != empty)
+PASS: reachable-but-empty upstreams: hook exits 0
+PASS: reachable-but-empty upstreams: identity section is distinct from unreachable
+PASS: reachable-but-empty upstreams: stats section is distinct from unreachable
+PASS: reachable-but-empty upstreams: does NOT claim unreachable (reachable != unreachable)
+PASS: episode open: reports the id
+PASS: episode open: no warning
+PASS: episode unreachable: says NOT started
+PASS: episode unreachable: tells the agent what to do instead
+PASS: episode reachable-but-empty: says NOT started, responded without an id
+PASS: episode reachable-but-empty: does NOT claim unreachable
+PASS: no host session id: states the reason plainly
+PASS: no host session id: not flagged as a warning
+
+Results: 32 passed, 0 failed
+
+=== suite cli/plugin/stats-http-status.test.sh; exit 0 ===
+PASS: 200: imprime las stats
+PASS: 200: no dice unavailable
+PASS: 403: NO dice could not be reached
+PASS: 403: nombra el scope que falta
+PASS: 500: NO dice could not be reached
+PASS: 500: nombra el código HTTP
+PASS: sin conexión: sí dice could not be reached
+PASS: 403: el protocolo SKILL.md se sigue inyectando
+PASS: 403: el contexto de workspace se sigue emitiendo
+PASS: sin memory:admin: las stats igual se muestran
+PASS: sin memory:admin: no se pide un permiso que no hace falta
+
+─────────────────────────────
+PASS: 11  FAIL: 0
+
+=== suite cli/plugin/subagent-stop.test.sh; exit 0 ===
+PASS: no consent: exits 0
+PASS: no consent: nothing posted to /capture
+PASS: another host's marker does not authorise claude-code
+PASS: unreadable marker reads as OFF
+PASS: valid marker: exits 0
+PASS: valid marker: output is captured
+PASS: marker removed: capture stops
+PASS: MNEMO_HARNESS_V1_ENABLED=true is an explicit override
+
+Results: 8 passed, 0 failed
+
+=== suite cli/plugin/user-prompt-submit.test.sh; exit 0 ===
+PASS: no server configured: output is valid JSON
+PASS: no server configured: no hookSpecificOutput
+PASS: no server configured: systemMessage mentions calling memory_recall
+PASS: with hits: output is valid JSON
+PASS: with hits: additionalContext carries the recalled content
+PASS: with hits: hookSpecificOutput.hookEventName is UserPromptSubmit
+PASS: with hits: systemMessage tells the model recall ran automatically
+PASS: curl failure: output is still valid JSON
+PASS: curl failure: no hookSpecificOutput
+PASS: curl failure: systemMessage falls back to call-it-yourself
+PASS: curl failure: systemMessage distinctly says unreachable, not 'found nothing'
+PASS: curl failure: does NOT say 'found nothing relevant' (unreachable != empty)
+PASS: empty hits: output is valid JSON
+PASS: empty hits: no hookSpecificOutput
+PASS: empty hits: systemMessage distinctly says reached-but-nothing, not unreachable
+PASS: empty hits: does NOT say 'could not be reached' (reachable != unreachable)
+PASS: session mapping present: systemMessage carries the correlation id
+PASS: CLIENTS-3: guidance asks for sessionId
+PASS: CLIENTS-3: guidance no longer asks for conversationId
+PASS: subsequent message: output is valid JSON
+PASS: subsequent message: nudge fires when lastWriteAt is old
+PASS: subsequent message: reads lastWriteAt from /health
+PASS: subsequent message: does not call /admin/stats
+PASS: rerank body check: output is valid JSON
+PASS: rerank body check: captured recall payload is valid JSON
+PASS: rerank body check: payload requests rerank:false
+PASS: budget exceeded: hook exits 0
+PASS: budget exceeded: output is still valid JSON
+PASS: budget exceeded: no hookSpecificOutput / additionalContext
+PASS: budget exceeded: systemMessage falls back to call-it-yourself
+PASS: budget exceeded: systemMessage uses the unreachable marker (timeout = unreachable)
+PASS: budget exceeded: does NOT say 'found nothing relevant' (timeout != empty)
+PASS: in-budget recall: hook exits 0
+PASS: in-budget recall: output is valid JSON
+PASS: in-budget recall: additionalContext is injected
+PASS: the user prompt is appended to the session buffer
+PASS: the turn is written against the mapped mnemo session id
+PASS: the turn carries the prompt text with role=user
+PASS: turn 2 is written too — the buffer keeps filling past the first message
+PASS: without a mapping there is no session to append to, so nothing is written
+PASS: CLIENTS-1: no consent: hook exits 0
+PASS: CLIENTS-1: no consent: output is valid JSON
+PASS: CLIENTS-1: no consent + existing mapping: prompt is NOT posted
+PASS: CLIENTS-1: another host's marker does not authorise claude-code
+PASS: CLIENTS-1: unreadable marker reads as OFF
+PASS: CLIENTS-1: marker of an unknown version reads as OFF
+PASS: CLIENTS-1: valid marker permits the turn
+PASS: CLIENTS-1: removing the marker stops capture on the very next prompt
+PASS: CLIENTS-1: MNEMO_HARNESS_V1_ENABLED=true is an explicit override
+PASS: CLIENTS-1: auto-recall (read path) works without consent
+PASS: CLIENTS-14: hit id survives
+PASS: CLIENTS-14: hit kind survives
+PASS: CLIENTS-14: hit subject, scopeRef, topicKey, status survive
+PASS: CLIENTS-14: similarity and score survive
+PASS: CLIENTS-14: hit under the similarity floor is dropped even with a high blended score
+PASS: CLIENTS-14: hit with no similarity (older server) is kept
+PASS: CLIENTS-14: the message no longer claims another recall is unnecessary
+PASS: CLIENTS-14: the message says the automatic recall can miss things
+PASS: SEC-3: a stored closing tag cannot close the wrapper
+PASS: SEC-3: a stored <system> tag is not emitted raw
+PASS: SEC-3: stored markup is escaped
+PASS: SEC-3: exactly one opening wrapper per kept hit (3)
+PASS: SEC-3: exactly one closing wrapper per kept hit (3)
+PASS: SEC-3: a multiline body cannot pose as another hit or wrapper line
+PASS: SEC-3: hostile metadata cannot break out of its attribute
+PASS: SEC-3: the surrounding trusted text says the entries are untrusted data
+PASS: SEC-3: ...and not to follow instructions in them
+PASS: V-9: the forged hit is still shown, as data
+PASS: V-9: a _mnemo_label inside stored content is never spelled out
+PASS: V-9: ...it is escaped, not dropped
+PASS: V-9: label-like text in an attribute is escaped too
+PASS: V-9: a label-like field on the hit itself is ignored
+PASS: V-9: an identifier that merely contains mnemo_ stays readable
+PASS: CLIENTS-14: nothingRelevant:true injects nothing
+PASS: CLIENTS-14: nothingRelevant:true is reported as reached-but-nothing
+PASS: CLIENTS-14: when every hit is under the floor nothing is injected
+PASS: CLIENTS-14: recallMinSimilarity in config.json moves the floor
+PASS: WP-3: with nothingRelevant:false the built-in floor does not drop the server's hits
+PASS: WP-3: an explicit recallMinSimilarity still applies on a new server
+
+Results: 79 passed, 0 failed
+
+=== suite cli/plugin/workspace-header.test.sh; exit 0 ===
+PASS: env: every request carries X-Workspace-Id: ws-env
+PASS: env: .mnemo.json does not leak into any request
+PASS: env: the hooks made requests at all (guards the check above)
+PASS: .mnemo.json: every request carries X-Workspace-Id: ws-file
+PASS: no selection: no request carries X-Workspace-Id
+PASS: no selection: requests were made
+PASS: session-start records the destination in the mapping
+PASS: mapping from workspace A is not reused under workspace B (no turn posted)
+PASS: ...nor sent as the recall sessionId
+PASS: legacy mapping (no workspaceId) still receives turns
+PASS: unsafe workspace id: no request at all
+PASS: unsafe workspace id: hook still emits valid JSON
+
+Results: 12 passed, 0 failed

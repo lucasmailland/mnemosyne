@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "."
+  },
+  "include": [
+    "src/__tests__/contracts/**/*.ts",
+    "src/__tests__/registry.test.ts",
+    "src/__tests__/tool-contracts.test.ts",
+    "src/__tests__/contract.test.ts",
+    "src/__tests__/contracts-config.test.ts",
+    "src/__tests__/doctor.test.ts",
+    "src/__tests__/idempotency.contract.test.ts",
+    "src/__tests__/recall.stdio.test.ts",
+    "scripts/generate-contracts.ts"
+  ],
+  "exclude": ["node_modules", "dist", ".turbo"]
+}

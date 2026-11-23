@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/conflict-pair",
+  "title": "ConflictPair",
+  "description": "One item in GET /conflicts's `pairs[]` — a conflicts_with relation surfaced for memory_judge (packages/server/src/routes/conflicts.ts).",
+  "type": "object",
+  "required": ["relationId", "confidence", "factA", "factB"],
+  "properties": {
+    "relationId": { "type": "string", "minLength": 1 },
+    "confidence": { "type": ["number", "null"] },
+    "factA": {
+      "type": "object",
+      "required": ["id", "subject", "statement", "worth", "validFrom", "validTo"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "subject": { "type": "string" },
+        "statement": { "type": "string" },
+        "worth": { "type": "number" },
+        "validFrom": { "type": "string" },
+        "validTo": { "type": ["string", "null"] }
+      }
+    },
+    "factB": {
+      "type": "object",
+      "required": ["id", "subject", "statement", "worth", "validFrom", "validTo"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "subject": { "type": "string" },
+        "statement": { "type": "string" },
+        "worth": { "type": "number" },
+        "validFrom": { "type": "string" },
+        "validTo": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "additionalProperties": true
+}

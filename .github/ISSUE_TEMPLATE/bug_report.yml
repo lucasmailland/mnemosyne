@@ -1,0 +1,88 @@
+name: Bug report
+description: Something in Mnemosyne isn't behaving as documented.
+title: "[bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a report. The more precise the repro,
+        the faster we can recall what went wrong. For security issues, do **not**
+        open an issue — see [SECURITY.md](../blob/main/SECURITY.md).
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Affected package
+      description: Which part of the monorepo is involved?
+      options:
+        - "@mnemo-ai/core"
+        - "@mnemo-ai/server"
+        - "@mnemo-ai/mcp"
+        - "@mnemo-ai/client-ts"
+        - "@mnemo-ai/llm-providers"
+        - "docker / stack"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Package version or commit SHA (e.g. 2.0.0-alpha.0).
+      placeholder: "2.0.0-alpha.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: A minimal, runnable repro. Include the call you made and any config.
+      placeholder: |
+        1. `pnpm docker:up`
+        2. Create a fact in workspace A via `createFact(...)`
+        3. Recall from workspace B
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include error messages and stack traces if any.
+    validations:
+      required: true
+
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Node version, pnpm version, OS, Postgres/pgvector version, LLM provider.
+      placeholder: |
+        - Node: 20.x
+        - pnpm: 9.15.0
+        - OS: macOS 15 / Ubuntu 24.04
+        - Postgres: pgvector/pgvector:pg17
+        - Provider: OpenAI
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmations
+      options:
+        - label: I searched existing issues and this isn't a duplicate.
+          required: true
+        - label: This is not a security vulnerability (those go through SECURITY.md).
+          required: true

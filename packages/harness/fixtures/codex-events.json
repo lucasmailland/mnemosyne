@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "recordedFrom": {
+    "host": "codex",
+    "hostBinaryVersion": "codex-cli 0.153.4",
+    "platform": "darwin-arm64",
+    "note": "Manifest event names read from a real installed Codex plugin; the snake_case keys under [hooks.state] in config.toml are Codex's internal state keying, not the manifest format."
+  },
+  "sources": [
+    "~/.codex/plugins/cache/codex-warp/warp/0.4.0/hooks/hooks.json",
+    "~/.codex/config.toml",
+    "docs/internals/host-hook-contracts.md#codex-cli--full-hooks-but-two-gates"
+  ],
+  "hookEvents": [
+    "PreToolUse",
+    "PermissionRequest",
+    "PostToolUse",
+    "PreCompact",
+    "PostCompact",
+    "SessionStart",
+    "SessionEnd",
+    "SubagentStart",
+    "SubagentStop",
+    "UserPromptSubmit",
+    "Stop"
+  ],
+  "observedInInstalledPlugin": [
+    "SessionStart",
+    "Stop",
+    "PermissionRequest",
+    "UserPromptSubmit",
+    "PostToolUse"
+  ],
+  "pluginRootVariable": "${PLUGIN_ROOT}",
+  "channels": {
+    "context": "hookSpecificOutput.additionalContext",
+    "close": "SessionEnd",
+    "compaction": "PreCompact"
+  },
+  "gates": {
+    "featureFlag": "features.hooks",
+    "featureFlagDefault": false,
+    "unsupportedPlatforms": ["win32"]
+  },
+  "quirks": [
+    "SessionStart rejects a bare {\"continue\":true}; it needs a well-formed hookSpecificOutput with at least an empty additionalContext."
+  ]
+}

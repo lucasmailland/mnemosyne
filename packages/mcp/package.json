@@ -1,0 +1,95 @@
+{
+  "name": "@mnemo-ai/mcp",
+  "version": "3.6.4",
+  "description": "MCP server for Mnemosyne, cognitive memory for AI agents: 37 memory tools by default, the 9 core ones with MNEMO_MCP_TOOLS=core, over stdio for Claude Desktop, Cursor and any MCP client.",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmailland/mnemosyne/issues"
+  },
+  "keywords": [
+    "mnemosyne",
+    "mcp",
+    "model-context-protocol",
+    "memory",
+    "ai",
+    "llm",
+    "claude",
+    "cursor",
+    "agent-memory",
+    "ai-agents",
+    "memory-server"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "mnemo-mcp": "./dist/index.js",
+    "mnemosyne-mcp": "./dist/index.js",
+    "@mnemo-ai/mcp": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "prepack": "cp ../../LICENSE LICENSE",
+    "build": "tsup",
+    "contracts:generate": "pnpm --filter @mnemo-ai/mcp... build && tsx scripts/generate-contracts.ts",
+    "readme:schemas": "tsx scripts/readme-schemas.ts --write",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist .turbo",
+    "typecheck": "tsc -p tsconfig.test.json",
+    "test": "vitest run --passWithNoTests",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:contracts:typecheck": "tsc -p tsconfig.contract-tests.json --noEmit",
+    "test:contracts:runtime": "NO_COVERAGE=1 vitest run src/__tests__/contracts/schema-normalizer.test.ts src/__tests__/contracts/schema-contracts.test.ts src/__tests__/contract.test.ts src/__tests__/tool-contracts.test.ts src/__tests__/registry.test.ts src/__tests__/contracts/output-foundations.test.ts src/__tests__/contracts/output-primitives.test.ts src/__tests__/contracts/output-cognitive.test.ts src/__tests__/contracts/output-admin.test.ts src/__tests__/contracts/output-completeness.test.ts src/__tests__/doctor.test.ts src/__tests__/idempotency.contract.test.ts src/__tests__/recall.stdio.test.ts src/__tests__/contracts-config.test.ts src/__tests__/contracts/purge.test.ts src/__tests__/contracts/judge.test.ts src/__tests__/contracts/doctor.test.ts src/__tests__/contracts/pin.test.ts src/__tests__/contracts/skill.test.ts src/__tests__/contracts/workflow.test.ts src/__tests__/contracts/workspace.test.ts src/__tests__/contracts/disclosures.test.ts src/__tests__/contracts/episode-end-status.test.ts src/__tests__/contracts/timeline-search-decide.test.ts src/__tests__/contracts/status-strategy-stats-compare.test.ts",
+    "test:contracts": "pnpm run test:contracts:typecheck && pnpm run test:contracts:runtime",
+    "test:watch": "vitest",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@mnemo-ai/client-ts": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^2.1.8",
+    "@mnemo-ai/adapter-postgres": "workspace:*",
+    "@mnemo-ai/adapter-vector": "workspace:*",
+    "@mnemo-ai/core": "workspace:*",
+    "@mnemo-ai/federation": "workspace:*",
+    "@mnemo-ai/server": "workspace:*",
+    "@mnemo-ai/types": "workspace:*",
+    "@types/bcrypt": "^6.0.0",
+    "@types/node": "^26.6.5",
+    "bcrypt": "^6.0.0",
+    "postgres": "^3.4.9",
+    "prettier": "^3.9.6",
+    "testcontainers": "^12.2.1",
+    "tsup": "^9.0.0",
+    "tsx": "^4.23.12",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}

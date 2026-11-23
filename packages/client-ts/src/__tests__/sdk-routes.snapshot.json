@@ -1,0 +1,990 @@
+{
+  "annotateEvent": [
+    {
+      "method": "POST",
+      "path": "/events/event_1/annotations"
+    }
+  ],
+  "appendTurn": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/turn"
+    }
+  ],
+  "approveFederationPeer": [
+    {
+      "method": "POST",
+      "path": "/memory/federation/peers/peer_1/approve"
+    }
+  ],
+  "approveFederationPeerKey": [
+    {
+      "method": "POST",
+      "path": "/memory/federation/peers/peer_1/approve-key"
+    }
+  ],
+  "archiveEvent": [
+    {
+      "method": "DELETE",
+      "path": "/events/event_1"
+    }
+  ],
+  "archiveHyperedge": [
+    {
+      "method": "DELETE",
+      "path": "/hyperedges/hyperedge_1"
+    }
+  ],
+  "archiveReasoning": [
+    {
+      "method": "DELETE",
+      "path": "/reasoning/reasoning_1"
+    }
+  ],
+  "archiveStrategy": [
+    {
+      "method": "DELETE",
+      "path": "/strategies/strategy_1"
+    }
+  ],
+  "archiveTask": [
+    {
+      "method": "DELETE",
+      "path": "/tasks/task_1"
+    }
+  ],
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/audit"
+    }
+  ],
+  "capture": [
+    {
+      "method": "POST",
+      "path": "/capture"
+    }
+  ],
+  "closeRelation": [
+    {
+      "method": "DELETE",
+      "path": "/relations/relation_1"
+    }
+  ],
+  "collapseSession": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/collapse"
+    }
+  ],
+  "compareFacts": [
+    {
+      "method": "POST",
+      "path": "/facts/compare"
+    }
+  ],
+  "composition.createRule": [
+    {
+      "method": "POST",
+      "path": "/composition/rules"
+    }
+  ],
+  "composition.dryRun": [
+    {
+      "method": "POST",
+      "path": "/composition/dry-run"
+    }
+  ],
+  "composition.getRule": [
+    {
+      "method": "GET",
+      "path": "/composition/rules/rule_1"
+    }
+  ],
+  "composition.listInferences": [
+    {
+      "method": "GET",
+      "path": "/composition/inferences"
+    }
+  ],
+  "composition.listRules": [
+    {
+      "method": "GET",
+      "path": "/composition/rules"
+    }
+  ],
+  "composition.patchRule": [
+    {
+      "method": "PATCH",
+      "path": "/composition/rules/rule_1"
+    }
+  ],
+  "createDecision": [
+    {
+      "method": "POST",
+      "path": "/decisions"
+    }
+  ],
+  "createEntity": [
+    {
+      "method": "POST",
+      "path": "/entities"
+    }
+  ],
+  "createEvent": [
+    {
+      "method": "POST",
+      "path": "/events"
+    }
+  ],
+  "createFact": [
+    {
+      "method": "POST",
+      "path": "/remember"
+    }
+  ],
+  "createFederationPeer": [
+    {
+      "method": "POST",
+      "path": "/memory/federation/peers"
+    }
+  ],
+  "createHyperedge": [
+    {
+      "method": "POST",
+      "path": "/hyperedges"
+    }
+  ],
+  "createKey": [
+    {
+      "method": "POST",
+      "path": "/admin/keys"
+    }
+  ],
+  "createReasoning": [
+    {
+      "method": "POST",
+      "path": "/reasoning"
+    }
+  ],
+  "createRelation": [
+    {
+      "method": "POST",
+      "path": "/relations"
+    }
+  ],
+  "createReminder": [
+    {
+      "method": "POST",
+      "path": "/reminders"
+    }
+  ],
+  "createSession": [
+    {
+      "method": "POST",
+      "path": "/session/start"
+    }
+  ],
+  "createSkill": [
+    {
+      "method": "POST",
+      "path": "/skills"
+    }
+  ],
+  "createStrategy": [
+    {
+      "method": "POST",
+      "path": "/strategies"
+    }
+  ],
+  "createTask": [
+    {
+      "method": "POST",
+      "path": "/tasks"
+    }
+  ],
+  "createTenant": [
+    {
+      "method": "POST",
+      "path": "/tenants"
+    }
+  ],
+  "createUser": [
+    {
+      "method": "POST",
+      "path": "/users"
+    }
+  ],
+  "createUserToken": [
+    {
+      "method": "POST",
+      "path": "/tenants/tenant_1/users/user_1/tokens"
+    }
+  ],
+  "createWorkflow": [
+    {
+      "method": "POST",
+      "path": "/workflows"
+    }
+  ],
+  "createWorkspace": [
+    {
+      "method": "POST",
+      "path": "/tenants/tenant_1/workspaces"
+    }
+  ],
+  "delegateTask": [
+    {
+      "method": "POST",
+      "path": "/tasks/task_1/delegate"
+    }
+  ],
+  "deleteAgentPolicy": [
+    {
+      "method": "DELETE",
+      "path": "/admin/agent-policy"
+    }
+  ],
+  "deleteFederationPeer": [
+    {
+      "method": "DELETE",
+      "path": "/memory/federation/peers/peer_1"
+    }
+  ],
+  "discardSession": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/discard"
+    }
+  ],
+  "dismissReminder": [
+    {
+      "method": "DELETE",
+      "path": "/reminders/reminder_1"
+    }
+  ],
+  "doctor": [
+    {
+      "method": "GET",
+      "path": "/doctor"
+    }
+  ],
+  "enqueueReview": [
+    {
+      "method": "POST",
+      "path": "/review/enqueue"
+    }
+  ],
+  "eraseSubject": [
+    {
+      "method": "POST",
+      "path": "/admin/erasure"
+    }
+  ],
+  "exportWorkspace": [
+    {
+      "method": "GET",
+      "path": "/export"
+    }
+  ],
+  "forgetFact": [
+    {
+      "method": "DELETE",
+      "path": "/facts/fact_1"
+    }
+  ],
+  "forgetPrimitive": [
+    {
+      "method": "DELETE",
+      "path": "/forget/task/task_1"
+    }
+  ],
+  "getAgentPolicy": [
+    {
+      "method": "GET",
+      "path": "/admin/agent-policy"
+    }
+  ],
+  "getAnticipationFeed": [
+    {
+      "method": "GET",
+      "path": "/anticipation"
+    }
+  ],
+  "getDecision": [
+    {
+      "method": "GET",
+      "path": "/decisions/decision_1"
+    }
+  ],
+  "getEntity": [
+    {
+      "method": "GET",
+      "path": "/entities/entity_1"
+    }
+  ],
+  "getEpisode": [
+    {
+      "method": "GET",
+      "path": "/episodes/episode_1"
+    }
+  ],
+  "getEpisodeTimeline": [
+    {
+      "method": "GET",
+      "path": "/episodes/episode_1/timeline"
+    }
+  ],
+  "getEvent": [
+    {
+      "method": "GET",
+      "path": "/events/event_1"
+    }
+  ],
+  "getFact": [
+    {
+      "method": "GET",
+      "path": "/facts/fact_1"
+    }
+  ],
+  "getFactCitations": [
+    {
+      "method": "GET",
+      "path": "/facts/fact_1/citations"
+    }
+  ],
+  "getFederationSyncJob": [
+    {
+      "method": "GET",
+      "path": "/memory/federation/sync/job_1"
+    }
+  ],
+  "getHyperedge": [
+    {
+      "method": "GET",
+      "path": "/hyperedges/hyperedge_1"
+    }
+  ],
+  "getKey": [
+    {
+      "method": "GET",
+      "path": "/admin/keys/key_1"
+    }
+  ],
+  "getMe": [
+    {
+      "method": "GET",
+      "path": "/me"
+    }
+  ],
+  "getReasoning": [
+    {
+      "method": "GET",
+      "path": "/reasoning/reasoning_1"
+    }
+  ],
+  "getSelfModel": [
+    {
+      "method": "GET",
+      "path": "/metacognition"
+    }
+  ],
+  "getSelfProfile": [
+    {
+      "method": "GET",
+      "path": "/self/profile"
+    }
+  ],
+  "getSession": [
+    {
+      "method": "GET",
+      "path": "/session/session_1"
+    }
+  ],
+  "getSkill": [
+    {
+      "method": "GET",
+      "path": "/skills/skill_1"
+    }
+  ],
+  "getStats": [
+    {
+      "method": "GET",
+      "path": "/admin/stats"
+    }
+  ],
+  "getStrategy": [
+    {
+      "method": "GET",
+      "path": "/strategies/strategy_1"
+    }
+  ],
+  "getTask": [
+    {
+      "method": "GET",
+      "path": "/tasks/task_1"
+    }
+  ],
+  "getTenant": [
+    {
+      "method": "GET",
+      "path": "/tenants/tenant_1"
+    }
+  ],
+  "getWorkflow": [
+    {
+      "method": "GET",
+      "path": "/workflows/workflow_1"
+    }
+  ],
+  "getWorkspaceById": [
+    {
+      "method": "GET",
+      "path": "/workspaces/ws_1"
+    }
+  ],
+  "graph": [
+    {
+      "method": "GET",
+      "path": "/graph"
+    }
+  ],
+  "graphPath": [
+    {
+      "method": "GET",
+      "path": "/graph/path"
+    }
+  ],
+  "graphTraverse": [
+    {
+      "method": "GET",
+      "path": "/graph/traverse"
+    }
+  ],
+  "health": [
+    {
+      "method": "GET",
+      "path": "/health"
+    }
+  ],
+  "healthReady": [
+    {
+      "method": "GET",
+      "path": "/health/ready"
+    }
+  ],
+  "inviteTenantMember": [
+    {
+      "method": "POST",
+      "path": "/tenants/tenant_1/members"
+    }
+  ],
+  "inviteWorkspaceMember": [
+    {
+      "method": "POST",
+      "path": "/workspaces/ws_1/members"
+    }
+  ],
+  "issueScopedKey": [
+    {
+      "method": "POST",
+      "path": "/admin/scoped-keys"
+    }
+  ],
+  "judge": [
+    {
+      "method": "GET",
+      "path": "/conflicts"
+    }
+  ],
+  "linkEntityUser": [
+    {
+      "method": "POST",
+      "path": "/entities/entity_1/link-user"
+    }
+  ],
+  "listAgentPolicies": [
+    {
+      "method": "GET",
+      "path": "/admin/agent-policies"
+    }
+  ],
+  "listCitations": [
+    {
+      "method": "GET",
+      "path": "/citations"
+    }
+  ],
+  "listDecisions": [
+    {
+      "method": "GET",
+      "path": "/decisions"
+    }
+  ],
+  "listEntities": [
+    {
+      "method": "GET",
+      "path": "/entities"
+    }
+  ],
+  "listEntityFacts": [
+    {
+      "method": "GET",
+      "path": "/entities/entity_1/facts"
+    }
+  ],
+  "listEpisodes": [
+    {
+      "method": "GET",
+      "path": "/episodes"
+    }
+  ],
+  "listEvents": [
+    {
+      "method": "GET",
+      "path": "/events"
+    }
+  ],
+  "listFacts": [
+    {
+      "method": "GET",
+      "path": "/facts"
+    }
+  ],
+  "listFederationItems": [
+    {
+      "method": "GET",
+      "path": "/memory/federation/items"
+    }
+  ],
+  "listFederationPeers": [
+    {
+      "method": "GET",
+      "path": "/memory/federation/peers"
+    }
+  ],
+  "listHyperedges": [
+    {
+      "method": "GET",
+      "path": "/hyperedges"
+    }
+  ],
+  "listKeys": [
+    {
+      "method": "GET",
+      "path": "/admin/keys"
+    }
+  ],
+  "listMyWorkspaces": [
+    {
+      "method": "GET",
+      "path": "/workspaces/mine"
+    }
+  ],
+  "listPendingFederationPeers": [
+    {
+      "method": "GET",
+      "path": "/memory/federation/peers/pending"
+    }
+  ],
+  "listReasoning": [
+    {
+      "method": "GET",
+      "path": "/reasoning"
+    }
+  ],
+  "listRelations": [
+    {
+      "method": "GET",
+      "path": "/relations"
+    }
+  ],
+  "listReminders": [
+    {
+      "method": "GET",
+      "path": "/reminders"
+    }
+  ],
+  "listReview": [
+    {
+      "method": "GET",
+      "path": "/review"
+    }
+  ],
+  "listSessions": [
+    {
+      "method": "GET",
+      "path": "/session/list"
+    }
+  ],
+  "listSkills": [
+    {
+      "method": "GET",
+      "path": "/skills"
+    }
+  ],
+  "listStrategies": [
+    {
+      "method": "GET",
+      "path": "/strategies"
+    }
+  ],
+  "listTasks": [
+    {
+      "method": "GET",
+      "path": "/tasks"
+    }
+  ],
+  "listTenantMembers": [
+    {
+      "method": "GET",
+      "path": "/tenants/tenant_1/members"
+    }
+  ],
+  "listUserTokens": [
+    {
+      "method": "GET",
+      "path": "/tenants/tenant_1/users/user_1/tokens"
+    }
+  ],
+  "listWorkflows": [
+    {
+      "method": "GET",
+      "path": "/workflows"
+    }
+  ],
+  "listWorkspaceMembers": [
+    {
+      "method": "GET",
+      "path": "/workspaces/ws_1/members"
+    }
+  ],
+  "listWorkspacesForCurrentTenant": [
+    {
+      "method": "GET",
+      "path": "/me"
+    },
+    {
+      "method": "GET",
+      "path": "/tenants/tenant_1/workspaces"
+    }
+  ],
+  "listWorkspacesForTenant": [
+    {
+      "method": "GET",
+      "path": "/tenants/tenant_1/workspaces"
+    }
+  ],
+  "patchFact": [
+    {
+      "method": "PATCH",
+      "path": "/facts/fact_1"
+    }
+  ],
+  "patchHyperedge": [
+    {
+      "method": "PATCH",
+      "path": "/hyperedges/hyperedge_1"
+    }
+  ],
+  "patchReasoning": [
+    {
+      "method": "PATCH",
+      "path": "/reasoning/reasoning_1"
+    }
+  ],
+  "patchRelation": [
+    {
+      "method": "PATCH",
+      "path": "/relations/relation_1"
+    }
+  ],
+  "patchStrategy": [
+    {
+      "method": "PATCH",
+      "path": "/strategies/strategy_1"
+    }
+  ],
+  "patchTask": [
+    {
+      "method": "PATCH",
+      "path": "/tasks/task_1"
+    }
+  ],
+  "pinFact": [
+    {
+      "method": "POST",
+      "path": "/facts/fact_1/pin"
+    }
+  ],
+  "pinSessionTurn": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/pin"
+    }
+  ],
+  "purgeClosedFacts": [
+    {
+      "method": "DELETE",
+      "path": "/facts/purge"
+    }
+  ],
+  "purgeFact": [
+    {
+      "method": "DELETE",
+      "path": "/facts/fact_1/hard"
+    }
+  ],
+  "putAgentPolicy": [
+    {
+      "method": "PUT",
+      "path": "/admin/agent-policy"
+    }
+  ],
+  "rateStrategy": [
+    {
+      "method": "POST",
+      "path": "/strategies/strategy_1/rate"
+    }
+  ],
+  "reasoningFeedback": [
+    {
+      "method": "POST",
+      "path": "/reasoning/feedback"
+    }
+  ],
+  "recall": [
+    {
+      "method": "POST",
+      "path": "/recall"
+    }
+  ],
+  "recordReasoning": [
+    {
+      "method": "POST",
+      "path": "/reasoning/record"
+    }
+  ],
+  "relationsTraverse": [
+    {
+      "method": "POST",
+      "path": "/relations/traverse"
+    }
+  ],
+  "relocateFact": [
+    {
+      "method": "POST",
+      "path": "/facts/fact_1/relocate"
+    }
+  ],
+  "remember": [
+    {
+      "method": "POST",
+      "path": "/remember"
+    }
+  ],
+  "removeTenantMember": [
+    {
+      "method": "DELETE",
+      "path": "/tenants/tenant_1/members/user_1"
+    }
+  ],
+  "removeWorkspaceMember": [
+    {
+      "method": "DELETE",
+      "path": "/workspaces/ws_1/members/user_1"
+    }
+  ],
+  "resolveConflict": [
+    {
+      "method": "POST",
+      "path": "/conflicts/relation_1/resolve"
+    }
+  ],
+  "resolveFederationConflict": [
+    {
+      "method": "POST",
+      "path": "/memory/federation/resolve"
+    }
+  ],
+  "resolveReasoning": [
+    {
+      "method": "POST",
+      "path": "/reasoning/resolve"
+    }
+  ],
+  "resolveReview": [
+    {
+      "method": "POST",
+      "path": "/review/review_1/resolve"
+    }
+  ],
+  "restoreFact": [
+    {
+      "method": "POST",
+      "path": "/facts/fact_1/restore"
+    }
+  ],
+  "reviewCount": [
+    {
+      "method": "GET",
+      "path": "/review/count"
+    }
+  ],
+  "revokeKey": [
+    {
+      "method": "DELETE",
+      "path": "/admin/keys/key_1"
+    }
+  ],
+  "revokeScopedKey": [
+    {
+      "method": "DELETE",
+      "path": "/admin/scoped-keys/mk_live_key1"
+    }
+  ],
+  "revokeUserToken": [
+    {
+      "method": "DELETE",
+      "path": "/tenants/tenant_1/users/user_1/tokens/key_1"
+    }
+  ],
+  "rotateKey": [
+    {
+      "method": "POST",
+      "path": "/admin/keys/key_1/rotate"
+    }
+  ],
+  "rotateScopedKey": [
+    {
+      "method": "POST",
+      "path": "/admin/scoped-keys/mk_live_key1/rotate"
+    }
+  ],
+  "selfEdit": [
+    {
+      "method": "POST",
+      "path": "/self/edit"
+    }
+  ],
+  "selfReflect": [
+    {
+      "method": "POST",
+      "path": "/self/reflect"
+    }
+  ],
+  "sessionFeedback": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/feedback"
+    }
+  ],
+  "sessions.addTurn": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/turn"
+    }
+  ],
+  "sessions.collapse": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/collapse"
+    }
+  ],
+  "sessions.create": [
+    {
+      "method": "POST",
+      "path": "/session/start"
+    }
+  ],
+  "sessions.feedback": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/feedback"
+    }
+  ],
+  "sessions.pinTurn": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/pin"
+    }
+  ],
+  "suggestTopicKey": [
+    {
+      "method": "POST",
+      "path": "/topic-key/suggest"
+    }
+  ],
+  "supersedeDecision": [
+    {
+      "method": "PATCH",
+      "path": "/decisions/decision_1"
+    }
+  ],
+  "timeline": [
+    {
+      "method": "GET",
+      "path": "/timeline"
+    }
+  ],
+  "triggerConsolidation": [
+    {
+      "method": "POST",
+      "path": "/consolidation/trigger"
+    }
+  ],
+  "triggerFederationSync": [
+    {
+      "method": "POST",
+      "path": "/memory/federation/sync"
+    }
+  ],
+  "unlinkEntityUser": [
+    {
+      "method": "DELETE",
+      "path": "/entities/entity_1/link-user"
+    }
+  ],
+  "unpinFact": [
+    {
+      "method": "POST",
+      "path": "/facts/fact_1/pin"
+    }
+  ],
+  "updateEntity": [
+    {
+      "method": "PATCH",
+      "path": "/entities/entity_1"
+    }
+  ],
+  "updateEventSensitivity": [
+    {
+      "method": "PATCH",
+      "path": "/events/event_1/sensitivity"
+    }
+  ],
+  "updateSessionScratch": [
+    {
+      "method": "POST",
+      "path": "/session/session_1/scratch"
+    }
+  ],
+  "updateSkill": [
+    {
+      "method": "PATCH",
+      "path": "/skills/skill_1"
+    }
+  ],
+  "updateWorkflow": [
+    {
+      "method": "PATCH",
+      "path": "/workflows/workflow_1"
+    }
+  ],
+  "updateWorkspaceMemberRole": [
+    {
+      "method": "PATCH",
+      "path": "/workspaces/ws_1/members/user_1"
+    }
+  ]
+}

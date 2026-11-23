@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_anticipate",
+  "inputSchema": {
+    "properties": {
+      "context": {
+        "description": "Free-text context for conditional patterns (max 500 chars); an LLM adds low-score hits.",
+        "maxLength": 500,
+        "type": "string"
+      },
+      "limit": {
+        "maximum": 100,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "lookAhead": {
+        "description": "Minutes ahead. Default 30, max 10080 (one week).",
+        "maximum": 10080,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "recentlyRecalledId": {
+        "description": "Last recalled id; drives sequential predictions.",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

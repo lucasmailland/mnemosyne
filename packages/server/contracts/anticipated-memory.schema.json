@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/anticipated-memory",
+  "title": "AnticipatedMemory",
+  "description": "One item in GET /anticipation's `items[]` (packages/server/src/routes/anticipation.ts).",
+  "type": "object",
+  "required": ["id", "score", "source", "rationale"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "score": { "type": "number" },
+    "source": {
+      "type": "string",
+      "enum": ["sequential", "periodic", "conditional", "co-occurrence", "blended"]
+    },
+    "rationale": { "type": "string" }
+  },
+  "additionalProperties": true
+}

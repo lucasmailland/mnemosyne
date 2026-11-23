@@ -1,0 +1,68 @@
+{
+  "name": "@mnemo-ai/federation",
+  "version": "3.5.0-alpha.0",
+  "private": true,
+  "description": "Ed25519-signed peer-to-peer sync for Mnemosyne — tombstone protocol, resurrection guard, conflict resolution.",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/federation"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmailland/mnemosyne/issues"
+  },
+  "keywords": [
+    "mnemosyne",
+    "federation",
+    "sync",
+    "p2p",
+    "ed25519",
+    "tombstone"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "cp ../../LICENSE LICENSE",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "clean": "rm -rf dist .turbo",
+    "typecheck": "tsc -p tsconfig.test.json"
+  },
+  "peerDependencies": {
+    "@mnemo-ai/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@mnemo-ai/adapter-postgres": "workspace:*",
+    "@types/node": "^26.6.5",
+    "@vitest/coverage-v8": "^4.1.12",
+    "postgres": "^3.4.9",
+    "testcontainers": "^12.2.1",
+    "tsup": "^9.0.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

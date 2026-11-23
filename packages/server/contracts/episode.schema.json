@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/episode",
+  "title": "MnemoEpisode",
+  "type": "object",
+  "required": ["id", "workspaceId", "title", "narrative", "occurredAt", "isSynthetic", "createdAt", "updatedAt"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "workspaceId": { "type": "string", "minLength": 1 },
+    "agentId": { "type": ["string", "null"] },
+    "title": { "type": "string", "minLength": 1 },
+    "narrative": { "type": "string" },
+    "occurredAt": { "type": "string" },
+    "isSynthetic": { "type": "boolean" },
+    "metadata": { "type": ["object", "null"] },
+    "createdAt": { "type": "string" },
+    "updatedAt": { "type": "string" }
+  },
+  "additionalProperties": true
+}

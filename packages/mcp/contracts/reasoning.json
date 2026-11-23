@@ -1,0 +1,133 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_reasoning",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "resolve = look up the reasoning cache; record = store a chain with its outcome; feedback = rate one.",
+        "enum": [
+          "create",
+          "get",
+          "list",
+          "patch",
+          "archive",
+          "resolve",
+          "record",
+          "feedback"
+        ],
+        "type": "string"
+      },
+      "agentId": {
+        "description": "Reasoning agent. For create and record.",
+        "type": "string"
+      },
+      "chain": {
+        "description": "Ordered {step, reasoning, conclusion?}. Required for create/record; replaces it on patch.",
+        "items": {
+          "properties": {
+            "conclusion": {
+              "maxLength": 20000,
+              "type": "string"
+            },
+            "reasoning": {
+              "maxLength": 20000,
+              "minLength": 1,
+              "type": "string"
+            },
+            "step": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "reasoning",
+            "step"
+          ],
+          "type": "object"
+        },
+        "maxItems": 200,
+        "type": "array"
+      },
+      "conclusion": {
+        "description": "Where it ended. Required for create and record; also patch.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "id": {
+        "description": "Required for get, patch and archive.",
+        "type": "string"
+      },
+      "limit": {
+        "description": "For list.",
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "metadata": {
+        "description": "Free-form JSON. For create and patch.",
+        "type": "object"
+      },
+      "outcome": {
+        "description": "success or fail. For record and feedback (required).",
+        "enum": [
+          "success",
+          "fail"
+        ],
+        "type": "string"
+      },
+      "query": {
+        "description": "The question to look up. Required for resolve.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "question": {
+        "description": "Required for create and record.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "reasoningId": {
+        "description": "Record to rate. Required for feedback.",
+        "type": "string"
+      },
+      "sensitivity": {
+        "description": "Set on create and record (patch refuses it).",
+        "enum": [
+          "public",
+          "internal",
+          "confidential",
+          "restricted"
+        ],
+        "type": "string"
+      },
+      "status": {
+        "description": "For patch: new status. For list: a filter.",
+        "enum": [
+          "active",
+          "archived",
+          "pruned",
+          "quarantined",
+          "golden"
+        ],
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context). action='create' only.",
+        "format": "uuid",
+        "type": "string"
+      },
+      "topicKey": {
+        "description": "Groups records on one question. For create, record, resolve.",
+        "maxLength": 200,
+        "type": "string"
+      },
+      "topicKeyFilter": {
+        "description": "For list: only records with this topicKey.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/entity",
+  "title": "MnemoEntity",
+  "description": "A canonical entity in the Mnemosyne v3 cognitive store (person, org, project, concept, place, other).",
+  "type": "object",
+  "required": ["id", "workspaceId", "name", "kind", "aliases", "mentionCount", "firstSeenAt", "lastSeenAt", "createdAt", "updatedAt"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "workspaceId": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "kind": {
+      "type": "string",
+      "enum": ["person", "organization", "project", "concept", "place", "other"]
+    },
+    "aliases": { "type": "array", "items": { "type": "string" } },
+    "canonicalId": { "type": ["string", "null"] },
+    "description": { "type": ["string", "null"] },
+    "metadata": { "type": ["object", "null"] },
+    "firstSeenAt": { "type": "string" },
+    "lastSeenAt": { "type": "string" },
+    "mentionCount": { "type": "number" },
+    "createdAt": { "type": "string" },
+    "updatedAt": { "type": "string" }
+  },
+  "additionalProperties": true
+}

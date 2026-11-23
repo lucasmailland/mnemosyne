@@ -1,0 +1,8 @@
+{
+  // The Playwright specs are typechecked here (`pnpm typecheck`), not by the
+  // app's tsconfig: the production `next build` must not depend on them.
+  "extends": "../tsconfig.json",
+  "compilerOptions": { "incremental": false, "types": ["node"] },
+  "include": ["./**/*.ts", "../playwright.config.ts"],
+  "exclude": []
+}

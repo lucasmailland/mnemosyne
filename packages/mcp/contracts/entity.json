@@ -1,0 +1,93 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_entity",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "default": "create",
+        "description": "The operation to perform.",
+        "enum": [
+          "create",
+          "get",
+          "list",
+          "update",
+          "linked_facts",
+          "link_user",
+          "unlink_user"
+        ],
+        "type": "string"
+      },
+      "aliases": {
+        "description": "Alternative names or nicknames.",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "description": {
+        "description": "Brief: role, context, details.",
+        "type": "string"
+      },
+      "id": {
+        "description": "Required for get, update, linked_facts, link_user, unlink_user.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "kind": {
+        "description": "Category of the entity. Required for create.",
+        "enum": [
+          "person",
+          "organization",
+          "project",
+          "concept",
+          "place",
+          "other"
+        ],
+        "type": "string"
+      },
+      "limit": {
+        "description": "Result limit for list and linked_facts.",
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "metadata": {
+        "description": "Arbitrary metadata.",
+        "type": "object"
+      },
+      "name": {
+        "description": "Canonical name. Required for create.",
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string"
+      },
+      "q": {
+        "description": "Search substring for list.",
+        "type": "string"
+      },
+      "sensitivity": {
+        "description": "Set on create only (update refuses it). Default 'internal'.",
+        "enum": [
+          "public",
+          "internal",
+          "confidential",
+          "restricted"
+        ],
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context). action='create' only.",
+        "format": "uuid",
+        "type": "string"
+      },
+      "userId": {
+        "description": "Account id (mnemo_user.id) for link_user; must be a workspace member.",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

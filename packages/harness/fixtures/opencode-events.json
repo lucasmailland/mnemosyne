@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "recordedFrom": {
+    "hostBinaryVersion": "1.18.29",
+    "pluginPackage": "1.17.18",
+    "sdkPackage": "1.17.18",
+    "platform": "darwin-arm64"
+  },
+  "sources": [
+    "~/.config/opencode/node_modules/@opencode-ai/plugin/dist/index.d.ts",
+    "~/.config/opencode/node_modules/@opencode-ai/sdk/dist/gen/types.gen.d.ts"
+  ],
+  "hooks": [
+    "auth",
+    "chat.headers",
+    "chat.message",
+    "chat.params",
+    "command.execute.before",
+    "config",
+    "dispose",
+    "event",
+    "experimental.chat.messages.transform",
+    "experimental.chat.system.transform",
+    "experimental.compaction.autocontinue",
+    "experimental.provider.small_model",
+    "experimental.session.compacting",
+    "experimental.text.complete",
+    "permission.ask",
+    "provider",
+    "shell.env",
+    "tool",
+    "tool.definition",
+    "tool.execute.after",
+    "tool.execute.before"
+  ],
+  "sessionEvents": [
+    "session.compact",
+    "session.compacted",
+    "session.created",
+    "session.deleted",
+    "session.diff",
+    "session.error",
+    "session.first",
+    "session.idle",
+    "session.interrupt",
+    "session.last",
+    "session.list",
+    "session.new",
+    "session.share",
+    "session.status",
+    "session.updated"
+  ],
+  "channels": {
+    "systemPrompt": "experimental.chat.system.transform",
+    "compaction": "experimental.session.compacting",
+    "userMessage": "chat.message"
+  }
+}

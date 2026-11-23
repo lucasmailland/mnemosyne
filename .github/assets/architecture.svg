@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720" role="img" aria-label="Mnemosyne architecture: consumers → access surfaces → cognitive engine → Postgres + LLM providers">
+  <title>Mnemosyne architecture</title>
+  <desc>Four-tier diagram. Top tier: consumers (apps, AI clients, services). Second tier: access surfaces (CLI, server HTTP API, MCP stdio server, typed SDK). Third tier: the cognitive engine and the LLM-provider layer. Bottom tier: Postgres + pgvector with row-level security, plus external LLM providers.</desc>
+
+  <defs>
+    <linearGradient id="edge-flow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#1210b0" stop-opacity="0.9"/>
+      <stop offset="50%"  stop-color="#1a18f0" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#9a98fa" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="edge-dotted" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#0f7a4f" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#1210b0" stop-opacity="0.7"/>
+    </linearGradient>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.32"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="gridP" x="0" y="0" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#c9c6ee" stroke-width="0.5" stroke-opacity="0.45"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a18f0"/>
+    </marker>
+    <style><![CDATA[
+      @keyframes m-pulse {
+        0%, 100% { opacity: 0.55; transform: scale(1); }
+        50%      { opacity: 1;    transform: scale(1.22); }
+      }
+      @keyframes m-flow {
+        from { stroke-dashoffset: 28; }
+        to   { stroke-dashoffset: 0; }
+      }
+      @keyframes m-glow {
+        0%, 100% { filter: drop-shadow(0 0 0   rgba(34, 211, 238, 0)); }
+        50%      { filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.5)); }
+      }
+      /* Every solid indicator dot (r=5) gets a gentle pulse — slight
+         per-card delays via :nth-of-type so they breathe out of
+         phase rather than blinking in unison. */
+      circle[r="5"] {
+        transform-origin: center; transform-box: fill-box;
+        animation: m-pulse 2.8s ease-in-out infinite;
+      }
+      circle[r="5"]:nth-of-type(2n)   { animation-delay: 0.5s; }
+      circle[r="5"]:nth-of-type(3n)   { animation-delay: 1.0s; }
+      circle[r="5"]:nth-of-type(4n+1) { animation-delay: 1.5s; }
+
+      /* Every connecting arrow gets marching dashes (without
+         disturbing any existing stroke-dasharray pattern on the
+         dotted bidirectional edge — that one keeps its 5 4 spec via
+         its own attribute). The generic selector hits both <line>
+         and <path> elements that carry a marker-end. */
+      [marker-end] {
+        stroke-dasharray: 5 5;
+        animation: m-flow 1.8s linear infinite;
+      }
+      /* Preserve the gradient-dotted bidirectional edge spec by
+         giving it back its 5 4 dasharray. */
+      [stroke="url(#edge-dotted)"] { stroke-dasharray: 5 4 !important; }
+
+      @media (prefers-reduced-motion: reduce) {
+        circle[r="5"], [marker-end] { animation: none; }
+      }
+    ]]></style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="720" fill="#fcfbf8"/>
+  <rect width="1200" height="720" fill="url(#gridP)"/>
+  <rect x="24" y="24" width="1152" height="672" rx="0" fill="none" stroke="#c9c6ee" stroke-width="1" stroke-opacity="0.7"/>
+
+  <!-- ============ TIER 1: Consumers ============ -->
+  <g>
+    <text x="60" y="76" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="700" letter-spacing="0.22em" fill="#4b4a72">01 · CONSUMERS</text>
+    <rect x="60" y="92" width="1080" height="98" rx="0" fill="none" stroke="#c9c6ee" stroke-width="1" stroke-opacity="0.6" stroke-dasharray="4 4"/>
+
+    <!-- App card -->
+    <g transform="translate(120, 110)">
+      <rect width="280" height="62" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+      <circle cx="24" cy="22" r="5" fill="#1a18f0"/>
+      <circle cx="24" cy="22" r="9" fill="none" stroke="#1a18f0" stroke-width="0.8" opacity="0.55"/>
+      <text x="44" y="27" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="600" fill="#0b0a2e">Your app · agent runtime</text>
+      <text x="44" y="48" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#4b4a72">Node · Bun · Deno · Workers · browser</text>
+    </g>
+
+    <!-- IDE card -->
+    <g transform="translate(420, 110)">
+      <rect width="320" height="62" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+      <circle cx="24" cy="22" r="5" fill="#1210b0"/>
+      <circle cx="24" cy="22" r="9" fill="none" stroke="#1210b0" stroke-width="0.8" opacity="0.55"/>
+      <text x="44" y="27" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="600" fill="#0b0a2e">AI client (MCP)</text>
+      <text x="44" y="48" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#4b4a72">Claude Code · Cursor · Codex</text>
+    </g>
+
+    <!-- Other services -->
+    <g transform="translate(760, 110)">
+      <rect width="280" height="62" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+      <circle cx="24" cy="22" r="5" fill="#9a98fa"/>
+      <circle cx="24" cy="22" r="9" fill="none" stroke="#9a98fa" stroke-width="0.8" opacity="0.55"/>
+      <text x="44" y="27" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="600" fill="#0b0a2e">Dashboard · CLI</text>
+      <text x="44" y="48" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#4b4a72">Next.js · mnemo · Python · Go</text>
+    </g>
+  </g>
+
+  <!-- ============ TIER 2: Access surfaces ============ -->
+  <g>
+    <text x="60" y="222" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="700" letter-spacing="0.22em" fill="#4b4a72">02 · ACCESS&#160;&#160;SURFACES</text>
+    <rect x="60" y="238" width="1080" height="120" rx="0" fill="none" stroke="#c9c6ee" stroke-width="1" stroke-opacity="0.6" stroke-dasharray="4 4"/>
+
+    <!-- Library -->
+    <g transform="translate(90, 258)">
+      <rect width="232" height="82" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+      <text x="20" y="28" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700" fill="#1a18f0">@mnemo-ai/cli</text>
+      <text x="20" y="50" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#0b0a2e">The mnemo command</text>
+      <text x="20" y="68" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#4b4a72">mnemo install · recall</text>
+    </g>
+
+    <!-- HTTP API -->
+    <g transform="translate(346, 258)">
+      <rect width="232" height="82" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+      <text x="20" y="28" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700" fill="#1210b0">@mnemo-ai/server</text>
+      <text x="20" y="50" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#0b0a2e">Hono HTTP API</text>
+      <text x="20" y="68" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#4b4a72">Bearer auth · OpenAPI</text>
+    </g>
+
+    <!-- MCP -->
+    <g transform="translate(602, 258)">
+      <rect width="232" height="82" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+      <text x="20" y="28" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700" fill="#9a98fa">@mnemo-ai/mcp</text>
+      <text x="20" y="50" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#0b0a2e">MCP over stdio</text>
+      <text x="20" y="68" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#4b4a72">npx · zero-install</text>
+    </g>
+
+    <!-- SDK -->
+    <g transform="translate(858, 258)">
+      <rect width="232" height="82" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1"/>
+      <text x="20" y="28" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700" fill="#0f7a4f">@mnemo-ai/client-ts</text>
+      <text x="20" y="50" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#0b0a2e">Typed SDK</text>
+      <text x="20" y="68" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#4b4a72">Zero runtime deps</text>
+    </g>
+  </g>
+
+  <!-- ============ TIER 3: Cognitive engine ============ -->
+  <g>
+    <text x="60" y="390" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="700" letter-spacing="0.22em" fill="#4b4a72">03 · COGNITIVE&#160;&#160;ENGINE</text>
+    <rect x="60" y="406" width="1080" height="148" rx="0" fill="none" stroke="#c9c6ee" stroke-width="1" stroke-opacity="0.6" stroke-dasharray="4 4"/>
+
+    <!-- Core engine card (big) -->
+    <g transform="translate(120, 426)">
+      <rect width="610" height="108" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1.4"/>
+      <text x="24" y="32" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700" letter-spacing="0.06em" fill="#1a18f0">@MNEMO-AI/CORE — RUNTIME</text>
+      <!-- inner pills -->
+      <g font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="500" fill="#0b0a2e">
+        <g transform="translate(24, 48)">
+          <rect width="120" height="26" rx="0" fill="none" stroke="#9a98fa" stroke-width="1"/>
+          <circle cx="14" cy="13" r="3" fill="#1210b0"/>
+          <text x="26" y="17">hybrid recall</text>
+        </g>
+        <g transform="translate(150, 48)">
+          <rect width="138" height="26" rx="0" fill="none" stroke="#9a98fa" stroke-width="1"/>
+          <circle cx="14" cy="13" r="3" fill="#1a18f0"/>
+          <text x="26" y="17">bitemporal facts</text>
+        </g>
+        <g transform="translate(294, 48)">
+          <rect width="120" height="26" rx="0" fill="none" stroke="#9a98fa" stroke-width="1"/>
+          <circle cx="14" cy="13" r="3" fill="#9a98fa"/>
+          <text x="26" y="17">Memory Graph</text>
+        </g>
+        <g transform="translate(420, 48)">
+          <rect width="110" height="26" rx="0" fill="none" stroke="#9a98fa" stroke-width="1"/>
+          <circle cx="14" cy="13" r="3" fill="#0f7a4f"/>
+          <text x="26" y="17">RLS + FORCE</text>
+        </g>
+        <g transform="translate(536, 48)">
+          <rect width="62" height="26" rx="0" fill="none" stroke="#9a98fa" stroke-width="1"/>
+          <circle cx="11" cy="13" r="3" fill="#b4231b"/>
+          <text x="20" y="17">PII</text>
+        </g>
+      </g>
+      <text x="24" y="92" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" fill="#0b0a2e">recall() · remember() · forget() · review() · graph()</text>
+    </g>
+
+    <!-- LLM providers -->
+    <g transform="translate(760, 426)">
+      <rect width="310" height="108" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1.4"/>
+      <text x="20" y="32" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700" letter-spacing="0.06em" fill="#9a98fa">@MNEMO-AI/LLM-PROVIDERS</text>
+      <text x="20" y="56" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#0b0a2e">Router + BudgetGuard</text>
+      <text x="20" y="78" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" fill="#4b4a72">8 providers · daily caps · unknown-cost block</text>
+      <text x="20" y="96" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10.5" fill="#4b4a72">openai · anthropic · bedrock · ollama · …</text>
+    </g>
+  </g>
+
+  <!-- ============ TIER 4: Storage + external ============ -->
+  <g>
+    <text x="60" y="586" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="700" letter-spacing="0.22em" fill="#4b4a72">04 · STORAGE&#160;&#160;·&#160;&#160;EXTERNAL</text>
+    <rect x="60" y="602" width="1080" height="82" rx="0" fill="none" stroke="#c9c6ee" stroke-width="1" stroke-opacity="0.6" stroke-dasharray="4 4"/>
+
+    <!-- Postgres -->
+    <g transform="translate(120, 618)">
+      <rect width="610" height="50" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1.4"/>
+      <!-- DB cylinder -->
+      <g transform="translate(20, 12)">
+        <ellipse cx="14" cy="6" rx="0" ry="0" fill="#1a18f0"/>
+        <rect x="1" y="6" width="26" height="18" fill="#1a18f0"/>
+        <ellipse cx="14" cy="24" rx="0" ry="0" fill="#1a18f0"/>
+        <ellipse cx="14" cy="6" rx="0" ry="0" fill="none" stroke="#1a18f0" stroke-width="0.8" opacity="0.7"/>
+      </g>
+      <text x="62" y="28" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#0b0a2e">Postgres 17 + pgvector</text>
+      <text x="62" y="44" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#4b4a72">RLS FORCE · halfvec · bitemporal ranges</text>
+    </g>
+
+    <!-- External LLMs -->
+    <g transform="translate(760, 618)">
+      <rect width="310" height="50" rx="0" fill="#f5ecde" stroke="#9a98fa" stroke-width="1.4" stroke-dasharray="6 4"/>
+      <text x="20" y="22" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#0b0a2e">External LLM providers</text>
+      <text x="20" y="40" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#4b4a72">BYO key · pay-per-use</text>
+    </g>
+  </g>
+
+  <!-- ============ FLOW EDGES (tier-to-tier) ============ -->
+  <g fill="none" stroke="url(#edge-flow)" stroke-width="1.6" opacity="0.85">
+    <!-- App → core lib -->
+    <path d="M 260 172 C 260 200, 206 220, 206 258" marker-end="url(#arrow)" stroke-dasharray="5 5"/>
+    <!-- IDE → MCP -->
+    <path d="M 580 172 C 580 220, 718 220, 718 258" marker-end="url(#arrow)" stroke-dasharray="5 5"/>
+    <!-- Services → SDK -->
+    <path d="M 900 172 C 900 220, 974 220, 974 258" marker-end="url(#arrow)" opacity="0.85" stroke-dasharray="5 5"/>
+
+    <!-- Library → engine -->
+    <path d="M 206 340 C 206 380, 320 396, 320 426" marker-end="url(#arrow)" stroke-dasharray="5 5"/>
+    <!-- Server → engine -->
+    <path d="M 462 340 C 462 380, 425 396, 425 426" marker-end="url(#arrow)" stroke-dasharray="5 5"/>
+    <!-- MCP → engine -->
+    <path d="M 718 340 C 718 380, 530 396, 530 426" marker-end="url(#arrow)" opacity="0.75" stroke-dasharray="5 5"/>
+    <!-- SDK → server (and engine indirectly) -->
+    <path d="M 974 340 C 974 380, 635 396, 635 426" marker-end="url(#arrow)" opacity="0.7" stroke-dasharray="5 5"/>
+
+    <!-- Engine ↔ LLM providers -->
+    <path d="M 730 480 L 760 480" marker-end="url(#arrow)" stroke-dasharray="5 5"/>
+    <path d="M 760 502 L 732 502" marker-end="url(#arrow)" opacity="0.75" stroke-dasharray="5 5"/>
+
+    <!-- Engine → Postgres -->
+    <path d="M 425 534 C 425 580, 425 596, 425 618" marker-end="url(#arrow)" stroke-dasharray="5 5"/>
+  </g>
+
+  <!-- BYO LLM dotted lane -->
+  <path d="M 915 534 C 915 570, 915 596, 915 618" fill="none" stroke="url(#edge-dotted)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arrow)" opacity="0.85"/>
+
+  <!-- "BYO key" inline tag on the dotted lane -->
+  <g transform="translate(872, 568)">
+    <rect width="86" height="20" rx="0" fill="#fcfbf8" stroke="#0f7a4f" stroke-width="1"/>
+    <text x="43" y="14" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" font-weight="600" fill="#0f7a4f">BYO key</text>
+  </g>
+</svg>

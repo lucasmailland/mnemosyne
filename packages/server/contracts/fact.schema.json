@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mnemosyne.dev/schemas/v3/fact",
+  "title": "MnemoFact",
+  "description": "A single fact in the Mnemosyne v3 cognitive store.",
+  "type": "object",
+  "required": [
+    "id",
+    "workspaceId",
+    "scope",
+    "statement",
+    "subject",
+    "kind",
+    "confidence",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "workspaceId": { "type": "string", "minLength": 1 },
+    "agentId": { "type": ["string", "null"] },
+    "actorId": { "type": ["string", "null"] },
+    "scope": { "type": "string", "enum": ["global", "conversation", "employee", "team"] },
+    "statement": { "type": "string", "minLength": 1 },
+    "subject": { "type": "string", "minLength": 1 },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "other",
+        "preference",
+        "trait",
+        "event",
+        "relationship",
+        "skill",
+        "concern",
+        "architecture",
+        "bugfix",
+        "config",
+        "discovery",
+        "policy",
+        "process"
+      ]
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "pinned": { "type": ["boolean", "null"] },
+    "validFrom": { "type": ["string", "null"] },
+    "validTo": { "type": ["string", "null"] },
+    "metadata": { "type": ["object", "null"] },
+    "createdAt": { "type": "string" },
+    "updatedAt": { "type": "string" }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`error templates drift guard > each allowlist key covers a pinned number of dynamic sites 1`] = `
+{
+  "app.ts#createApp#decision.reason ?? "API key scope insufficient"": 2,
+  "auth.ts#authenticateScoped#decision.message": 1,
+  "auth.ts#authenticateScoped#result.reason ?? "Forbidden"": 1,
+  "auth.ts#authenticateScoped#result.reason ?? "Invalid API key"": 1,
+  "auth.ts#createAuthMiddleware#decision.message": 4,
+  "errorCodes.ts#mnemoDegraded#message ?? MNEMO_CODES[code]": 1,
+  "errors.ts#mapDomainError#err.message": 3,
+  "errors.ts#toErrorBody#err.message": 2,
+  "i18n/locale.ts#localizedBody#message": 1,
+  "middleware/auth.ts#createV3AuthMiddleware#result.reason": 1,
+  "middleware/auth.ts#sendUnauthorized#reason": 1,
+  "middleware/rbac-policy.ts#createRbacMiddleware#decision.reason": 1,
+  "routes/_storage-errors.ts#withStorageErrors#err.message": 3,
+  "routes/bootstrap.ts#mountBootstrap#policy": 1,
+  "routes/break-glass.ts#mountBreakGlass#msg": 1,
+  "routes/dashboard-api.ts#mountDashboardApi#decision.reason ?? "Session scope insufficient"": 2,
+  "routes/dashboard-auth.ts#mountDashboardAuth#result": 1,
+  "routes/dashboard-links.ts#mountDashboardLinks#policy": 1,
+  "routes/facts.ts#mountFacts#(err as Error).message": 1,
+  "routes/facts.ts#mountFacts#err.message": 1,
+  "routes/federation.ts#gateFederationRequest#authResult.reason": 1,
+  "routes/forget.ts#mountForget#(err as Error).message": 1,
+  "routes/harness.ts#parseBatch#error.message": 1,
+  "routes/harness.ts#unavailable#code": 1,
+  "routes/keys.ts#mountKeys#result.message": 1,
+  "routes/remember.ts#mountRemember#err.message": 1,
+  "routes/review.ts#mountReview#e.message": 1,
+  "routes/self.ts#mountSelf#error.message": 1,
+  "routes/self.ts#mountSelf#session.sessionless && limit.startsWith("maxEditsPerSession") ? \`\${limit} This request had no session (no sessionId, or one that names no session of \` + "this workspace), so it drew from this credential's sessionless budget; pass the " + "sessionId from POST /session/start for a per-session budget." : limit": 1,
+  "routes/tasks.ts#mountTasks#err.message": 1,
+}
+`;

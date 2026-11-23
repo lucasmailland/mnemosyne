@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_stats",
+  "inputSchema": {
+    "properties": {},
+    "type": "object"
+  }
+}

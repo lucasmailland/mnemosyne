@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "host": "claude-code",
+  "hostVersion": "2.1.274",
+  "hostVersionMatch": "same-major",
+  "pluginPackage": {
+    "name": "claude-code-hooks",
+    "version": "2.1.274"
+  },
+  "platform": "darwin-arm64",
+  "packageHash": "9de821dd832e3eec37d4774b49f1518017986224f0fe8017e53cde7807e56a98",
+  "fixtureHash": "967dbf42f358a08a03b39f5512eb6a174571f63d530c5ca8e7a5780bdc06a827",
+  "observedEvents": [
+    "PreCompact",
+    "SessionEnd",
+    "SessionStart",
+    "Stop",
+    "SubagentStop",
+    "UserPromptSubmit"
+  ],
+  "sources": [
+    "packages/plugin/scripts/__tests__/hook-event-contract.test.sh",
+    "packages/plugin/hooks/hooks.json",
+    "docs/internals/host-hook-contracts.md#claude-code--full-hooks"
+  ],
+  "proofs": {
+    "transcript": false,
+    "compaction": false,
+    "deletion": false
+  },
+  "qualifiedAt": "2026-11-23T00:32:24.012Z",
+  "mode": "user-only"
+}

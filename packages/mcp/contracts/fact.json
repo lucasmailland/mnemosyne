@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_fact",
+  "inputSchema": {
+    "properties": {
+      "factId": {
+        "description": "The `id` of a hit from memory_recall or memory_search.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "kind": {
+        "description": "Required unless a fact or decision (then inferred from the id).",
+        "enum": [
+          "fact",
+          "decision",
+          "strategy",
+          "workflow",
+          "skill",
+          "episode",
+          "task",
+          "event",
+          "reasoning",
+          "entity"
+        ],
+        "type": "string"
+      }
+    },
+    "required": [
+      "factId"
+    ],
+    "type": "object"
+  }
+}

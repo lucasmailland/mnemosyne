@@ -1,0 +1,122 @@
+{
+  "formatVersion": 1,
+  "tool": "memory_task",
+  "inputSchema": {
+    "properties": {
+      "action": {
+        "description": "create → title, assignedTo; get, patch, archive, complete → id; delegate → id, assignedTo.",
+        "enum": [
+          "create",
+          "get",
+          "list",
+          "patch",
+          "archive",
+          "delegate",
+          "complete"
+        ],
+        "type": "string"
+      },
+      "assignedTo": {
+        "description": "Required for create and delegate.",
+        "type": "string"
+      },
+      "description": {
+        "description": "Task details. For create and patch.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "dueAt": {
+        "description": "When the task is due, ISO 8601. For create.",
+        "format": "date-time",
+        "type": "string"
+      },
+      "id": {
+        "description": "Required for get/patch/archive/delegate/complete.",
+        "type": "string"
+      },
+      "idempotencyKey": {
+        "description": "Retry key: a resend returns the first result.",
+        "type": "string"
+      },
+      "lessonsLearned": {
+        "description": "What to remember from it. For patch and complete.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "limit": {
+        "description": "For list.",
+        "maximum": 200,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "metadata": {
+        "description": "Free-form JSON. For create and patch.",
+        "type": "object"
+      },
+      "outcome": {
+        "description": "What came of the task. For patch and complete.",
+        "maxLength": 20000,
+        "type": "string"
+      },
+      "parentTaskId": {
+        "description": "Parent task id, making this a subtask. For create.",
+        "type": "string"
+      },
+      "parentTaskIdFilter": {
+        "description": "For list: only the subtasks of this task.",
+        "type": "string"
+      },
+      "priority": {
+        "description": "critical, high, medium or low. For create and patch.",
+        "enum": [
+          "critical",
+          "high",
+          "medium",
+          "low"
+        ],
+        "type": "string"
+      },
+      "sensitivity": {
+        "description": "Set on create only (patch refuses it). Default 'internal'.",
+        "enum": [
+          "public",
+          "internal",
+          "confidential",
+          "restricted"
+        ],
+        "type": "string"
+      },
+      "sessionId": {
+        "description": "The session the task belongs to. For create.",
+        "type": "string"
+      },
+      "status": {
+        "description": "For patch: new status. For list: a filter.",
+        "enum": [
+          "pending",
+          "in_progress",
+          "blocked",
+          "delegated",
+          "completed",
+          "cancelled"
+        ],
+        "type": "string"
+      },
+      "targetWorkspaceId": {
+        "description": "Write to this workspace UUID instead (needs write/admin; IDs: memory_context). action='create' only.",
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": {
+        "description": "Required for create.",
+        "maxLength": 500,
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "required": [
+      "action"
+    ],
+    "type": "object"
+  }
+}

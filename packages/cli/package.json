@@ -1,0 +1,84 @@
+{
+  "name": "@mnemo-ai/cli",
+  "version": "3.6.5",
+  "description": "The mnemo command for Mnemosyne agent memory: recall, remember, sessions and keys, plus mnemo install for Claude Code, Cursor, Codex, Gemini CLI and OpenCode.",
+  "license": "Apache-2.0",
+  "author": "Lucas Mailland",
+  "homepage": "https://getmnemosyne.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmailland/mnemosyne.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmailland/mnemosyne/issues"
+  },
+  "keywords": [
+    "mnemosyne",
+    "mnemo",
+    "cli",
+    "agent-memory",
+    "ai-agents",
+    "llm",
+    "mcp",
+    "claude-code",
+    "cursor",
+    "codex",
+    "gemini-cli"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "mnemo": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./codex-config": {
+      "types": "./dist/codex-config.d.ts",
+      "import": "./dist/codex-config.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "plugin",
+    "!plugin/scripts/__tests__",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "node scripts/sync-plugin.cjs && cp ../../LICENSE LICENSE",
+    "prebuild": "node scripts/sync-plugin.cjs",
+    "build": "tsup && node scripts/copy-harness.cjs",
+    "dev": "tsup --watch",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist .turbo",
+    "typecheck": "tsc -p tsconfig.test.json",
+    "build:standalone": "bun build src/index.ts --compile --outfile dist/mnemo-standalone --target bun"
+  },
+  "dependencies": {
+    "@mnemo-ai/client-ts": "workspace:*",
+    "@mnemo-ai/types": "workspace:*",
+    "jsonc-parser": "^3.3.1",
+    "smol-toml": "^1.9.1"
+  },
+  "devDependencies": {
+    "@mnemo-ai/harness": "workspace:*",
+    "@types/node": "^26.6.5",
+    "tsup": "^9.0.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}
