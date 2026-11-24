@@ -61,7 +61,13 @@ paquete publicado lleva su propia versión; no están vinculadas.
    tar -tzf /tmp/mnemo-release/mnemo-ai-cli-*.tgz | grep -c LICENSE
    ```
 
-4. Publica en orden de dependencias con `pnpm --filter <paquete> publish --access public`.
+4. Publica en orden de dependencias con `pnpm --filter <paquete> publish --access public`, o
+   con `npm publish <tarball> --access public` para subir exactamente los tarballs que revisaste
+   en el paso 3. npm mueve `latest` a lo que publica solo cuando la versión nueva es mayor que
+   el `latest` actual; para publicar una versión menor como `latest`, pasa `--tag latest`. Con
+   la verificación en dos pasos de npm activa, publica desde tu propia terminal: npm pide un
+   código de un solo uso o muestra un enlace para confirmar en el navegador, y una shell no
+   interactiva falla con `EOTP`.
 5. Comprueba la CLI como la recibe quien la usa: en un directorio vacío, instala con
    `npm install` la versión publicada y ejecuta `mnemo --version`.
 6. Etiqueta el commit desde el que publicaste, una etiqueta por paquete
@@ -74,16 +80,17 @@ paquete publicado lleva su propia versión; no están vinculadas.
 7. Las imágenes de Docker tampoco se publican solas: constrúyelas desde el mismo commit con
    `docker build -f docker/Dockerfile.server .` (y `Dockerfile.migrate`, `Dockerfile.dashboard`).
 
-## Próxima publicación
+## Reinicio del versionado
 
 El versionado se reinició en `0.1.0` cuando el repositorio pasó a público: todos los paquetes,
-los SDK y el plugin llevan la misma versión. npm todavía tiene los builds viejos `3.6.x` de
-`@mnemo-ai/types`, `@mnemo-ai/client-ts`, `@mnemo-ai/mcp` y `@mnemo-ai/cli`. Publicar `0.1.0`
-mueve la etiqueta `latest` de npm a esa versión (`npm publish` etiqueta lo que publica);
-después marca la línea vieja como obsoleta para que nadie la instale por error:
+los SDK y el plugin llevan la misma versión. La `0.1.0` de `@mnemo-ai/types`,
+`@mnemo-ai/client-ts`, `@mnemo-ai/mcp` y `@mnemo-ai/cli` se publicó el 2026-11-24 con
+`--tag latest`, porque npm no mueve `latest` por debajo de los builds `3.6.x` que ya tenía. La
+línea vieja está marcada como obsoleta para que nadie la instale por error. El rango nombra
+también la prerelease, porque `3.x` no incluye `3.6.0-alpha.0`:
 
 ```bash
-npm deprecate "@mnemo-ai/cli@3.x" "Versioning restarted at 0.1.0; install @mnemo-ai/cli@latest"
+npm deprecate "@mnemo-ai/cli@3.x || 3.6.0-alpha.0" "Versioning restarted at 0.1.0; install @mnemo-ai/cli@latest"
 ```
 
 (y lo mismo para `types`, `client-ts` y `mcp`). `pnpm pack` fija cada paquete a la versión

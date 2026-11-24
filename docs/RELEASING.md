@@ -60,7 +60,12 @@ its own version; they are not linked.
    tar -tzf /tmp/mnemo-release/mnemo-ai-cli-*.tgz | grep -c LICENSE
    ```
 
-4. Publish in dependency order with `pnpm --filter <package> publish --access public`.
+4. Publish in dependency order with `pnpm --filter <package> publish --access public`, or
+   `npm publish <tarball> --access public` to upload the exact tarballs you checked in step 3.
+   npm moves `latest` to what it publishes only when the new version is higher than the
+   current `latest`; to publish a lower version as `latest`, pass `--tag latest`. With npm
+   two-factor authentication on, publish from your own terminal: npm asks for a one-time code
+   or prints a link to confirm in the browser, and a non-interactive shell fails with `EOTP`.
 5. Check the CLI as a user gets it: in an empty directory, `npm install` the published version
    and run `mnemo --version`.
 6. Tag the commit you published from, one tag per package (`<directory>-v<version>`, the format
@@ -73,16 +78,17 @@ its own version; they are not linked.
 7. Docker images are not published automatically either: build them from the same commit with
    `docker build -f docker/Dockerfile.server .` (and `Dockerfile.migrate`, `Dockerfile.dashboard`).
 
-## Next release
+## Versioning restart
 
 Versioning restarted at `0.1.0` when the repository went public: every package, the SDKs and
-the plugin carry the same version. npm still has the old `3.6.x` builds of `@mnemo-ai/types`,
-`@mnemo-ai/client-ts`, `@mnemo-ai/mcp` and `@mnemo-ai/cli`. Publishing `0.1.0` moves npm's
-`latest` tag to it (`npm publish` tags what it publishes); then deprecate the old line so
-nobody installs it by accident:
+the plugin carry the same version. `0.1.0` of `@mnemo-ai/types`, `@mnemo-ai/client-ts`,
+`@mnemo-ai/mcp` and `@mnemo-ai/cli` was published on 2026-11-24 with `--tag latest`, because
+npm does not move `latest` below the `3.6.x` builds it already had. The old line is deprecated
+so nobody installs it by accident. The range names the prerelease too, since `3.x` does not
+match `3.6.0-alpha.0`:
 
 ```bash
-npm deprecate "@mnemo-ai/cli@3.x" "Versioning restarted at 0.1.0; install @mnemo-ai/cli@latest"
+npm deprecate "@mnemo-ai/cli@3.x || 3.6.0-alpha.0" "Versioning restarted at 0.1.0; install @mnemo-ai/cli@latest"
 ```
 
 (and the same for `types`, `client-ts` and `mcp`). `pnpm pack` pins each package to the exact
